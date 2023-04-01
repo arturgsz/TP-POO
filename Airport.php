@@ -1,7 +1,7 @@
 <?php
 /* Airport.php
-     * This is the class for the Airport object.
-     */
+ * This is the class for the Airport object.
+ */
 
 class Airport
 {

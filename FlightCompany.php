@@ -78,6 +78,6 @@ class FlightCompany
     // Destructor
     public function __destruct()
     {
-        echo "Flight Company object destroyed";
+        echo "The object {$this->name} was destroyed.";;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /*
-* Airport.php
-* This is the class for the Airport object.
+* FlightCompany.php
+* This is the class for the Flight Company object.
 */
 
-class Airport
+class FlightCompany
 {
     // Attributes
     private string $name;
@@ -78,6 +78,6 @@ class Airport
     // Destructor
     public function __destruct()
     {
-        echo "Airport object destroyed";
+        echo "Flight Company object destroyed";
     }
 }

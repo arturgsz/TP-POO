@@ -118,6 +118,8 @@ class FlightLines
         return "Flight Line: " . $this->origin->getName() . " to " . $this->destination->getName() . " with " . $this->company->getName() . " at " . $this->expected_departure_time->format('H:i') . " and expected arrival at " . $this->expected_arrival_time->format('H:i');
     }
 
+    
+
     // Container of Lines Methods
     public function addFlight(Flight $flight)
     {

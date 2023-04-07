@@ -20,7 +20,20 @@ class FlightCompany
         $this->code = $code;
         $this->razao_social = $razao_social;
         $this->cnpj = $cnpj;
-        $this->sigla = $sigla;
+
+        if(FlightCompany::confereSigla($sigla))
+            $this->sigla = $sigla;
+        else 
+            echo "Sigla invalida";
+    }
+
+    //conferir sigla da companhia area
+    public function confereSigla(string $sigla) : bool
+     {
+       if(mb_string($sigla == 2) && gettype($sigla) =='string')
+             return true;
+        else
+            return false;
     }
 
     // Getters and Setters

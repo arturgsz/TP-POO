@@ -17,9 +17,27 @@ class Airplane
     {
         $this->manufacturer = $manufacturer;
         $this->model = $model;
-        $this->registration = $registration;
+
+        if(Airplane::confereRegistro($registration))
+            $this->registration = $registration;
+        else 
+            echo "Registro de aeronave inválido";
+
         $this->passenger_capacity = $passenger_capacity;
         $this->weight_capacity = $weight_capacity;
+    }
+
+    //função para conferir o registro
+    public function confereRegistro(string $registration) : bool
+    {
+        $prefixo = $registration[0] . $registration[1]; 
+        if(($prefixo == 'PT' || $prefixo == 'PR' || $prefixo == 'PP' || $prefixo == 'PS') &&
+          ($registration[2] == '-') && ($registration[3] >= 65 && $registration[3] <= 90) &&
+          ($registration[4] >= 65 && $registration[4] <= 90) &&
+          ($registration[5] >= 65 && $registration[5] <= 90))
+            return true;
+        else 
+            return false;
     }
 
     // Getters and Setters

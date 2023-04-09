@@ -6,10 +6,10 @@
 class Flight
 {
     // Attributes
-    private string $name; //COLOCAR NA UML
+    private string $name; 
     private DateTime $departure_time;
     private DateTime $arrival_time;
-    private FlightLines $line;
+    //private FlightLines $line;
 
     // Constructor
     public function __construct(string $name, DateTime $departure_time, DateTime $arrival_time, FlightLines $line)
@@ -17,7 +17,7 @@ class Flight
         $this->name = $name;
         $this->departure_time = $departure_time;
         $this->arrival_time = $arrival_time;
-        $this->line = $line;
+        //$this->line = $line;
     }
 
     // Getters and Setters
@@ -37,10 +37,10 @@ class Flight
         return $this->arrival_time;
     }
 
-    public function getLine()
+    /*public function getLine()
     {
         return $this->line;
-    }
+    }*/
 
     public function setName(string $name)
     {
@@ -57,10 +57,10 @@ class Flight
         $this->arrival_time = $arrival_time;
     }
 
-    public function setLine(FlightLines $line)
+    /*public function setLine(FlightLines $line)
     {
         $this->line = $line;
-    }
+    }*/
 
     // Destructor
     public function __destruct()

@@ -30,7 +30,7 @@ class FlightCompany
     //conferir sigla da companhia area
     public function confereSigla(string $sigla) : bool
      {
-       if(mb_string($sigla == 2) && gettype($sigla) =='string')
+       if( strlen($sigla) == 2 && gettype($sigla) =='string')
              return true;
         else
             return false;

@@ -6,6 +6,7 @@
 include_once('Airport.php');
 include_once('FlightCompany.php');
 include_once('Flight.php');
+include_once('Airplane.php');
 
 //Usado na frenquencia dos voos
 enum Frequency
@@ -24,13 +25,14 @@ class FlightLines
     private DateTime $expected_arrival_time; //Adicionar na UML
     private FlightCompany $company;
     private Frequency $frequency; //Adicionar na UML
+    private Airplane $airplane;
     private bool $operational; //Mudar nome na UML
 
     // Container of Lines
     private $flights = array();
 
     // Constructor
-    public function __construct(Airport $origin, Airport $destination, DateTime $expected_departure_time, DateTime $expected_arrival_time, FlightCompany $company, Frequency $frequency)
+    public function __construct(Airport $origin, Airport $destination, DateTime $expected_departure_time, DateTime $expected_arrival_time, FlightCompany $company, Frequency $frequency, Airplane $airplane)
     {
         $this->origin = $origin;
         $this->destination = $destination;
@@ -38,6 +40,7 @@ class FlightLines
         $this->expected_arrival_time = $expected_arrival_time;
         $this->company = $company;
         $this->frequency = $frequency;
+        $this->airplane = $airplane;
         $this->operational = true; //default
     }
 
@@ -72,6 +75,11 @@ class FlightLines
         return $this->frequency;
     }
 
+    public function getAirplane()
+    {
+        return $this->airplane;
+    }
+
     public function isOperational()
     {
         return $this->operational;
@@ -102,6 +110,11 @@ class FlightLines
         $this->company = $company;
     }
 
+    public function setAirplane(Airplane $airplane)
+    {
+        $this->airplane = $airplane;
+    }
+
     public function setFrequency(Frequency $frequency)
     {
         $this->frequency = $frequency;
@@ -118,7 +131,6 @@ class FlightLines
         return "Flight Line: " . $this->origin->getName() . " to " . $this->destination->getName() . " with " . $this->company->getName() . " at " . $this->expected_departure_time->format('H:i') . " and expected arrival at " . $this->expected_arrival_time->format('H:i');
     }
 
-    
 
     // Container of Lines Methods
     public function addFlight(Flight $flight)

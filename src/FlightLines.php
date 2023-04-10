@@ -5,7 +5,7 @@
 
 include_once('Airport.php');
 include_once('FlightCompany.php');
-include_once('Flight.php');
+include_once('Travel.php');
 include_once('Airplane.php');
 
 //Usado na frenquencia dos voos
@@ -133,7 +133,7 @@ class FlightLines
 
 
     // Container of Lines Methods
-    public function addFlight(Flight $flight)
+    public function addFlight(Travel $flight)
     {
         array_push($this->flights, $flight);
     }

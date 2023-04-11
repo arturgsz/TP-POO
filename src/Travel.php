@@ -9,6 +9,7 @@ class Travel
     private string $name; 
     private DateTime $departure_time;
     private DateTime $arrival_time;
+    private $sigla_code;
     //private FlightLines $line;
 
     // Constructor
@@ -20,6 +21,12 @@ class Travel
         //$this->line = $line;
     }
 
+    //Funcao que cria codigo
+    public function create_code() : void
+    {
+        
+    }
+    
     // Getters and Setters
 
     public function getName()

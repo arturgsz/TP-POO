@@ -19,6 +19,8 @@ enum Frequency
 class FlightLines
 {
     // Attributes
+    private string $line_code;
+    private static int $counter = 0;
     private Airport $origin;
     private Airport $destination; //Mudar nome na UML
     private DateTime $expected_departure_time; //Mudar nome na UML
@@ -29,7 +31,7 @@ class FlightLines
     private bool $operational; //Mudar nome na UML
 
     // Container of Lines
-    private $flights = array();
+    private $travels= array();
 
     // Constructor
     public function __construct(Airport $origin, Airport $destination, DateTime $expected_departure_time, DateTime $expected_arrival_time, FlightCompany $company, Frequency $frequency, Airplane $airplane)
@@ -42,6 +44,16 @@ class FlightLines
         $this->frequency = $frequency;
         $this->airplane = $airplane;
         $this->operational = true; //default
+        
+        FlightLines::$counter++;
+        if(FlightLines::$counter > 9999){
+           FlightLines::$counter = 0;
+        }
+        $this->line_code = $this->create_code();
+    }
+
+    private function create_code(): string{
+       return $this->company->getSigla().(1000 + FlightLines::$counter);
     }
 
     // Setters and Getters
@@ -133,9 +145,9 @@ class FlightLines
 
 
     // Container of Lines Methods
-    public function addFlight(Travel $flight)
+    public function addFlight(Travel $travel)
     {
-        array_push($this->flights, $flight);
+        array_push($this->travels, $travel);
     }
 
     // Destructor

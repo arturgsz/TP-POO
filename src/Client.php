@@ -37,6 +37,6 @@ class Client
     // Destructor
     public function __destruct()
     {
-        echo "The client {$this->name} {$this->surname} was destroyed.";
+        echo "The object client {$this->name} {$this->surname} was destroyed.";
     }
 }

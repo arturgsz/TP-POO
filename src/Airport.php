@@ -64,6 +64,6 @@ class Airport
     // Destructor
     public function __destruct()
     {
-        echo "The object {$this->name} was destroyed.";
+        echo "The object Airport {$this->name} was destroyed.";
     }
 }

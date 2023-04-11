@@ -16,24 +16,29 @@ class FlightCompany
     // Constructor
     public function __construct(string $name, string $code, string $razao_social, string $cnpj, string $sigla)
     {
-        $this->name = $name;
-        $this->code = $code;
-        $this->razao_social = $razao_social;
-        $this->cnpj = $cnpj;
-
-        if(FlightCompany::confereSigla($sigla))
+         if(FlightCompany::confereSigla($sigla)){
+            
             $this->sigla = $sigla;
-        else 
-            echo "Sigla invalida";
+            $this->name = $name;
+            $this->code = $code;
+            $this->razao_social = $razao_social;
+            $this->cnpj = $cnpj;
+         
+         }else{
+            $this->__destruct();
+        }
+             
     }
-
+        
     //conferir sigla da companhia area
     public function confereSigla(string $sigla) : bool
      {
-       if( strlen($sigla) == 2 && gettype($sigla) =='string')
+       if( mb_strlen($sigla) == 2 && gettype($sigla) =='string')
              return true;
-        else
+        else{
+            echo "Sigla invalida";
             return false;
+        }
     }
 
     // Getters and Setters

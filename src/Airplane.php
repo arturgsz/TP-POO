@@ -15,16 +15,18 @@ class Airplane
     // Constructor
     public function __construct(string $manufacturer, string $model, string $registration, int $passenger_capacity, float $weight_capacity)
     {
+        if(Airplane::confereRegistro($registration)){
+        $this->registration = $registration; 
+        
         $this->manufacturer = $manufacturer;
         $this->model = $model;
 
-        if(Airplane::confereRegistro($registration))
-            $this->registration = $registration;
-        else 
-            echo "Registro de aeronave inválido";
-
         $this->passenger_capacity = $passenger_capacity;
-        $this->weight_capacity = $weight_capacity;
+        $this->weight_capacity = $weight_capacity; 
+        
+        }else{
+            $this->__destruct();
+        }  
     }
 
     //função para conferir o registro
@@ -36,9 +38,11 @@ class Airplane
           ($registration[4] >= 65 && $registration[4] <= 90) &&
           ($registration[5] >= 65 && $registration[5] <= 90))
             return true;
-        else 
+        else{
+            
+            echo "Registro de aeronave inválido";
             return false;
-    }
+    }}
 
     // Getters and Setters
     public function getManufacturer()

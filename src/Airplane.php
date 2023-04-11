@@ -2,47 +2,58 @@
 /* Airplane.php
  * This is the class for the Airplane object.
  */
-
 class Airplane
 {
     // Attributes
     private string $manufacturer;
     private string $model;
-    private string $registration; //MUDAR NOME NA UML
-    private int $passenger_capacity; //MUDAR NOME NA UML
-    private float $weight_capacity; //MUDAR NOME NA UML
+    private string $airplane_register; 
+    private int $capacity_passenger; 
+    private float $capacity_cargo; 
 
     // Constructor
-    public function __construct(string $manufacturer, string $model, string $registration, int $passenger_capacity, float $weight_capacity)
+    public function __construct(string $manufacturer, 
+                                string $model,
+                                string $airplane_register,
+                                int $capacity_passenger,
+                                float $capacity_cargo)
     {
-        if(Airplane::confereRegistro($registration)){
-        $this->registration = $registration; 
-        
-        $this->manufacturer = $manufacturer;
-        $this->model = $model;
-
-        $this->passenger_capacity = $passenger_capacity;
-        $this->weight_capacity = $weight_capacity; 
-        
-        }else{
+        if(Airplane::confereRegistro($airplane_register)){
+          $this->airplane_register = $airplane_register; 
+          
+          $this->manufacturer = $manufacturer;
+          $this->model = $model;
+  
+          $this->capacity_passenger = $capacity_passenger;
+          $this->capacity_cargo= $capacity_cargo; 
+          
+        } else {
             $this->__destruct();
         }  
     }
 
     //função para conferir o registro
-    public function confereRegistro(string $registration) : bool
+    //arrumar a validaçao 
+    public function confereRegistro(string $airplane_register) : bool
     {
-        $prefixo = $registration[0] . $registration[1]; 
+      /*
+        $prefixo = $airplane_register[0] . $airplane_register[1]; 
+        if(intval($airplane_register[3]) >= 65 && intval($airplane_register[3]) <= 90) {
+          echo "entrou";
+        }
         if(($prefixo == 'PT' || $prefixo == 'PR' || $prefixo == 'PP' || $prefixo == 'PS') &&
-          ($registration[2] == '-') && ($registration[3] >= 65 && $registration[3] <= 90) &&
-          ($registration[4] >= 65 && $registration[4] <= 90) &&
-          ($registration[5] >= 65 && $registration[5] <= 90))
+          ($airplane_register[2] == '-') && ($airplane_register[3] >= 65 && $airplane_register[3] <= 90) &&
+          ($airplane_register[4] >= 65 && $airplane_register[4] <= 90) &&
+          ($airplane_register[5] >= 65 && $airplane_register[5] <= 90))
             return true;
         else{
             
             echo "Registro de aeronave inválido";
             return false;
-    }}
+    }
+    */
+      return true;
+  }
 
     // Getters and Setters
     public function getManufacturer()
@@ -57,17 +68,17 @@ class Airplane
 
     public function getRegistration()
     {
-        return $this->registration;
+        return $this->airplane_register;
     }
 
     public function getPassengerCapacity()
     {
-        return $this->passenger_capacity;
+        return $this->capacity_passenger;
     }
 
     public function getWeightCapacity()
     {
-        return $this->weight_capacity;
+        return $this->capacity_cargo;
     }
 
     public function setManufacturer(string $manufacturer)
@@ -82,17 +93,17 @@ class Airplane
 
     public function setRegistration(string $registration)
     {
-        $this->registration = $registration;
+        $this->airplane_register = $airplane_register;
     }
 
     public function setPassengerCapacity(int $passenger_capacity)
     {
-        $this->passenger_capacity = $passenger_capacity;
+        $this->capacity_passenger = $capacity_passenger;
     }
 
     public function setWeightCapacity(float $weight_capacity)
     {
-        $this->weight_capacity = $weight_capacity;
+        $this->capacity_cargo = $capacity_cargo;
     }
 
     // Destructor

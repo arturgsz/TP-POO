@@ -6,12 +6,6 @@ require_once './src/Cliente.php';
 require_once './src/FlightCompany.php'; //inclui FlightLines
 
 
-//testando a classe Airplane
-$airplane = new Airplane('Boeing','A-320', 'PR-GUO', 2, 2.5);
-var_dump($airplane);
-
-echo PHP_EOL;
-
 //testeando a classe Airport
 $airport = new Airport('Aeroporto de Garulhos','ABC','Garulhos','São Paulo');
 var_dump($airport);
@@ -36,3 +30,9 @@ $flightCompany->adicionaFlightLines($FlightLines1);
 $flightCompany->adicionaFlightLines($FlightLines2);
 
 var_dump($flightCompany);
+
+//testando a classe Airplane
+$airplane = new Airplane('Boeing','A-320', 'PR-GUO', 2, 2.5);
+var_dump($airplane);
+
+echo PHP_EOL;

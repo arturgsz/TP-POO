@@ -2,8 +2,11 @@
 /* Airplane.php
  * This is the class for the Airplane object.
  */
+//require_once'FlightCompany.php';
+
 class Airplane
 {
+  private string $siglaFlightCompany; //pertencimento a uma companhia aerea
   private string $manufacturer;
   private string $model;
   private string $airplane_register; 
@@ -17,6 +20,7 @@ class Airplane
                               int $capacity_passenger,
                               float $capacity_cargo)
   {
+  
     $this->manufacturer = $manufacturer;
     $this->model = $model;
   

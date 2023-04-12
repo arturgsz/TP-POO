@@ -24,6 +24,7 @@ class Airport
         $this->sigla = $sigla;
       }
         
+      
       $this->city = $city;
       $this->state = $state;
     }
@@ -35,7 +36,7 @@ class Airport
         return true;
       
       else {
-        // chamar uma função de tratamento
+        // chamar uma função de tratamento para a sigla
         echo "Sigla inválida para Airport" . PHP_EOL;
         return false;
                 
@@ -70,7 +71,10 @@ class Airport
 
     public function setSigla(string $sigla)
     {
+      if(Airport::confereSigla($sigla)){
+        $sigla = mb_strtoupper($sigla);
         $this->sigla = $sigla;
+      }
     }
 
     public function setCity(string $city)
@@ -86,6 +90,6 @@ class Airport
     // Destructor
     public function __destruct()
     {
-        echo "The object Airport {$this->name} was destroyed.";
+        echo "The object Airport {$this->name} was destroyed." . PHP_EOL;
     }
 }

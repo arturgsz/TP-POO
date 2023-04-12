@@ -20,15 +20,17 @@ class Airplane
     $this->manufacturer = $manufacturer;
     $this->model = $model;
   
-    if(Airplane::confereRegistro($airplane_register))
+    if(Airplane::confereRegistro($airplane_register)){
+      $airplane_register = mb_strtoupper($airplane_register);
       $this->airplane_register = $airplane_register; 
-            
+    } 
+    
     $this->capacity_passenger = $capacity_passenger;
     $this->capacity_cargo= $capacity_cargo;   
   }
 
   //função para conferir o registro  
-  public function confereRegistro(string $airplane_register) : bool
+  private function confereRegistro(string $airplane_register) : bool
   {
     $prefixo = $airplane_register[0] . $airplane_register[1];
     $letras = $airplane_register[3] . $airplane_register[4] . $airplane_register[5];
@@ -80,17 +82,20 @@ class Airplane
     $this->model = $model;
   }
 
-  public function setRegistration(string $registration)
+  public function setRegistration(string $airplane_register)
   {
-    $this->airplane_register = $airplane_register;
+    if(Airplane::confereRegistro($airplane_register)){
+      $airplane_register = mb_strtoupper($airplane_register);
+      $this->airplane_register = $airplane_register; 
+    } 
   }
 
-  public function setPassengerCapacity(int $passenger_capacity)
+  public function setPassengerCapacity(int $capacity_passenger)
   {
     $this->capacity_passenger = $capacity_passenger;
   }
 
-  public function setWeightCapacity(float $weight_capacity)
+  public function setWeightCapacity(float $capacity_cargo)
   {
     $this->capacity_cargo = $capacity_cargo;
   }
@@ -98,6 +103,6 @@ class Airplane
   // Destructor
   public function __destruct()
   {
-    echo "Airplane object destroyed.";
+    echo "Airplane object destroyed." . PHP_EOL;
   }
 }

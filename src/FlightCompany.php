@@ -4,45 +4,49 @@
 * This is the class for the Flight Company object.
 */
 
+require_once 'FlightLines.php';
+
 class FlightCompany
 {
-    // Attributes
     private string $name;
     private string $code;
     private string $razao_social;
     private string $cnpj;
-    private string $sigla;
-
-    // Constructor
-    public function __construct(string $name, string $code, string $razao_social, string $cnpj, string $sigla)
+    private string $sigla;  //a sigla deve ser formada por duas letras
+    private FlightLines $flightLines; //array de objetos FlightLines
+  
+    public function __construct(string $name, 
+                                string $code, 
+                                string $razao_social, 
+                                string $cnpj, 
+                                string $sigla)
     {
-         if(FlightCompany::confereSigla($sigla)){
-            
-            $this->sigla = $sigla;
-            $this->name = $name;
-            $this->code = $code;
-            $this->razao_social = $razao_social;
-            $this->cnpj = $cnpj;
-         
-         }else{
-            $this->__destruct();
-        }
-             
+      $this->name = $name;
+      $this->code = $code;
+      $this->razao_social = $razao_social;
+      
+      if(FlightCompany::confereSigla($sigla)){
+        $sigla = mb_strtoupper($sigla);
+        $this->sigla = $sigla;
+      }     
+      $this->cnpj = $cnpj;
+           
     }
         
     //conferir sigla da companhia area
-    public function confereSigla(string $sigla) : bool
+    private function confereSigla(string $sigla) : bool
      {
-       if( mb_strlen($sigla) == 2 && gettype($sigla) =='string')
+       if( (mb_strlen($sigla) == 2) && gettype($sigla) =='string')
              return true;
-        else{
-            echo "Sigla invalida";
+        else {
+            //tratar a Sigla da Companhia Áerea
+            echo "Sigla invalida" . PHP_EOL;
             return false;
         }
     }
 
+  
     // Getters and Setters
-
     public function getName()
     {
         return $this->name;
@@ -90,12 +94,15 @@ class FlightCompany
 
     public function setSigla(string $sigla)
     {
+      if(FlightCompany::confereSigla($sigla)){
+        $sigla = mb_strtoupper($sigla);
         $this->sigla = $sigla;
+      }
     }
 
     // Destructor
     public function __destruct()
     {
-        echo "The object {$this->name} was destroyed.";;
+        echo "The object {$this->name} was destroyed." . PHP_EOL;
     }
 }

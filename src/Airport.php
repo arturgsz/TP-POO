@@ -7,17 +7,39 @@ class Airport
 {
     // Attributes
     private string $name;
-    private string $sigla;
+    private string $sigla;  //possui três letras
     private string $city;
     private string $state;
 
     // Constructor
-    public function __construct(string $name, string $sigla, string $city, string $state)
+    public function __construct(string $name,
+                                string $sigla,
+                                string $city,
+                                string $state)
     {
-        $this->name = $name;
+      $this->name = $name;
+      
+      if(Airport::confereSigla($sigla)){
+        $sigla = mb_strtoupper($sigla);
         $this->sigla = $sigla;
-        $this->city = $city;
-        $this->state = $state;
+      }
+        
+      $this->city = $city;
+      $this->state = $state;
+    }
+
+    //função para verificar a sigla dos aeroportos
+    private function confereSigla($sigla) : bool
+    {
+      if( (mb_strlen($sigla)) == 3 && ((gettype($sigla)) == 'string'))
+        return true;
+      
+      else {
+        // chamar uma função de tratamento
+        echo "Sigla inválida para Airport" . PHP_EOL;
+        return false;
+                
+      }
     }
 
     // Getters and Setters

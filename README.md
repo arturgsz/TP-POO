@@ -3,8 +3,8 @@ TP POO - Airport
 
 Sprint | UML | Código 
 :------------ | :-------------| :-------------
-Sprint 1 |  [x]  |   [ ]   
-Sprint 2 |  [ ]  |   [ ]  
+Sprint 1 |  [x]  |   [x]   
+Sprint 2 |  [x]  |   [ ]  
 Sprint 3 |  [ ]  |   [ ]   
 Sprint 4 |  [ ]  |   [ ]   
 Sprint 5 |  [ ]  |   [ ]   

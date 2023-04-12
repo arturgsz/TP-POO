@@ -24,6 +24,15 @@ var_dump($client);
 
 echo PHP_EOL;
 
+
 //testando a classe FlightCompany
+$FlightLines1 = new FlightLines('001');
+$FlightLines2 = new FlightLines('002');
+
 $flightCompany = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT');
+
+//Não consigo adicionar um array de objetos FlightLines em FlightCompany
+$flightCompany->adicionaFlightLines($FlightLines1);
+$flightCompany->adicionaFlightLines($FlightLines2);
+
 var_dump($flightCompany);

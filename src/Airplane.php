@@ -4,9 +4,14 @@
  */
 //require_once'FlightCompany.php';
 
+//MUDAR $siglaFlightCompany
+
 class Airplane
 {
-  private string $siglaFlightCompany; //pertencimento a uma companhia aerea
+  //essa sigla precisa ser obtida da classe FlightCompany
+  //usando uma sigla de exemplo
+  private string $siglaFlightCompany = 'JU'; //pertencimento a uma companhia aerea
+  
   private string $manufacturer;
   private string $model;
   private string $airplane_register; 
@@ -20,7 +25,7 @@ class Airplane
                               int $capacity_passenger,
                               float $capacity_cargo)
   {
-  
+    
     $this->manufacturer = $manufacturer;
     $this->model = $model;
   
@@ -51,6 +56,11 @@ class Airplane
   }
 
   // Getters and Setters
+  public function getsiglaFlightCompany() : string
+  {
+    return $this->siglaFlightCompany;
+  }
+  
   public function getManufacturer()
   {
     return $this->manufacturer;

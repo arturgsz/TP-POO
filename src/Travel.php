@@ -16,20 +16,23 @@ class Travel
     private static $code = '0000'; //gerador de codigo
 
     private string $flight_code; //codigo da viagem 2 letras seguida de 4 digitos
-    private FlightLines $company_code; //2 letras da companhia aerea
+    private FlightLines $line;
+    private string $company_code; //2 letras da companhia aerea
     private DateTime $departure_time; 
     private DateTime $arrival_time;
+    
 
-    public function __construct(FlightLines $company_code)
+    public function __construct(FlightLines $line)
     { 
+      $this->line = $line;
+      $this->company_code = $line->getCompany();
       Travel::$code++;
-      $this->flight_code = Travel::gerarCodigo($company_code); 
-      $this->company_code = $company_code;
+      $this->flight_code = Travel::gerarCodigo($line->getCompany());       
     }
   
-    private function gerarCodigo(FlightLines $company_code) : string
+    private function gerarCodigo(string $company_code) : string
     {
-      $prefixo = $company_code->getCompany(); 
+      $prefixo = $company_code; 
     
       if(Travel::$code == '10000'){
         Travel::$code = '0000';
@@ -72,8 +75,6 @@ class Travel
     
 
     /*
-    //private FlightLines $line;
-
     // Constructor
     public function __construct(DateTime $departure_time, 
                                 DateTime $arrival_time, 

@@ -2,17 +2,22 @@
 /* FlightLines.php
  * This is the class for the Flight Lines object.
  */
+//require_once 'Airport.php';
+require_once 'Airplane.php';
 
- class FlightLines {
-    private string $company;
-  
-    public function __construct(string $company)
-    {
-      $this->company = $company;
-    }
-    public function getCompany(){
-      return $this->company;
-    }
+class FlightLines {
+  private Airplane $default_plane;
+  private string $company;
+
+  public function __construct(Airplane $default_plane)
+  {
+    $this->company = $default_plane->getsiglaFlightCompany();
+  }
+  public function getCompany() : string
+  {
+    return $this->company;
+  }
+
 
 
 /*

@@ -6,18 +6,16 @@
 require_once 'Airport.php';
 require_once 'Airplane.php';
 
-/*
 enum Frequency
 {
     case DAILY;
     case WEEKLY;
     case MONTHLY;
 }
-*/
 
 class FlightLines 
 {
-  private Airport $origin; //classe precisa receber 2 aeroportos
+  private Airport $origin; 
   private Airport $destiny;
   private DateTime $expected_departure_time;
   private DateTime $expected_arrival_time;
@@ -25,26 +23,28 @@ class FlightLines
   private Airplane $default_plane; 
   private string $FlightLine_code;
   private bool $operational;
-
-  //private Frequency $frequency;
   
-
+  private Frequency $frequency;
+  
   public function __construct(Airport $origin,
                               Airport $destiny,
-                              string $expected_departure_time,
-                              string $expected_arrival_time,
+                              DateTime $expected_departure_time,
+                              DateTime $expected_arrival_time,
                               Airplane $default_plane,
-                              bool $operational)
+                              bool $operational,
+                              Frequency $frequency)
   {
     $this->origin = $origin;
     $this->destiny = $destiny;
 
-    $this->expected_departure_time->format($expected_departure_time);
-    $this->expected_arrival_time->format($expected_arrival_time);
+    $this->expected_departure_time = $expected_departure_time;
+    $this->expected_arrival_time = $expected_arrival_time;
       
     $this->FlightLine_code = $default_plane->getsiglaFlightCompany();
     $this->operational = $operational;
-  
+
+    $this->frequency = $frequency;
+  }
   
   public function getCompany() : string
   {
@@ -113,7 +113,7 @@ class FlightLines
     $this->destiny = $destiny;
   }
 
-  public function setAirplane($Airplane $Airplane)
+  public function setAirplane(Airplane $Airplane)
   {
     $this->Airplane = $Airplane;
   }

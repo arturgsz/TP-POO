@@ -4,8 +4,6 @@
 * This is the class for the Flight Company object.
 */
 
-require_once 'FlightLines.php';
-
 class FlightCompany
 {
   private string $name;
@@ -13,9 +11,7 @@ class FlightCompany
   private string $razao_social;
   private string $cnpj;
   private string $sigla;  //a sigla deve ser formada por duas letras
-  private FlightLines $arrayObjetos;
-
-    
+  
   public function __construct(string $name, 
                               string $code, 
                               string $razao_social, 
@@ -43,13 +39,6 @@ class FlightCompany
       echo "Sigla invalida" . PHP_EOL;
       return false;
     }
-  }
-
-  //função que adiciona objetos FlightLines na classe FlightCompany
-  public function adicionaFlightLines(FlightLines $line) : array
-  {
-    $arrayObjetos[] = $line;
-    return $arrayObjetos;
   }
   
   // Getters and Setters

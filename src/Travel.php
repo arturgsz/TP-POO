@@ -90,7 +90,6 @@ class Travel
         return $this->line;
     }
 
-
     public function setLine(FlightLines $line)
     {
         $this->line = $line;

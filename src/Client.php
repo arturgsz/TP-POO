@@ -3,8 +3,6 @@
  * This is the class for the Client object.
  */
 
-//require_once 'Ticket.php';
-
 class Client
 {
     // Attributes

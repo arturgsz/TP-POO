@@ -25,7 +25,6 @@ $FlightLines2 = new FlightLines('002');
 
 $flightCompany = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT');
 
-//Não consigo adicionar um array de objetos FlightLines em FlightCompany
 $flightCompany->adicionaFlightLines($FlightLines1);
 $flightCompany->adicionaFlightLines($FlightLines2);
 

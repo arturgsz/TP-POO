@@ -18,6 +18,7 @@ class Travel
     private string $flight_code; //codigo da viagem 2 letras seguida de 4 digitos
     private FlightLines $line;
     private string $company_code; //2 letras da companhia aerea
+    //private Ticket $ticket;
     private DateTime $departure_time; 
     private DateTime $arrival_time;
     
@@ -73,29 +74,7 @@ class Travel
       //Tratamento do Erro
    }
     
-
-    /*
-    // Constructor
-    public function __construct(DateTime $departure_time, 
-                                DateTime $arrival_time, 
-                                FlightLines $line)
-    {
-        $this->name = $name;
-        $this->departure_time = $departure_time;
-        $this->arrival_time = $arrival_time;
-        //$this->line = $line;
-    }
-
-    //Funcao que cria codigo
-    
-    
     // Getters and Setters
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
     public function getDepartureTime()
     {
         return $this->departure_time;
@@ -106,23 +85,17 @@ class Travel
         return $this->arrival_time;
     }
 
-    /*public function getLine()
+    public function getLine()
     {
         return $this->line;
-    
-
-    public function setName(string $name)
-    {
-        $this->name = $name;
     }
 
 
-    /*public function setLine(FlightLines $line)
+    public function setLine(FlightLines $line)
     {
         $this->line = $line;
     }
-    */
-
+    
 
     // Destructor
     public function __destruct()

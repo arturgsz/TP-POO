@@ -28,20 +28,20 @@ class Travel
     
       if(Travel::$code == '10000'){
         Travel::$code = '0000';
-        return $prefixo . '-' . '0001'; 
+        return $prefixo . '0001'; 
       } 
       else {
         if(Travel::$code <= 9) 
-          return $prefixo . '-' . '000' . Travel::$code; 
+          return $prefixo . '000' . Travel::$code; 
           
         if(Travel::$code > 9 && Travel::$code <= 99)
-          return $prefixo . '-' . '00' . Travel::$code;
+          return $prefixo . '00' . Travel::$code;
         
         if(Travel::$code > 99 && Travel::$code <=999)
-            return $prefixo . '-' . '0'. Travel::$flight_code;
+            return $prefixo . '0'. Travel::$flight_code;
            
         if(Travel::$code > 999 && Travel::$code <=9999)
-          return $prefixo . '-' . Travel::$code;
+          return $prefixo . Travel::$code;
       }
     }
     

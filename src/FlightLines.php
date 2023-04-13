@@ -3,6 +3,19 @@
  * This is the class for the Flight Lines object.
  */
 
+ class FlightLines {
+    private string $company;
+  
+    public function __construct(string $company)
+    {
+      $this->company = $company;
+    }
+    public function getCompany(){
+      return $this->company;
+    }
+
+
+/*
 include_once('Airport.php');
 include_once('FlightCompany.php');
 include_once('Travel.php');
@@ -149,6 +162,8 @@ class FlightLines
     {
         array_push($this->travels, $travel);
     }
+
+    */
 
     // Destructor
     public function __destruct()

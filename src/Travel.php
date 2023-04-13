@@ -5,6 +5,9 @@
 //O atributo static $code é atributo da classe e vai gerar os 4 digitos do codigo da viagem
 //O atributo $flight_code é atributo do objeto e não da classe
 
+//Os atributos Datetime não estão no constructor porque eles serão inicializados por funções
+//essas funções como precisam ser públicas tem senha de acesso '1234'
+
 require_once 'FlightLines.php';
 //require_once 'Ticket.php';
 
@@ -14,6 +17,8 @@ class Travel
 
     private string $flight_code; //codigo da viagem 2 letras seguida de 4 digitos
     private FlightLines $company_code; //2 letras da companhia aerea
+    private DateTime $departure_time; 
+    private DateTime $arrival_time;
 
     public function __construct(FlightLines $company_code)
     { 
@@ -45,17 +50,32 @@ class Travel
       }
     }
     
+    public function horaDePartida(string $chaveDeAcesso) : void
+    {
+      if($chaveDeAcesso == '1234')
+            $this->departure_time = new DateTime();
+            //mostrar a hora               //formato escolhido arbitrariamente
+            // echo $this->departure_time->format('d/m/Y');
+
+      //else 
+        //Tratamento do Erro    
+    }
+
+    public function horaDeChegada(string $chaveDeAcesso) : void
+    {
+        if($chaveDeAcesso == '1234')
+            $this->arrival_time = new DateTime();
+      
+      //else 
+      //Tratamento do Erro
+   }
+    
 
     /*
-    private string $name; 
-    private DateTime $departure_time;
-    private DateTime $arrival_time;
-    private $sigla_code;
     //private FlightLines $line;
 
     // Constructor
-    public function __construct(string $name, 
-                                DateTime $departure_time, 
+    public function __construct(DateTime $departure_time, 
                                 DateTime $arrival_time, 
                                 FlightLines $line)
     {
@@ -66,10 +86,7 @@ class Travel
     }
 
     //Funcao que cria codigo
-    public function create_code() : void
-    {
-        
-    }
+    
     
     // Getters and Setters
 
@@ -98,15 +115,6 @@ class Travel
         $this->name = $name;
     }
 
-    public function setDepartureTime(DateTime $departure_time)
-    {
-        $this->departure_time = $departure_time;
-    }
-
-    public function setArrivalTime(DateTime $arrival_time)
-    {
-        $this->arrival_time = $arrival_time;
-    }
 
     /*public function setLine(FlightLines $line)
     {

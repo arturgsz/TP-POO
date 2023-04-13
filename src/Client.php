@@ -2,8 +2,8 @@
 /* Client.php
  * This is the class for the Client object.
  */
-//Futuramente a classe Client pode herdar de uma classe Pessoa
-//e nessa classe Pessoa os atributos podem ser nome, sobrenome e documento
+
+//require_once 'Ticket.php';
 
 class Client
 {
@@ -11,6 +11,7 @@ class Client
     private string $name;
     private string $surname;
     private string $document;
+    //private Ticket $ticket;
 
     // Constructor
     public function __construct(string $name, 

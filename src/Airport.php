@@ -44,32 +44,32 @@ class Airport
     }
 
     // Getters and Setters
-    public function getName()
+    public function getName() :string
     {
         return $this->name;
     }
 
-    public function getSigla()
+    public function getSigla() :string
     {
         return $this->sigla;
     }
 
-    public function getCity()
+    public function getCity() :string
     {
         return $this->city;
     }
 
-    public function getState()
+    public function getState() :string
     {
         return $this->state;
     }
 
-    public function setName(string $name)
+    public function setName(string $name) :void
     {
         $this->name = $name;
     }
 
-    public function setSigla(string $sigla)
+    public function setSigla(string $sigla) :void
     {
       if(Airport::confereSigla($sigla)){
         $sigla = mb_strtoupper($sigla);
@@ -77,12 +77,12 @@ class Airport
       }
     }
 
-    public function setCity(string $city)
+    public function setCity(string $city) :void
     {
         $this->city = $city;
     }
 
-    public function setState(string $state)
+    public function setState(string $state) :void
     {
         $this->state = $state;
     }

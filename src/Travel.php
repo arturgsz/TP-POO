@@ -21,14 +21,16 @@ class Travel
     //private Ticket $ticket;
     private DateTime $departure_time; 
     private DateTime $arrival_time;
-    
+
+    //private string $FlightCompany;
 
     public function __construct(FlightLines $line)
     { 
       $this->line = $line;
       $this->company_code = $line->getCompany();
       Travel::$code++;
-      $this->flight_code = Travel::gerarCodigo($line->getCompany());       
+      $this->flight_code = Travel::gerarCodigo($line->getCompany()); 
+
     }
   
     private function gerarCodigo(string $company_code) : string
@@ -73,8 +75,35 @@ class Travel
       //else 
       //Tratamento do Erro
    }
+
+  /* Isso precisa ser modelado
+  //ocasionalmente uma aeronave diferente pode executar o Voo:
+  public function setAeronave() 
+  {
     
+  }
+  */
+
+  
+  // essa função precisa ser modelada
+  public function informacoesDoVoo() : void
+  {
+   //nome da companhia aerea
+   //origem
+   //destino
+   //data
+    echo "INFORMAÇÕES DO VOO" . PHP_EOL;
+    echo "Voo {$this->getFlightCode()} da 'companhia aerea X' " . PHP_EOL;
+    echo "Origem: " . PHP_EOL;
+    echo "Destino: " . PHP_EOL;
+    echo "Executado no dia " . PHP_EOL . PHP_EOL;
+  }
+  
     // Getters and Setters
+    public function getFlightCode() : string
+    {
+        return $this->flight_code;
+    }
     public function getDepartureTime()
     {
         return $this->departure_time;

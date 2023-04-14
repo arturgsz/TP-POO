@@ -56,12 +56,12 @@ class FlightLines
     return $interval;
   }
   
+  // Setters and Getters
   public function getCompany() : string
   {
     return $this->FlightLine_code;
   }
 
-  // Setters and Getters
   public function getOrigin() : Airport
   {
     return $this->origin;

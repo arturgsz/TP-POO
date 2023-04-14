@@ -2,15 +2,13 @@
 /* Airplane.php
  * This is the class for the Airplane object.
  */
-//require_once'FlightCompany.php';
-
-//MUDAR $siglaFlightCompany
+require_once'FlightCompany.php';
 
 class Airplane
 {
-  //essa sigla precisa ser obtida da classe FlightCompany
-  //usando uma sigla de exemplo
-  private string $siglaFlightCompany = 'JU'; //pertencimento a uma companhia aerea
+  //pertencimento a uma Companhia Aerea
+  private string $nameFlightCompany; 
+  private string $siglaFlightCompany; 
   
   private string $manufacturer;
   private string $model;
@@ -19,12 +17,15 @@ class Airplane
   private float $capacity_cargo; 
 
 
-  public function __construct(string $manufacturer, 
+  public function __construct(FlightCompany $FlightCompany,
+                              string $manufacturer, 
                               string $model,
                               string $airplane_register,
                               int $capacity_passenger,
                               float $capacity_cargo)
   {
+    $this->nameFlightCompany = $FlightCompany->getName();
+    $this->siglaFlightCompany = $FlightCompany->getSigla();
     
     $this->manufacturer = $manufacturer;
     $this->model = $model;
@@ -61,42 +62,42 @@ class Airplane
     return $this->siglaFlightCompany;
   }
   
-  public function getManufacturer()
+  public function getManufacturer() : string
   {
     return $this->manufacturer;
   }
 
-  public function getModel()
+  public function getModel() : string
   {
      return $this->model;
   }
 
-  public function getRegistration()
+  public function getRegistration() : string
   {
     return $this->airplane_register;
   }
 
-  public function getPassengerCapacity()
+  public function getPassengerCapacity() : int
   {
     return $this->capacity_passenger;
   }
 
-  public function getWeightCapacity()
+  public function getWeightCapacity() : float
   {
     return $this->capacity_cargo;
   }
 
-  public function setManufacturer(string $manufacturer)
+  public function setManufacturer(string $manufacturer) : void
   {
     $this->manufacturer = $manufacturer;
   }
 
-  public function setModel(string $model)
+  public function setModel(string $model) : void
   {
     $this->model = $model;
   }
 
-  public function setRegistration(string $airplane_register)
+  public function setRegistration(string $airplane_register) : void
   {
     if(Airplane::confereRegistro($airplane_register)){
       $airplane_register = mb_strtoupper($airplane_register);
@@ -104,12 +105,12 @@ class Airplane
     } 
   }
 
-  public function setPassengerCapacity(int $capacity_passenger)
+  public function setPassengerCapacity(int $capacity_passenger) : void
   {
     $this->capacity_passenger = $capacity_passenger;
   }
 
-  public function setWeightCapacity(float $capacity_cargo)
+  public function setWeightCapacity(float $capacity_cargo) : void
   {
     $this->capacity_cargo = $capacity_cargo;
   }

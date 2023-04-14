@@ -20,17 +20,17 @@ class FlightLines
   private DateTime $expected_departure_time;
   private DateTime $expected_arrival_time;
 
-  private Airplane $default_plane; 
+  private Airplane $airplane; 
   private string $FlightLine_code;
-  private bool $operational;
   
+  private bool $operational;
   private Frequency $frequency;
   
   public function __construct(Airport $origin,
                               Airport $destiny,
                               DateTime $expected_departure_time,
                               DateTime $expected_arrival_time,
-                              Airplane $default_plane,
+                              Airplane $airplane,
                               bool $operational,
                               Frequency $frequency)
   {
@@ -39,10 +39,11 @@ class FlightLines
 
     $this->expected_departure_time = $expected_departure_time;
     $this->expected_arrival_time = $expected_arrival_time;
-      
-    $this->FlightLine_code = $default_plane->getsiglaFlightCompany();
-    $this->operational = $operational;
 
+    $this->airplane = $airplane;
+    $this->FlightLine_code = $airplane->getsiglaFlightCompany();
+      
+    $this->operational = $operational;
     $this->frequency = $frequency;
   }
   

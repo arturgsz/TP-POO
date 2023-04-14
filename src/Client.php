@@ -22,17 +22,17 @@ class Client
     }
 
     // Getters and Setters
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getSurname()
+    public function getSurname() : string
     {
         return $this->surname;
     }
 
-    public function getDocument()
+    public function getDocument() : string
     {
         return $this->document;
     }

@@ -42,52 +42,53 @@ class FlightCompany
   }
   
   // Getters and Setters
-  public function getName()
+  public function getName() : string
   {
     return $this->name;
   }
 
-  public function getCode()
+  public function getCode() : string
   {
     return $this->code;
   }
 
-  public function getRazaoSocial()
+  public function getRazaoSocial() : string
   {
     return $this->razao_social;
   }
 
-  public function getCnpj()
+  public function getCnpj() : string
   {
     return $this->cnpj;
   }
 
-  public function getSigla()
+  public function getSigla() : string
   {
     return $this->sigla;
   }
 
-  public function setName(string $name)
+  
+  public function setName(string $name) : void
   {
     $this->name = $name;
   }
 
-  public function setCode(string $code)
+  public function setCode(string $code) : void
   {
     $this->code = $code;
   }
 
-  public function setRazaoSocial(string $razao_social)
+  public function setRazaoSocial(string $razao_social) : void
   {
     $this->razao_social = $razao_social;
   }
 
-  public function setCnpj(string $cnpj)
+  public function setCnpj(string $cnpj) : void
   {
     $this->cnpj = $cnpj;
   }
 
-  public function setSigla(string $sigla)
+  public function setSigla(string $sigla) : void
   {
     if(FlightCompany::confereSigla($sigla)){
       $sigla = mb_strtoupper($sigla);
@@ -101,3 +102,4 @@ class FlightCompany
     echo "The object {$this->name} was destroyed." . PHP_EOL;
   }
 }
+

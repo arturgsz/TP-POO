@@ -22,8 +22,8 @@ $airportGarulhos = new Airport('Aeroporto de Garulhos','ABC','Garulhos','São Pa
 
 $airportBH = new Airport('Aeroporto de Belo Horizonte','DEF','Belo Horizonte','Minas Gerais');
 
-$data_departure_time = new Datetime('2014-06-20 11:45'); //partida padrão
-$data_arrival_time = new DateTime('2014-06-20 13:45'); 
+$data_departure_time = new Datetime('2014-06-20 11:45:00'); //partida padrão
+$data_arrival_time = new DateTime('2014-06-20 13:45:00'); 
 
 $FlightLines = new FlightLines($airportGarulhos, $airportBH, $data_departure_time,$data_arrival_time, $airplane, true, Frequency::DAILY);
 

@@ -19,6 +19,7 @@ class FlightLines
   private Airport $destiny;
   private DateTime $expected_departure_time;
   private DateTime $expected_arrival_time;
+  private DateInterval $duracao_estimada; 
 
   private Airplane $airplane; 
   private string $FlightLine_code;
@@ -42,9 +43,17 @@ class FlightLines
 
     $this->airplane = $airplane;
     $this->FlightLine_code = $airplane->getsiglaFlightCompany();
-      
+
+    $this->duracao_estimada = FlightLines::duracaoVoo($expected_departure_time,$expected_arrival_time);
+    
     $this->operational = $operational;
     $this->frequency = $frequency;
+  }
+
+  private function duracaoVoo($expected_departure_time,$expected_arrival_time) : DateInterval
+  {
+    $interval = $expected_arrival_time->diff($expected_departure_time);
+    return $interval;
   }
   
   public function getCompany() : string
@@ -72,6 +81,9 @@ class FlightLines
   {
     return $this->expected_arrival_time;
   }
+
+  /*
+  arrumar essas funçoes pq não é assim que modifica o DateTime
   public function setExpectedDepartureTime(DateTime $expected_departure_time) : DateTime
   {
     $this->expected_departure_time = $expected_departure_time;
@@ -81,6 +93,7 @@ class FlightLines
   {
     $this->expected_arrival_time = $expected_arrival_time;
   }
+  */
   
   public function getFrequency() : Frequency
   {

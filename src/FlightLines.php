@@ -5,6 +5,7 @@
 
 require_once 'Airport.php';
 require_once 'Airplane.php';
+require_once 'Travel.php';
 
 enum Frequency
 {
@@ -20,12 +21,17 @@ class FlightLines
   private DateTime $expected_departure_time;
   private DateTime $expected_arrival_time;
   private DateInterval $duracao_estimada; 
+  private float $line_price;
+  private float $lugadge_price;
 
   private Airplane $airplane; 
   private string $FlightLine_code;
   
   private bool $operational;
   private Frequency $frequency;
+
+  //TRAVEL - SPRINT2
+  private $travel = [];
   
   public function __construct(Airport $origin,
                               Airport $destiny,
@@ -33,7 +39,9 @@ class FlightLines
                               DateTime $expected_arrival_time,
                               Airplane $airplane,
                               bool $operational,
-                              Frequency $frequency)
+                              Frequency $frequency,
+                              float $line_price,
+                              float $lugadge_price)
   {
     $this->origin = $origin;
     $this->destiny = $destiny;
@@ -48,6 +56,25 @@ class FlightLines
     
     $this->operational = $operational;
     $this->frequency = $frequency;
+
+    $this->line_price = $line_price;
+    $this->lugadge_price = $lugadge_price;
+  }
+
+  private function newTravel()
+  {
+    $travel_ = new Travel($this->expected_departure_time,
+                          $this->expected_arrival_time,
+                          $this->line_price,
+                          $this->lugadge_price,
+                          $this->airplane->getPassengerCapacity());
+    //Adding this travel to a array of travels                      
+    $this->addTravel($travel_);
+  }
+
+  private function addTravel(Travel $travel)
+  {
+    array_push($this->travel, $travel);
   }
 
   private function duracaoVoo($expected_departure_time,$expected_arrival_time) : DateInterval
@@ -82,18 +109,15 @@ class FlightLines
     return $this->expected_arrival_time;
   }
 
-  /*
-  arrumar essas funçoes pq não é assim que modifica o DateTime
-  public function setExpectedDepartureTime(DateTime $expected_departure_time) : DateTime
+  public function setExpectedDepartureTime(DateTime $expected_departure_time)
   {
     $this->expected_departure_time = $expected_departure_time;
   }
 
-  public function setExpectedArrivalTime(DateTime $expected_arrival_time) : DateTime
+  public function setExpectedArrivalTime(DateTime $expected_arrival_time)
   {
     $this->expected_arrival_time = $expected_arrival_time;
   }
-  */
   
   public function getFrequency() : Frequency
   {
@@ -108,7 +132,7 @@ class FlightLines
 
   public function getAirplane() : Airplane
   {
-    return $this->$default_plane;
+    return $this->airplane;
   }
 
   public function isOperational() :bool
@@ -128,7 +152,7 @@ class FlightLines
 
   public function setAirplane(Airplane $Airplane) : void
   {
-    $this->Airplane = $Airplane;
+    $this->airplane = $Airplane;
   }
 
   public function setOperational(bool $operational) : void

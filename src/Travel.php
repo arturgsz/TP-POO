@@ -8,8 +8,7 @@
 //Os atributos Datetime não estão no constructor porque eles serão inicializados por funções
 //essas funções como precisam ser públicas tem senha de acesso '1234'
 
-require_once 'FlightLines.php';
-//require_once 'Ticket.php';
+require_once 'Ticket.php';
 
 class Travel
 {
@@ -22,17 +21,31 @@ class Travel
     private DateTime $departure_time; 
     private DateTime $arrival_time;
 
+    private $tickets = [];
     //private string $FlightCompany;
 
-    public function __construct(FlightLines $line)
+    public function __construct(DateTime $expected_departure_time,
+                                DateTime $expected_arrival_time,
+                                float $line_price,
+                                float $lugagde_price,
+                                int $max_ticket)
     { 
       $this->line = $line;
       $this->company_code = $line->getCompany();
       Travel::$code++;
       $this->flight_code = Travel::gerarCodigo($line->getCompany()); 
 
+      for($i= 0; $i< $max_ticket; $i++){
+        $ticket_ = new FlightTicket()
+      }
+    
     }
-  
+    
+    // public function Add_ticket(FlightTicket $flightTicket)
+    // {
+    //     array_push($tickets, $flightTicket); //conferir se é assim
+    // }    
+    
     private function gerarCodigo(string $company_code) : string
     {
       $prefixo = $company_code; 
@@ -49,9 +62,9 @@ class Travel
           return $prefixo . '00' . Travel::$code;
         
         if(Travel::$code > 99 && Travel::$code <=999)
-            return $prefixo . '0'. Travel::$flight_code;
+          return $prefixo . '0'. Travel::$flight_code;
            
-        if(Travel::$code > 999 && Travel::$code <=9999)
+        else //(Travel::$code > 999 && Travel::$code <=9999)
           return $prefixo . Travel::$code;
       }
     }
@@ -75,14 +88,6 @@ class Travel
       //else 
       //Tratamento do Erro
    }
-
-  /* Isso precisa ser modelado
-  //ocasionalmente uma aeronave diferente pode executar o Voo:
-  public function setAeronave() 
-  {
-    
-  }
-  */
 
   
   // essa função precisa ser modelada
@@ -124,7 +129,6 @@ class Travel
         $this->line = $line;
     }
     
-
     // Destructor
     public function __destruct()
     {

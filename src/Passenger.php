@@ -1,20 +1,14 @@
 <?php
-/* Passenger.php
- * This is the class for the Passenger object.
+/* Client.php
+ * This is the class for the Client object.
  */
 
-class Passenger
+class Client
 {
     // Attributes
     private string $name;
     private string $surname;
-    private string $cpf;
-    private string $email;
-    private string $nacionality;
-    private DateTime $birth;
     private string $document;
-    private bool $vip;
-    
     //private Ticket $ticket;
 
     // Constructor

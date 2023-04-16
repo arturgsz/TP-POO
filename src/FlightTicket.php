@@ -3,31 +3,28 @@
  * This is the class for the FlightTicket object.
  */
 include_once('Client.php');
-include_once('Travel.php');
 
 class FlightTicket
 {
     // Attributes
-    private int $code;
+    private string $code;
     private Client $client;
     private string $seat;
     private float $price;
-    private int $luggadge;
-    private Travel $ptr; //mudar classe Flight para travel
+    private float $price_luggadge;
+    private float $price_fight;
+    private int $luggadge = 0;
+    private Travel $ptr; //ponteiro de travel, como implementar?
     
     // Constructor
-    public function __construct(Client $client, string $seat, int $luggadge, Travel &$ptr)
+    public function __construct( string $seat, float $price_luggadge, float $price_flight, string $code )
     {
-        $this->client = $client;
         $this->seat = $seat;
-        $this->luggadge = $luggadge;
-        $this->ptr = &$ptr; //DUVIDAS: como fazer passagem por referencia;
-        $this->code = $this->Creat_Code();
-    }
+        $this->price_luggadge = $price_luggadge;
+        $this->price_fight = $price_flight;
+        $this->price = $this->calc_price();
 
-    public function Creat_Code()
-    {   
-        return rand(0, 99999); //five digits code (number)
+        $this->code = $code."-".$seat;
     }
 
     //Getters and Setters
@@ -41,18 +38,9 @@ class FlightTicket
         return $this->luggadge;
     }
 
-    public function setLuggadge(int $luggadge)
-    {
-        $this->luggadge = $luggadge;
-    }
-
     public function getPrice()
     {
         return $this->price;
-    }
-    public function setPrice(float $price)
-    {
-        $this->price = $price;
     }
 
     public function getSeat()
@@ -60,16 +48,24 @@ class FlightTicket
         return $this->seat;
     }
 
-    public function setSeat(string $seat)
-    {
-        $this->seat = $seat;
-    }
-
     public function getClient()
     {
         return $this->client;
     }
 
+    public function setLuggadge(int $luggadge)
+    {
+        $this->luggadge = $luggadge;
+    }
+
+    public function setSeat(string $seat)
+    {
+        $this->seat = $seat;
+    }
+    
+    public function calc_price(): float{
+        return $this->price_fight + $this->price_luggadge * $this->luggadge;
+    }
     // Destructor
     public function __destruct()
     {

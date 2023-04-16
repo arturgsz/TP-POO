@@ -50,7 +50,7 @@ class FlightLines
     $this->expected_arrival_time = $expected_arrival_time;
 
     $this->airplane = $airplane;
-    $this->FlightLine_code = $airplane->getsiglaFlightCompany();
+    $this->FlightLine_code = $airplane->getsiglaFlightCompany().rand(1000,9999);
 
     $this->duracao_estimada = FlightLines::duracaoVoo($expected_departure_time,$expected_arrival_time);
     
@@ -67,6 +67,7 @@ class FlightLines
                           $this->expected_arrival_time,
                           $this->line_price,
                           $this->lugadge_price,
+                          $this->FlightLine_code,
                           $this->airplane->getPassengerCapacity());
     //Adding this travel to a array of travels                      
     $this->addTravel($travel_);
@@ -82,7 +83,7 @@ class FlightLines
     $interval = $expected_arrival_time->diff($expected_departure_time);
     return $interval;
   }
-  
+
   // Setters and Getters
   public function getCompany() : string
   {

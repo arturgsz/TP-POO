@@ -9,15 +9,16 @@ class FlightTicket
     // Attributes
     private string $code;
     private Client $client;
-    private string $seat;
+    private int $seat;
     private float $price;
     private float $price_luggadge;
     private float $price_fight;
     private int $luggadge = 0;
-    private Travel $ptr; //ponteiro de travel, como implementar?
+ //   private Travel $ptr; //ponteiro de travel, como implementar?
     
     // Constructor
-    public function __construct( string $seat, float $price_luggadge, float $price_flight, string $code )
+    public function __construct(int $seat, float $price_luggadge,
+                                float $price_flight, string $code)
     {
         $this->seat = $seat;
         $this->price_luggadge = $price_luggadge;

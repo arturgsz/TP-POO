@@ -12,15 +12,13 @@ require_once 'Ticket.php';
 
 class Travel
 {
-    private static $code = '0000'; //gerador de codigo
-
     private string $flight_code; //codigo da viagem 2 letras seguida de 4 digitos
-    private FlightLines $line;
-    private string $company_code; //2 letras da companhia aerea
     //private Ticket $ticket;
     private DateTime $departure_time; 
     private DateTime $arrival_time;
-
+    private float $price;
+    private float $line_price;
+    private float $lugadge_price;
     private $tickets = [];
     //private string $FlightCompany;
 
@@ -28,47 +26,55 @@ class Travel
                                 DateTime $expected_arrival_time,
                                 float $line_price,
                                 float $lugagde_price,
+                                string $FlightLine_code,
                                 int $max_ticket)
     { 
-      $this->line = $line;
-      $this->company_code = $line->getCompany();
-      Travel::$code++;
-      $this->flight_code = Travel::gerarCodigo($line->getCompany()); 
+      $this->departure_time = $expected_departure_time;
+      $this->arrival_time = $expected_arrival_time;
+      $this->line_price = $line_price;
+      $this->lugadge_price = $lugagde_price;
+      $this->flight_code = rand(100,999)."-".$FlightLine_code;
 
       for($i= 0; $i< $max_ticket; $i++){
-        $ticket_ = new FlightTicket()
+        $ticket_ = new FlightTicket(
+          $i, 
+          $this->lugadge_price,
+          $this->line_price, 
+          $this->flight_code);
+      
+      array_push($tickets, $ticket_); 
       }
-    
+     
     }
     
     // public function Add_ticket(FlightTicket $flightTicket)
     // {
     //     array_push($tickets, $flightTicket); //conferir se é assim
     // }    
+  
+    // private function gerarCodigo(string $company_code) : string
+    // {
+    //   $prefixo = $company_code; 
     
-    private function gerarCodigo(string $company_code) : string
-    {
-      $prefixo = $company_code; 
-    
-      if(Travel::$code == '10000'){
-        Travel::$code = '0000';
-        return $prefixo . '0001'; 
-      } 
-      else {
-        if(Travel::$code <= 9) 
-          return $prefixo . '000' . Travel::$code; 
+    //   if(Travel::$code == '10000'){
+    //     Travel::$code = '0000';
+    //     return $prefixo . '0001'; 
+    //   } 
+    //   else {
+    //     if(Travel::$code <= 9) 
+    //       return $prefixo . '000' . Travel::$code; 
           
-        if(Travel::$code > 9 && Travel::$code <= 99)
-          return $prefixo . '00' . Travel::$code;
+    //     if(Travel::$code > 9 && Travel::$code <= 99)
+    //       return $prefixo . '00' . Travel::$code;
         
-        if(Travel::$code > 99 && Travel::$code <=999)
-          return $prefixo . '0'. Travel::$flight_code;
+    //     if(Travel::$code > 99 && Travel::$code <=999)
+    //       return $prefixo . '0'. Travel::$flight_code;
            
-        else //(Travel::$code > 999 && Travel::$code <=9999)
-          return $prefixo . Travel::$code;
-      }
-    }
-    
+    //     else //(Travel::$code > 999 && Travel::$code <=9999)
+    //       return $prefixo . Travel::$code;
+    //   }
+    // }
+
     public function horaDePartida(string $chaveDeAcesso) : void
     {
       if($chaveDeAcesso == '1234')
@@ -121,12 +127,12 @@ class Travel
 
     public function getLine()
     {
-        return $this->line;
+        return $this->flight_code;
     }
 
-    public function setLine(FlightLines $line)
+    public function setFlight_code(string $flight_code)
     {
-        $this->line = $line;
+        $this->flight_code = $flight_code;
     }
     
     // Destructor

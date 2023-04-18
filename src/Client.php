@@ -37,6 +37,13 @@ class Client
         return $this->document;
     }
 
+    public function informacoes() : void
+   {
+    echo ("Informações do Cliente: {$this->getname()} {$this->getSurname()}" . PHP_EOL .
+          "Documento: {$this->getDocument()}" . PHP_EOL . PHP_EOL);
+   }
+
+
     // Destructor
     public function __destruct()
     {

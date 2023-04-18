@@ -86,6 +86,14 @@ class Airport
     {
         $this->state = $state;
     }
+  
+     public function informacoes() : void
+    {
+      echo ("INFORMAÇÕES DO AERPORTO: {$this->getName()}" . PHP_EOL .
+            "Sigla: {$this->getSigla()}" . PHP_EOL .
+            "Cidade: {$this->getCity()}" . PHP_EOL .
+            "Estado: {$this->getState()}" . PHP_EOL . PHP_EOL);
+    }
 
     // Destructor
     public function __destruct()

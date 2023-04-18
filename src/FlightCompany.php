@@ -96,6 +96,15 @@ class FlightCompany
     }
   }
 
+  public function informacoes() : void
+  {
+    echo ("INFORMAÇÕES DA COMPANHIA AEREA {$this->getName()} " . PHP_EOL .
+          "Codigo: {$this->getCode()}" . PHP_EOL .
+          "Razão Social: {$this->getRazaoSocial()}" . PHP_EOL .
+          "CNPJ: {$this->getCnpj()}" . PHP_EOL .
+          "Sigla: {$this->getSigla()} " . PHP_EOL . PHP_EOL);
+  }
+
   // Destructor
   public function __destruct()
   {

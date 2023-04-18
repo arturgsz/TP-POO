@@ -2,13 +2,11 @@
 /* Airplane.php
  * This is the class for the Airplane object.
  */
-require_once'FlightCompany.php';
+require_once 'FlightCompany.php';
 
 class Airplane
 {
-  //pertencimento a uma Companhia Aerea
-  private string $nameFlightCompany; 
-  private string $siglaFlightCompany; 
+  private FlightCompany $FlightCompany; //pertencimento
   
   private string $manufacturer;
   private string $model;
@@ -24,9 +22,8 @@ class Airplane
                               int $capacity_passenger,
                               float $capacity_cargo)
   {
-    $this->nameFlightCompany = $FlightCompany->getName();
-    $this->siglaFlightCompany = $FlightCompany->getSigla();
-    
+    $this->FlightCompany = $FlightCompany;
+      
     $this->manufacturer = $manufacturer;
     $this->model = $model;
   
@@ -56,12 +53,13 @@ class Airplane
     }
   }
 
-  // Getters and Setters
-  public function getsiglaFlightCompany() : string
+  //Pertencimento a uma companhia aerea
+  public function getFlightCompany() : FlightCompany
   {
-    return $this->siglaFlightCompany;
+    return $this->FlightCompany;
   }
-  
+
+  // Getters and Setters
   public function getManufacturer() : string
   {
     return $this->manufacturer;
@@ -113,6 +111,17 @@ class Airplane
   public function setWeightCapacity(float $capacity_cargo) : void
   {
     $this->capacity_cargo = $capacity_cargo;
+  }
+
+  public function informacoes() : void
+  {
+    echo ("INFORMAÇÕES DA AERONAVE" . PHP_EOL .
+          "Fabricante: {$this->getManufacturer()}" . PHP_EOL .
+          "Modelo: {$this->getModel()}" . PHP_EOL . 
+          "Capacidade de Passageiros: {$this->getPassengerCapacity()} " . PHP_EOL . 
+          "Capacidade de Carga: {$this->getWeightCapacity()}" . PHP_EOL .
+          "Registro: {$this->getRegistration()}" . PHP_EOL .
+          "Pertence a Companhia Aerea: {$this->getFlightCompany()->getName()}" . PHP_EOL . PHP_EOL); 
   }
 
   // Destructor

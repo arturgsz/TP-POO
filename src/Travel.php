@@ -2,39 +2,57 @@
 /* Travel.php
  * This is the class for the Travel object.
  */
-//O atributo static $code é atributo da classe e vai gerar os 4 digitos do codigo da viagem
-//O atributo $flight_code é atributo do objeto e não da classe
 
-//Os atributos Datetime não estão no constructor porque eles serão inicializados por funções
-//essas funções como precisam ser públicas tem senha de acesso '1234'
-
-require_once 'Ticket.php';
+require_once 'FlightLines.php';
+require_once 'Airplane.php';
+//require_once 'Ticket.php';
 
 class Travel
 {
-    private string $flight_code; //codigo da viagem 2 letras seguida de 4 digitos
-    //private Ticket $ticket;
+
+    private string $Travel_code; // 2 letras seguida de 4 digitos
+    private string $siglaFlightCompany;
+    private string $code; 
+  
+    private FlightLines $line;
+    private Airplane $airplane;
+  
     private DateTime $departure_time; 
     private DateTime $arrival_time;
+    private DateInterval $duracaoVoo;
+  
     private float $price;
     private float $line_price;
     private float $lugadge_price;
-    private $tickets = [];
-    //private string $FlightCompany;
+    private $seat = []; //assentos 
 
-    public function __construct(DateTime $expected_departure_time,
-                                DateTime $expected_arrival_time,
-                                float $line_price,
-                                float $lugagde_price,
-                                string $FlightLine_code,
-                                int $max_ticket)
+    //int $max_ticket
+    //private Ticket $ticket;
+    //private $tickets = [];
+
+    public function __construct(FlightLines $line)
     { 
-      $this->departure_time = $expected_departure_time;
-      $this->arrival_time = $expected_arrival_time;
-      $this->line_price = $line_price;
-      $this->lugadge_price = $lugagde_price;
-      $this->flight_code = rand(100,999)."-".$FlightLine_code;
+      $this->code = rand(1000,9999);
+      $this->line = $line;
+      $this->airplane = $line->getAirplane();
+      
+      $this->departure_time = $line->getExpectedDepartureTime();
+      $this->arrival_time = $line->getExpectedArrivalTime();
+      
+      $this->line_price = $line->getPrice();
+      $this->lugadge_price = $line->getlugadgeprice();
 
+      $this->siglaFlightCompany = $line->getAirplane()->getFlightCompany()->getSigla();
+      
+      $this->Travel_code = Travel::TravelCodigo($this->siglaFlightCompany,$this->code);
+      
+      $this->price = Travel::CalcPrice($this->line_price,$this->lugadge_price);
+
+      $this->duracaoVoo = Travel::duracaoVoo($this->departure_time,$this->arrival_time);
+
+      $this->seat = Travel::CriaAssentos($this->seat);
+      
+      /*
       for($i= 0; $i< $max_ticket; $i++){
         $ticket_ = new FlightTicket(
           $i, 
@@ -44,97 +62,115 @@ class Travel
       
       array_push($tickets, $ticket_); 
       }
-     
+     */
     }
-    
-    // public function Add_ticket(FlightTicket $flightTicket)
-    // {
-    //     array_push($tickets, $flightTicket); //conferir se é assim
-    // }    
+
+    /*
+    public function Add_ticket(FlightTicket $flightTicket)
+    {
+      array_push($tickets, $flightTicket); //conferir se é assim
+    }    
+    */
+
+    private function TravelCodigo(string $sigla, string $code) : string
+    {
+      return $sigla . strval($code);
+    }
+    private function duracaoVoo($departure_time,$arrival_time) : DateInterval
+    {
+      $interval = $this->getArrivalTime()->diff($this->getDepartureTime());
+      return $interval;   
+    }
   
-    // private function gerarCodigo(string $company_code) : string
-    // {
-    //   $prefixo = $company_code; 
-    
-    //   if(Travel::$code == '10000'){
-    //     Travel::$code = '0000';
-    //     return $prefixo . '0001'; 
-    //   } 
-    //   else {
-    //     if(Travel::$code <= 9) 
-    //       return $prefixo . '000' . Travel::$code; 
-          
-    //     if(Travel::$code > 9 && Travel::$code <= 99)
-    //       return $prefixo . '00' . Travel::$code;
-        
-    //     if(Travel::$code > 99 && Travel::$code <=999)
-    //       return $prefixo . '0'. Travel::$flight_code;
-           
-    //     else //(Travel::$code > 999 && Travel::$code <=9999)
-    //       return $prefixo . Travel::$code;
-    //   }
-    // }
-
-    public function horaDePartida(string $chaveDeAcesso) : void
+    //essa função precisa ser modelada
+    private function CalcPrice(float $line_price, float $lugadge_price) : float
     {
-      if($chaveDeAcesso == '1234')
-            $this->departure_time = new DateTime();
-            //mostrar a hora               //formato escolhido arbitrariamente
-            // echo $this->departure_time->format('d/m/Y');
-
-      //else 
-        //Tratamento do Erro    
+      return 0.0;
     }
-
-    public function horaDeChegada(string $chaveDeAcesso) : void
+  
+    //essa função cria os assentos da Travel :)
+    private function CriaAssentos(array $seat) : array
     {
-        if($chaveDeAcesso == '1234')
-            $this->arrival_time = new DateTime();
+      // Para facilitar essa função, os assentos do avião são do tipo int
+      $quantidadeAssentos = $this->getAirplane()->getPassengerCapacity();
       
-      //else 
-      //Tratamento do Erro
-   }
+      for($i=1; $i <= $quantidadeAssentos; $i++)
+      {
+        array_push($seat,$i);
+      }
 
-  
-  // essa função precisa ser modelada
-  public function informacoesDoVoo() : void
-  {
-   //nome da companhia aerea
-   //origem
-   //destino
-   //data
-    echo "INFORMAÇÕES DO VOO" . PHP_EOL;
-    echo "Voo {$this->getFlightCode()} da 'companhia aerea X' " . PHP_EOL;
-    echo "Origem: " . PHP_EOL;
-    echo "Destino: " . PHP_EOL;
-    echo "Executado no dia " . PHP_EOL . PHP_EOL;
-  }
+      return $seat;
+    }
+
   
     // Getters and Setters
+    public function getCode() : string
+    {
+      return $this->code;
+    }
     public function getFlightCode() : string
     {
-        return $this->flight_code;
+      return $this->Travel_code;
     }
-    public function getDepartureTime()
+    public function getFlightLine() : FlightLines
     {
-        return $this->departure_time;
+      return $this->line;
     }
-
-    public function getArrivalTime()
+    public function getAirplane() : Airplane
     {
-        return $this->arrival_time;
+      return $this->airplane;
     }
-
-    public function getLine()
+    public function getDepartureTime() : DateTime
     {
-        return $this->flight_code;
+      return $this->departure_time;
     }
 
-    public function setFlight_code(string $flight_code)
+    public function getArrivalTime() : DateTime
     {
-        $this->flight_code = $flight_code;
+      return $this->arrival_time;
+    }
+    public function getDuracao() : DateInterval
+    {
+      return $this->duracaoVoo;
+    }
+    public function getPrice() : float
+    {
+      return $this->price;
     }
     
+    public function setAirplane(Airplane $airplane) : void
+    {
+      $this->airplane = $airplane;
+      $this->siglaFlightCompany = $airplane->getFlightCompany()->getSigla();
+      $this->Travel_code = Travel::TravelCodigo($this->siglaFlightCompany,$this->code);
+    }
+    public function setDepartureTime(string $new_departure_time) : void
+    {
+      $this->departure_time->modify($new_departure_time);
+      $this->duracaoVoo = Travel::duracaoVoo($new_departure_time,$this->arrival_time);
+    }
+    public function setArrivalTime(string $new_arrival_time) : void
+    {
+      $this->arrival_time->modify($new_arrival_time);
+      $this->duracaoVoo = Travel::duracaoVoo($this->departure_time,$new_arrival_time);
+    }
+   
+    public function informacoes() : void
+    {
+    echo ("INFORMAÇÕES DO VOO" . PHP_EOL.
+          "Voo {$this->getFlightCode()}" . PHP_EOL .
+           "Companhia Aerea responsável: {$this->getAirplane()->getFlightCompany()->getName()} " . PHP_EOL .
+           "Origem: {$this->line->getOrigin()->getName()}" . PHP_EOL .
+           "Destino: {$this->line->getDestiny()->getName()}" . PHP_EOL .
+           "Data e horário de Partida: {$this->getDepartureTime()->format('Y/m/d H:i:s')} " . PHP_EOL .
+           "Data e horário de Chegada: {$this->getArrivalTime()->format('Y/m/d H:i:s')} " . PHP_EOL .
+           "Duracao do Voo: {$this->getDuracao()->h} horas e {$this->getDuracao()->i} minutos" . PHP_EOL .
+           "Aeronave: " . PHP_EOL .
+           "Modelo: {$this->getAirplane()->getModel()}" . PHP_EOL .
+           "Registro: {$this->getAirplane()->getRegistration()}" . PHP_EOL .
+           "Numero de Assentos: " . PHP_EOL . PHP_EOL);
+    }
+
     // Destructor
     public function __destruct()
     {

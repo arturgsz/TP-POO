@@ -139,6 +139,10 @@ class FlightLines
   {
     return $this->line_price;
   }
+  public function getlugadgeprice() : float
+  {
+    return $this->lugadge_price;
+  }
   public function getFrequency() : Frequency
   {
     return $this->frequency;
@@ -154,6 +158,10 @@ class FlightLines
   public function setPrice(float $price) : void
   {
     $this->line_price = $price;
+  }
+  public function setlugadgeprice(float $lugadge_price) : void
+  {
+    $this->lugadge_price = $lugadge_price;
   }
   public function setFrequency(Frequency $frequency) :void
   {

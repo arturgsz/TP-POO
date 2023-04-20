@@ -22,13 +22,14 @@ class FlightLines
   private DateInterval $duracao_estimada; 
   
   private float $line_price;
-  private float $lugadge_price;
+  private float $lugadge_price; //valor unitario da bagagem
 
   private Airplane $airplane; 
   private string $code;
   
   private bool $operational;
   private Frequency $frequency;
+
 
   //TRAVEL - SPRINT2
   //private $travel = [];
@@ -40,8 +41,7 @@ class FlightLines
                               Airplane $airplane,
                               bool $operational,
                               Frequency $frequency,
-                              float $line_price,
-                              float $lugadge_price)
+                              float $line_price)
   {
     $this->origin = $origin;
     $this->destiny = $destiny;
@@ -58,7 +58,7 @@ class FlightLines
     $this->frequency = $frequency;
 
     $this->line_price = $line_price;
-    $this->lugadge_price = $lugadge_price;
+    $this->lugadge_price = $airplane->getLuggadge();
   }
 
 /*  private function newTravel()
@@ -113,6 +113,7 @@ class FlightLines
   public function setAirplane(Airplane $Airplane) : void
   {
     $this->airplane = $Airplane;
+    $this->lugadge_price = $this->airplane->getLuggadge();
   }
   
   //FlightLines
@@ -159,10 +160,7 @@ class FlightLines
   {
     $this->line_price = $price;
   }
-  public function setlugadgeprice(float $lugadge_price) : void
-  {
-    $this->lugadge_price = $lugadge_price;
-  }
+  
   public function setFrequency(Frequency $frequency) :void
   {
     $this->frequency = $frequency;
@@ -199,6 +197,7 @@ class FlightLines
            "{$this->getduracao()->i} minutos" . PHP_EOL .
           "Preço: {$this->getPrice()} " . PHP_EOL .
           "Frequência do Voo: {$this->getFrequency()->name}" . PHP_EOL .
+          "Valor unitario da bagagem: {$this->getlugadgeprice()}" . PHP_EOL .
           "Esta linha está operando: ". PHP_EOL . PHP_EOL);           
   }
 

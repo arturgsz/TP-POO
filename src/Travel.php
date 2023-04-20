@@ -21,9 +21,8 @@ class Travel
     private DateTime $arrival_time;
     private DateInterval $duracaoVoo;
   
-    private float $price;
-    private float $line_price;
-    private float $lugadge_price;
+    private float $line_price; //preço definido pelo FlightLines
+    private float $lugadge_price; //valor unitario definido pela companhia aerea
     private $seat = []; //assentos 
 
     //int $max_ticket
@@ -45,8 +44,6 @@ class Travel
       $this->siglaFlightCompany = $line->getAirplane()->getFlightCompany()->getSigla();
       
       $this->Travel_code = Travel::TravelCodigo($this->siglaFlightCompany,$this->code);
-      
-      $this->price = Travel::CalcPrice($this->line_price,$this->lugadge_price);
 
       $this->duracaoVoo = Travel::duracaoVoo($this->departure_time,$this->arrival_time);
 
@@ -81,12 +78,7 @@ class Travel
       $interval = $this->getArrivalTime()->diff($this->getDepartureTime());
       return $interval;   
     }
-  
-    //essa função precisa ser modelada
-    private function CalcPrice(float $line_price, float $lugadge_price) : float
-    {
-      return 0.0;
-    }
+
   
     //essa função cria os assentos da Travel :)
     private function CriaAssentos(array $seat) : array
@@ -135,14 +127,19 @@ class Travel
     }
     public function getPrice() : float
     {
-      return $this->price;
+      return $this->line_price;
     }
-    
+    public function getLuggadge() : float
+    {
+      return $this->lugadge_price;
+    }
+  
     public function setAirplane(Airplane $airplane) : void
     {
       $this->airplane = $airplane;
       $this->siglaFlightCompany = $airplane->getFlightCompany()->getSigla();
       $this->Travel_code = Travel::TravelCodigo($this->siglaFlightCompany,$this->code);
+      $this->lugadge_price = $this->airplane->getLuggadge();
     }
     public function setDepartureTime(string $new_departure_time) : void
     {
@@ -168,7 +165,9 @@ class Travel
            "Aeronave: " . PHP_EOL .
            "Modelo: {$this->getAirplane()->getModel()}" . PHP_EOL .
            "Registro: {$this->getAirplane()->getRegistration()}" . PHP_EOL .
-           "Numero de Assentos: " . PHP_EOL . PHP_EOL);
+           "Numero de Assentos: " . PHP_EOL .
+           "Preço do Voo: {$this->getPrice()}" . PHP_EOL .
+           "Valor unitario da bagagem: {$this->getLuggadge()}" . PHP_EOL . PHP_EOL);
     }
 
     // Destructor

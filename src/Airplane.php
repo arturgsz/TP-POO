@@ -14,6 +14,9 @@ class Airplane
   private int $capacity_passenger; 
   private float $capacity_cargo; 
 
+  //esse valor é dado pela Companhia Aerea
+  private float $luggadge; //preço unitario por bagagem
+
 
   public function __construct(FlightCompany $FlightCompany,
                               string $manufacturer, 
@@ -34,6 +37,7 @@ class Airplane
     
     $this->capacity_passenger = $capacity_passenger;
     $this->capacity_cargo= $capacity_cargo;   
+    $this->luggadge = $FlightCompany->getLuggadge();
   }
 
   //função para conferir o registro  
@@ -85,6 +89,11 @@ class Airplane
     return $this->capacity_cargo;
   }
 
+  public function getLuggadge() : float
+  {
+    return $this->luggadge;
+  }
+  
   public function setManufacturer(string $manufacturer) : void
   {
     $this->manufacturer = $manufacturer;
@@ -121,7 +130,8 @@ class Airplane
           "Capacidade de Passageiros: {$this->getPassengerCapacity()} " . PHP_EOL . 
           "Capacidade de Carga: {$this->getWeightCapacity()}" . PHP_EOL .
           "Registro: {$this->getRegistration()}" . PHP_EOL .
-          "Pertence a Companhia Aerea: {$this->getFlightCompany()->getName()}" . PHP_EOL . PHP_EOL); 
+          "Pertence a Companhia Aerea: {$this->getFlightCompany()->getName()}" . PHP_EOL .
+          "Valor unitario da bagagem: {$this->getLuggadge()}" . PHP_EOL . PHP_EOL); 
   }
 
   // Destructor

@@ -9,7 +9,7 @@ require_once './src/Airplane.php';
 require_once './src/Airport.php';
 require_once './src/FlightCompany.php';
 
-$flightCompanyLatam = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT');
+$flightCompanyLatam = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT', 34.2);
 
 $airplaneBoeing= new Airplane($flightCompanyLatam,'Boeing','A-320', 'PR-GUO', 2, 2.5);
 
@@ -22,6 +22,7 @@ $data_departure_time = new Datetime('2014-06-20 11:45:00'); //partida padrão
 $data_arrival_time = new DateTime('2014-06-20 13:45:00'); 
 
 $FlightLines = new FlightLines($airportGarulhos, $airportBH, $data_departure_time,$data_arrival_time, $airplaneBoeing, true, Frequency::DAILY, 200.0,50.2);
+
 
 
 //getOrigin() -> o retorno dessa função é um objeto da classe Airport
@@ -47,6 +48,9 @@ echo "{$FlightLines->getDuracao()->h} horas e {$FlightLines->getDuracao()->i} mi
 
 //getPrice
 echo ($FlightLines->getPrice()) . PHP_EOL;
+
+//getlugadgeprice()
+echo ($FlightLines->getlugadgeprice()) . PHP_EOL;
 
 //getFrequency() -> o retorno da função é do tipo enum Frequency
 var_dump($FlightLines->getFrequency()); echo PHP_EOL;
@@ -100,13 +104,4 @@ $FlightLines->setExpectedDepartureTime($new_data_departure_time);
 $FlightLines->setExpectedArrivalTime($new_data_arrival_time);
 var_dump($FlightLines->getDuracao()->h);
 $FlightLines->informacoes();
-
-
-
-
-
-
-
-
-
 

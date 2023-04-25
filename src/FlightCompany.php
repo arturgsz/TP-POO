@@ -11,12 +11,16 @@ class FlightCompany
   private string $razao_social;
   private string $cnpj;
   private string $sigla;  //a sigla deve ser formada por duas letras
+
+  //valor unitário da bagagem é definido por cada companhia aerea
+  private float $luggadge; //bagagem
   
   public function __construct(string $name, 
                               string $code, 
                               string $razao_social, 
                               string $cnpj, 
-                              string $sigla)
+                              string $sigla,
+                              float $luggadge)
   {
     $this->name = $name;
     $this->code = $code;
@@ -27,6 +31,7 @@ class FlightCompany
       $this->sigla = $sigla;
     }     
     $this->cnpj = $cnpj;
+    $this->luggadge = $luggadge;
   }
         
   //conferir sigla da companhia area
@@ -67,6 +72,11 @@ class FlightCompany
     return $this->sigla;
   }
 
+  public function getLuggadge() : float
+  {
+    return $this->luggadge;
+  }
+
   
   public function setName(string $name) : void
   {
@@ -96,13 +106,19 @@ class FlightCompany
     }
   }
 
+  public function setLuggadge(float $luggadge) : void
+  {
+    $this->luggadge = $luggadge;
+  }
+
   public function informacoes() : void
   {
     echo ("INFORMAÇÕES DA COMPANHIA AEREA {$this->getName()} " . PHP_EOL .
           "Codigo: {$this->getCode()}" . PHP_EOL .
           "Razão Social: {$this->getRazaoSocial()}" . PHP_EOL .
           "CNPJ: {$this->getCnpj()}" . PHP_EOL .
-          "Sigla: {$this->getSigla()} " . PHP_EOL . PHP_EOL);
+          "Sigla: {$this->getSigla()} " . PHP_EOL .
+          "Valor unitário da bagagem: {$this->getLuggadge()}". PHP_EOL . PHP_EOL);
   }
 
   // Destructor

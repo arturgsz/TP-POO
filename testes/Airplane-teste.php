@@ -5,7 +5,7 @@ Testando a funcionalidade da classe Airplane
 */
 require_once './src/Airplane.php';
 
-$flightCompanyLatam = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT');
+$flightCompanyLatam = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT', 34.2);
 
 $airplane= new Airplane($flightCompanyLatam,'Boeing','A-320', 'PR-GUO', 2, 2.5);
 
@@ -26,7 +26,11 @@ echo ($airplane->getPassengerCapacity()) . PHP_EOL; //2
 
 //getWeightCapacity()
 echo ($airplane->getWeightCapacity()) . PHP_EOL; //2.5
+
+//getLuggadge()
+echo ($airplane->getLuggadge()) . PHP_EOL;
 $airplane->informacoes();
+
 
 /*
 As funções setters não possuem retorno (void)

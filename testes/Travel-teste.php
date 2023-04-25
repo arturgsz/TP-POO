@@ -10,9 +10,13 @@ require_once './src/Airport.php';
 require_once './src/FlightCompany.php';
 require_once './src/Travel.php';
 
-$flightCompanyLatam = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT');
+$flightCompanyLatam = new FlightCompany('LATAM','JJ','Tam Linhas Aéreas S/a - Processos','12.345.678/0001-12','LT',34.2);
 
-$airplaneBoeing= new Airplane($flightCompanyLatam,'Boeing','A-320', 'PR-GUO', 2, 2.5);
+$flightCompanyGol = new FlightCompany('GOL', 'GG', 'Gol Linhas Aéreas Inteligentes S.A.', '147.258.369-74','GO',38.2);
+
+$airplaneBoeing = new Airplane($flightCompanyLatam,'Boeing','A-320', 'PR-GUO', 2, 2.5);
+
+$airplaneGol = new Airplane($flightCompanyGol,'Boeing', '737-700','PR-GGE',5,58);
 
 //Aeroporto de Garulhos
 $airportGarulhos = new Airport('Aeroporto de Garulhos','ABC','Garulhos','São Paulo');
@@ -48,14 +52,17 @@ echo ($Travel->getArrivalTime()->format('Y/m/d H:i:s')) . PHP_EOL;
 echo "{$Travel->getDuracao()->h} horas e {$Travel->getDuracao()->i} minutos" . PHP_EOL;
 
 //getPrice()
-echo $Travel->getPrice() . PHP_EOL;
+echo ($Travel->getPrice()) . PHP_EOL;
+
+//getLuggadge()
+echo ($Travel->getLuggadge()) . PHP_EOL;
 
 $Travel->informacoes();
 echo "--------------------------------------------------" . PHP_EOL;
-$airplaneAirbus = new Airplane($flightCompanyLatam,'Airbus','A320-212','PR-TYD',3,3.5);
+
 
 //setAirplane(Airplane $airplane)
-$Travel->setAirplane($airplaneAirbus);
+$Travel->setAirplane($airplaneGol);
 var_dump($Travel->getAirplane()); echo PHP_EOL;
 
 //Registrando o horário que realmente aconteceu a Travel
@@ -71,7 +78,8 @@ $Travel->setArrivalTime($new_data_arrival_time);
 echo ($Travel->getArrivalTime()->format('Y/m/d H:i:s')) . PHP_EOL;
 echo "{$Travel->getDuracao()->h} horas e {$Travel->getDuracao()->i} minutos" . PHP_EOL;
 
-echo "MUDANÇAS DAS FUNÇÕES SETTERS: " . PHP_EOL;
+//echo "MUDANÇAS DAS FUNÇÕES SETTERS: " . PHP_EOL;
 echo "--------------------------------------------------" . PHP_EOL . PHP_EOL;
 
+echo ($Travel->getLuggadge()) . PHP_EOL;
 $Travel->informacoes();

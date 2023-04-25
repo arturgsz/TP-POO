@@ -138,6 +138,7 @@ class Travel
       return $this->price;
     }
     
+
     public function setAirplane(Airplane $airplane) : void
     {
       $this->airplane = $airplane;

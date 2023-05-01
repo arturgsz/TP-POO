@@ -11,4 +11,7 @@ Sprint 5 |  [ ]  |   [ ]
 Sprint 6 |  [ ]  |   [ ]  
 Sprint 7 |  [ ]  |   [ ]  
 
+Organização Kabam no Trello:
+https://trello.com/b/Ri7DyeY9
+
 ![title](img/Airport.jpeg)

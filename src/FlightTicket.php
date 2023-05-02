@@ -12,12 +12,11 @@ class FlightTicket
     private string $code;
     private Client $Client;
     private int $seat;
-
     private string $origin;
     private string $destiny;
-
     private float $price_flight;
     private int $luggadge; //numero de bagagens - até 3 bagagens de 23kg
+
     
     // Constructor
     public function __construct(Travel $Travel,
@@ -95,7 +94,7 @@ class FlightTicket
     {
         $this->seat = $seat;
     }
-    
+
 
     public function informacoes() : void
     {

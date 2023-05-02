@@ -12,7 +12,7 @@ Sprint 6 |  [ ]  |   [ ]
 Sprint 7 |  [ ]  |   [ ]  
 
 
-(**Organização no Trello**)[https://trello.com/b/Ri7DyeY9]
+[**Organização no Trello**](https://trello.com/b/Ri7DyeY9)
 
 
 ![title](img/Airport.jpeg)

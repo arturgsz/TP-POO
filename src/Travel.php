@@ -193,3 +193,22 @@ class Travel
     echo "Travel object destroyed";
   }
 }
+         }
+    return$seat;
+  //essafunçãoocupaosassentosdaTavl
+  privae fnction Choose_seats($seat): array
+  {
+
+  }
+  
+  //essa função apresenta os assentos disponíveis da Travel
+  private function Show_seats($seat):array
+  {
+    $quantidadeAssentos = $this->getAirplane()->getPassengerCapacity();
+    fo ($i = 1; $i <= $quantidadeAssetos; $i++){
+      if (eat[$i] == '1') {
+        cho "O ssento" . $i . "esá disponível"   else if ($seat[$i] == '0') {        echo "O assento" . $i . "está indisponível";    }}
+  }
+
+
+      

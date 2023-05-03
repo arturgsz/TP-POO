@@ -7,12 +7,6 @@ require_once 'Airport.php';
 require_once 'Airplane.php';
 //require_once 'Travel.php';
 
-enum Frequency
-{
-    case DAILY;
-    case WEEKLY;
-}
-
 class FlightLines 
 {
   private Airport $origin; 
@@ -28,7 +22,7 @@ class FlightLines
   private string $code;
   
   private bool $operational;
-  private Frequency $frequency;
+  private $frequency = [];
 
 
   //TRAVEL - SPRINT2
@@ -40,7 +34,7 @@ class FlightLines
                               DateTime $expected_arrival_time,
                               Airplane $airplane,
                               bool $operational,
-                              Frequency $frequency,
+                              array $frequency,
                               float $line_price)
   {
     $this->origin = $origin;
@@ -144,37 +138,32 @@ class FlightLines
   {
     return $this->lugadge_price;
   }
-  public function getFrequency() : Frequency
+  public function getFrequency() : array
   {
     return $this->frequency;
   }
   
-  //O método isOperational() não funciona
-  /*
   public function isOperational() : bool
   {
     return $this->operational;
   }
-  */
+  
   public function setPrice(float $price) : void
   {
     $this->line_price = $price;
   }
   
-  public function setFrequency(Frequency $frequency) :void
+  public function setFrequency(array $frequency) : void
   {
     $this->frequency = $frequency;
   }
   
-  /*
   public function setOperational(bool $operational) : void
   {
     $this->operational = $operational;
   }
-  */
-  
- //o parametro precisa ser uma string e não DateTime
- //mudança no DateTime da viagem se faz necessário recalcular a duração do Voo(DateInterval)
+
+
  public function setExpectedDepartureTime(string $new_expected_departure_time) : void
   {
     $this->expected_departure_time->modify($new_expected_departure_time);

@@ -11,7 +11,7 @@ class Client
     private string $cpf;
     private string $email;
     private string $nacionality;
-    private Datetime $birth;
+    private DateTime $birth;
     private string $document;
     private bool $vip;
     private $flights = [];
@@ -23,7 +23,7 @@ class Client
                                 string $cpf,
                                 string $email,
                                 string $nacionality,
-                                Datetime $birth,
+                                DateTime $birth,
                                 string $document,
                                 bool $vip)
     {
@@ -63,7 +63,7 @@ class Client
         return $this->nacionality;
     }
 
-    public function getBirth() : Datetime
+    public function getBirth() : DateTime
     {
         return $this->birth;
     }
@@ -114,7 +114,18 @@ class Client
             return false;
         }  
     }
-
+    public function BirthValidation(DateTime $birth)
+    {
+        $d = $birth->format('d');
+        $m = $birth->format('m');
+        $y = $birth->format('y');
+        if(checkdate($d, $m, $y)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
     // Função que printa na tela as informações do passageiro
     // Deve ficar em travel 

@@ -39,6 +39,6 @@ class FullTicket
     public function __destruct()
     {
         echo "Full Ticket object was destroyed.";
-        
     }
+
 }

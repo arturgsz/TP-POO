@@ -1,9 +1,8 @@
 <?php
 /*
-Esse é um arquivo de teste
-Testando todas as funcionalidades da classe FlightLines
+Esse é o arquivo de teste da classe FlightLines
 */
-
+require_once 'src/FlightLines.php';
 require_once './src/FlightLines.php';
 require_once './src/Airplane.php';
 require_once './src/Airport.php';
@@ -18,11 +17,10 @@ $airportGarulhos = new Airport('Aeroporto de Garulhos','ABC','Garulhos','São Pa
 //Aeroporto de Belo Horizonte
 $airportBH = new Airport('Aeroporto de Belo Horizonte','DEF','Belo Horizonte','Minas Gerais');
 
-$data_departure_time = new Datetime('2014-06-20 11:45:00'); //partida padrão
-$data_arrival_time = new DateTime('2014-06-20 13:45:00'); 
+$data_departure_time = new Datetime('2023-05-05 11:45:00'); //partida padrão
+$data_arrival_time = new DateTime('2023-05-05 13:45:00'); 
 
-$FlightLines = new FlightLines($airportGarulhos, $airportBH, $data_departure_time,$data_arrival_time, $airplaneBoeing, true, Frequency::DAILY, 200.0);
-
+$FlightLines = new FlightLines($airportGarulhos, $airportBH, $data_departure_time,$data_arrival_time, $airplaneBoeing, true,['Sun','Mon'], 200.0);
 
 
 //getOrigin() -> o retorno dessa função é um objeto da classe Airport
@@ -44,7 +42,7 @@ echo ($FlightLines->getExpectedDepartureTime()->format('Y/m/d H:i:s')) . PHP_EOL
 echo ($FlightLines->getExpectedArrivalTime()->format('Y/m/d H:i:s')) . PHP_EOL;
 
 //getDuracao()
-echo "{$FlightLines->getDuracao()->h} horas e {$FlightLines->getDuracao()->i} minutos" . PHP_EOL;
+echo "{$FlightLines->getDuracao()->d} dia(s) {$FlightLines->getDuracao()->h} hora(s) e {$FlightLines->getDuracao()->i} minuto(s)" . PHP_EOL;
 
 //getPrice
 echo ($FlightLines->getPrice()) . PHP_EOL;
@@ -55,10 +53,8 @@ echo ($FlightLines->getlugadgeprice()) . PHP_EOL;
 //getFrequency() -> o retorno da função é do tipo enum Frequency
 var_dump($FlightLines->getFrequency()); echo PHP_EOL;
 
-/*
 //isOperacional() -> o retorno dessa função é bool
-echo ($FlightLines->isOperacional());
-*/
+var_dump($FlightLines->isOperational());
 
 $FlightLines->informacoes();
 
@@ -86,22 +82,22 @@ $FlightLines->setAirplane($airplaneAirbus);
 
 //Mudança na Frequencia
 //setFrequency(Frequency $frequency)
-$FlightLines->setFrequency(Frequency::WEEKLY);
+$FlightLines->setFrequency(['Tue']);
 
-/*
 //setOperational(bool $operational)
 $FlightLines->setOperational(False);
-*/
+
 
 //setPrice(float $price)
 $FlightLines->setPrice(300);
 
 //Mudança no horário do FlightLines
-$new_data_departure_time = '2014-06-20 12:00:00';
-$new_data_arrival_time = '2014-06-20 15:00:00';
+$new_data_departure_time = '2023-05-08 12:00:00';
+$new_data_arrival_time = '2023-05-08 15:00:00';
 
 $FlightLines->setExpectedDepartureTime($new_data_departure_time);
 $FlightLines->setExpectedArrivalTime($new_data_arrival_time);
-var_dump($FlightLines->getDuracao()->h);
-$FlightLines->informacoes();
 
+$FlightLines->informacoes();
+//var_dump($FlightLines->getTravel());
+//$FlightLines->VoosCriados();

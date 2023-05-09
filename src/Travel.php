@@ -15,8 +15,8 @@ class Travel
   private Airplane $airplane; 
   private string $Travel_code; // 2 letras seguida de 4 digitos
   private string $code; 
-  private DateTime $departure_time; 
-  private DateTime $arrival_time;
+  private DateTimeImmutable $departure_time; 
+  private DateTimeImmutable $arrival_time;
   private DateInterval $duracaoVoo;
   private float $line_price; //preço definido pelo FlightLines
   private float $lugadge_price; //valor unitario definido pela companhia aerea
@@ -29,8 +29,8 @@ class Travel
     public function __construct(string $linhadeVoo,
                                 Airport $origin,
                                 Airport $destiny,
-                                DateTime $expected_departure_time,
-                                DateTime $expected_arrival_time,
+                                DateTimeImmutable $expected_departure_time,
+                                DateTimeImmutable $expected_arrival_time,
                                 Airplane $airplane,
                                 float $line_price,
                                 float $lugadge_price)
@@ -59,7 +59,6 @@ class Travel
       array_push($tickets, $ticket_); 
       }
      */
-    }
   
     /*
     public function Add_ticket(FlightTicket $flightTicket)
@@ -67,13 +66,12 @@ class Travel
       array_push($tickets, $flightTicket); //conferir se é assim
     }    
     */
-  
     }
     private function TravelCodigo(string $sigla, string $code) : string
     {
       return $sigla . strval($code);
     }
-    private function duracaoVoo(DateTime $departure_time,DateTime $arrival_time) : DateInterval
+    private function duracaoVoo(DateTimeImmutable $departure_time,DateTimeImmutable $arrival_time) : DateInterval
     {
       $interval = $this->getArrivalTime()->diff($this->getDepartureTime());
       return $interval;   
@@ -114,12 +112,12 @@ class Travel
     {
       return $this->airplane;
     }
-    public function getDepartureTime() : DateTime
+    public function getDepartureTime() : DateTimeImmutable
     {
       return $this->departure_time;
     }
 
-    public function getArrivalTime() : DateTime
+    public function getArrivalTime() : DateTimeImmutable
     {
       return $this->arrival_time;
     }
@@ -143,6 +141,10 @@ class Travel
       $this->Travel_code = Travel::TravelCodigo($this->siglaFlightCompany,$this->code);
       $this->lugadge_price = $this->airplane->getLuggadge();
     }
+  /*
+  Como a data de chegada e data de partida estão como DateTimeImmutable não será possivel setar as datas da travel
+  */
+  /*
     public function setDepartureTime(string $new_departure_time) : void
     {
       $this->departure_time->modify($new_departure_time);
@@ -153,7 +155,7 @@ class Travel
       $this->arrival_time->modify($new_arrival_time);
       $this->duracaoVoo = Travel::duracaoVoo($this->departure_time,$new_arrival_time);
     }
-   
+  */ 
     public function informacoes() : void
     {
     echo ("INFORMAÇÕES DO VOO" . PHP_EOL.

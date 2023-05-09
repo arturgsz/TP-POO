@@ -58,34 +58,36 @@ class FlightLines
     if($operational) {
       $datetime = $expected_departure_time->format('Y/m/d H:i:s');
       $datetime_arrival = $expected_arrival_time->format('Y/m/d H:i:s');
-      $novaData = new DateTime($datetime);
-      $novaPartida = new DateTime($datetime_arrival);
+      $dataPartida = new DateTime($datetime);
+      $dataChegada = new DateTime($datetime_arrival);
       foreach($frequency as $freq) {
       $frequencia = $freq;
-      $diadasemana = $novaData->format('D');
+      $diadasemana = $dataPartida->format('D');
       while($diadasemana != $frequencia)
       {
-        $novaData->add(new DateInterval('P1D'));
-        $novaPartida->add(new DateInterval('P1D'));
+        $dataPartida->add(new DateInterval('P1D'));
+        $dataChegada->add(new DateInterval('P1D'));
         
-        $diadasemana = $novaData->format('D');
+        $diadasemana = $dataPartida->format('D');
       }
       for($i=0 ; $i < 5; $i++)
       {
+        $dataPartidaTravel = new DateTimeImmutable($dataPartida->format('Y/m/d H:i:s'));
+        $dataChegadaTravel = new DateTimeImmutable($dataChegada->format('Y/m/d H:i:s'));
         $travel = new Travel($this->code,
                              $this->origin,
                              $this->destiny,
-                             $novaData,
-                             $novaPartida,
+                             $dataPartidaTravel,
+                             $dataChegadaTravel,
                              $this->airplane,
                              $this->line_price,
                              $this->lugadge_price);
-       // $array_travel[] = $travel;
-        $novaData->add(new DateInterval('P7D')); 
-        $novaPartida->add(new DateInterval('P7D'));
+        $this->array_travel[] = $travel;
+        $dataPartida->add(new DateInterval('P7D')); 
+        $dataChegada->add(new DateInterval('P7D'));
       }
-      $novaData = new dateTime($datetime);
-      $novaPartida = new dateTime($datetime_arrival);
+      $dataPartida = new dateTime($datetime);
+      $dataChegada = new dateTime($datetime_arrival);
      }
    }
  }
@@ -97,9 +99,7 @@ class FlightLines
   }
   
  // Setters and Getters
-  
   //Travel
-  /*
   public function getTravel() : array
   {
     return $this->array_travel;
@@ -112,8 +112,6 @@ class FlightLines
       $travel->informacoes();
     } 
   }
-  */
-  
   //Airport
   public function getOrigin() : Airport
   {
@@ -123,7 +121,6 @@ class FlightLines
   {
     return $this->destiny;
   }
-  
   public function setOrigin(Airport $origin) : void
   {
     $this->origin = $origin;
@@ -132,7 +129,6 @@ class FlightLines
   {
     $this->destiny = $destiny;
   }
-  
   //Airplane
   public function getAirplane() : Airplane
   {
@@ -143,23 +139,19 @@ class FlightLines
     $this->airplane = $Airplane;
     $this->lugadge_price = $this->airplane->getLuggadge();
   }
-  
   //FlightLines
   public function getCode() : string
   {
     return $this->code;
   }
-  
   public function getExpectedDepartureTime() : DateTime
   {
     return $this->expected_departure_time;
   }
-  
   public function getExpectedArrivalTime() : DateTime
   {
     return $this->expected_arrival_time;
   }
-  
   public function getDuracao() : DateInterval
   {
     return $this->duracao_estimada;

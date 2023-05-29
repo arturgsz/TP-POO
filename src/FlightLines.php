@@ -20,18 +20,18 @@ sabado => Sat
 
 class FlightLines 
 {
-  private Airport $origin; 
-  private Airport $destiny;
-  private DateTime $expected_departure_time;
-  private DateTime $expected_arrival_time;
-  private DateInterval $duracao_estimada;
-  private Airplane $airplane; 
-  private string $code; //código da linha de voo
-  private bool $operational;
-  private $frequency = [];  //frequencia do voo
-  private float $line_price;
-  private float $lugadge_price; //valor unitario da bagagem
-  private $array_travel = [];  //array de objetos do tipo Travel
+  public Airport $origin; 
+  public Airport $destiny;
+  public DateTime $expected_departure_time;
+  public DateTime $expected_arrival_time;
+  public DateInterval $duracao_estimada;
+  public Airplane $airplane; 
+  public string $code; //código da linha de voo
+  public bool $operational;
+  public $frequency = [];  //frequencia do voo
+  public float $line_price;
+  public float $lugadge_price; //valor unitario da bagagem
+  public $array_travel = [];  //array de objetos do tipo Travel
 
    public function __construct(Airport $origin,
                               Airport $destiny,
@@ -47,7 +47,7 @@ class FlightLines
     $this->expected_departure_time = $expected_departure_time;
     $this->expected_arrival_time = $expected_arrival_time;
     $this->airplane = $airplane;
-    $this->code = rand(1000,9999);
+    $this->code = $this->airplane->flightCompany->sigla + rand(1000,9999);
     $this->duracao_estimada = FlightLines::duracaoVoo($expected_departure_time,$expected_arrival_time);
     $this->operational = $operational;
     $this->frequency = $frequency;
@@ -97,8 +97,14 @@ class FlightLines
     $interval = $this->getExpectedArrivalTime()->diff($this->getExpectedDepartureTime());
     return $interval;   
   }
+
+  public function Create_next_travel() : Travel
+  {
+    //implementar
+  }
+
   
- // Setters and Getters
+  // Setters and Getters
   //Travel
   public function getTravel() : array
   {
@@ -112,6 +118,7 @@ class FlightLines
       $travel->informacoes();
     } 
   }
+  
   //Airport
   public function getOrigin() : Airport
   {
@@ -190,12 +197,11 @@ class FlightLines
       $this->duracao_estimada = FlightLines::duracaoVoo($new_expected_departure_time,$this->expected_arrival_time);
   }
   public function setExpectedArrivalTime(string $new_expected_arrival_time): void
-   {
+  {
     $this->expected_arrival_time->modify($new_expected_arrival_time);
     $this->duracao_estimada = FlightLines::duracaoVoo($this->expected_departure_time,$new_expected_arrival_time); 
    }
-
-   public function informacoes() : void
+  public function informacoes() : void
   {
     $frequencia = '';
     foreach($this->getFrequency() as $freq) {

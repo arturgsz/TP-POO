@@ -3,6 +3,8 @@
  * This is the class for the Airport object.
  */
 
+require_once 'Adress.php';
+
 class Airport
 {
     // Attributes
@@ -10,12 +12,15 @@ class Airport
     private string $sigla;  //possui três letras
     private string $city;
     private string $state;
+    private Adress $adress;
+  
 
     // Constructor
     public function __construct(string $name,
                                 string $sigla,
                                 string $city,
-                                string $state)
+                                string $state,
+                                Adress $adress)
     {
       $this->name = $name;
       
@@ -23,10 +28,10 @@ class Airport
         $sigla = mb_strtoupper($sigla);
         $this->sigla = $sigla;
       }
-        
-      
+    
       $this->city = $city;
       $this->state = $state;
+      $this->adress = $adress;
     }
 
     //função para verificar a sigla dos aeroportos
@@ -44,31 +49,31 @@ class Airport
     }
 
     // Getters and Setters
-    public function getName() :string
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getSigla() :string
+    public function getSigla() : string
     {
         return $this->sigla;
     }
 
-    public function getCity() :string
+    public function getCity() : string
     {
         return $this->city;
     }
 
-    public function getState() :string
+    public function getState() : string
     {
         return $this->state;
     }
 
-    public function setName(string $name) :void
+    public function getAdress() : Adress
     {
-        $this->name = $name;
+        return $this->adress;
     }
-
+  
     public function setSigla(string $sigla) :void
     {
       if(Airport::confereSigla($sigla)){
@@ -76,18 +81,8 @@ class Airport
         $this->sigla = $sigla;
       }
     }
-
-    public function setCity(string $city) :void
-    {
-        $this->city = $city;
-    }
-
-    public function setState(string $state) :void
-    {
-        $this->state = $state;
-    }
   
-     public function informacoes() : void
+    public function informacoes() : void
     {
       echo ("INFORMAÇÕES DO AERPORTO: {$this->getName()}" . PHP_EOL .
             "Sigla: {$this->getSigla()}" . PHP_EOL .

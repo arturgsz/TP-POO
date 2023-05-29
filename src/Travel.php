@@ -5,47 +5,47 @@
 
 require_once 'FlightLines.php';
 require_once 'Airplane.php';
-//require_once 'Ticket.php';
 
 class Travel
 {
-  private string $linhadeVoo;
+  private FlightLines $linhadeVoo;
   private Airport $origin; 
   private Airport $destiny;
   private Airplane $airplane; 
   private string $Travel_code; // 2 letras seguida de 4 digitos
   private string $code; 
-  private DateTimeImmutable $departure_time; 
-  private DateTimeImmutable $arrival_time;
+  private DateTime $departure_time; 
+  private DateTime $arrival_time;
   private DateInterval $duracaoVoo;
   private float $line_price; //preço definido pelo FlightLines
   private float $lugadge_price; //valor unitario definido pela companhia aerea
   private $seat = []; //assentos 
 
-    //int $max_ticket
-    //private Ticket $ticket;
-    //private $tickets = [];
 
-    public function __construct(string $linhadeVoo,
-                                Airport $origin,
-                                Airport $destiny,
-                                DateTimeImmutable $expected_departure_time,
-                                DateTimeImmutable $expected_arrival_time,
-                                Airplane $airplane,
-                                float $line_price,
-                                float $lugadge_price)
+    public function __construct(FlightLines $linhadeVoo,
+                                // Airport $origin,
+                                // Airport $destiny,
+                                // DateTime $expected_departure_time,
+                                // DateTime $expected_arrival_time,
+                                // Airplane $airplane,
+                                // float $line_price,
+                                // float $lugadge_price
+                                )
     { 
       $this->linhadeVoo = $linhadeVoo;
       $this->code = rand(1000,9999);
-      $this->origin = $origin;
-      $this->destiny = $destiny;
-      $this->departure_time = $expected_departure_time;
-      $this->arrival_time = $expected_arrival_time;
-      $this->airplane = $airplane;
-      $this->line_price = $line_price;
-      $this->lugadge_price = $lugadge_price;
-      $this->Travel_code = Travel::TravelCodigo($this->airplane->getFlightCompany()->getSigla(),$this->code);
-      $this->duracaoVoo = Travel::duracaoVoo($this->departure_time,$this->arrival_time);
+      $this->origin = $linhadeVoo->origin;
+      $this->destiny = $linhadeVoo->destiny;
+      $this->departure_time = $linhadeVoo->expected_departure_time;
+      $this->arrival_time = $linhadeVoo->expected_arrival_time;
+      $this->airplane = $linhadeVoo->airplane;
+      $this->line_price = $linhadeVoo->line_price;
+      $this->lugadge_price = $linhadeVoo->lugadge_price;
+      $this->Travel_code = Travel::TravelCodigo($this->airplane->
+                                                getFlightCompany()->getSigla(),
+                                                $this->code);
+      $this->duracaoVoo = Travel::duracaoVoo($this->departure_time,
+                                             $this->arrival_time);
       $this->seat = Travel::CriaAssentos($this->seat);
 
       /*
@@ -71,11 +71,14 @@ class Travel
     {
       return $sigla . strval($code);
     }
-    private function duracaoVoo(DateTimeImmutable $departure_time,DateTimeImmutable $arrival_time) : DateInterval
+  
+    private function duracaoVoo(DateTime $departure_time,
+                                DateTime $arrival_time) : DateInterval
     {
       $interval = $this->getArrivalTime()->diff($this->getDepartureTime());
       return $interval;   
     }
+  
     //essa função cria os assentos da Travel :)
     private function CriaAssentos(array $seat) : array
     {
@@ -89,9 +92,28 @@ class Travel
 
       return $seat;
     }
+  
+    public function MostraAssentos() : void
+    {     
+      echo "Assentos disponíveis em voo: <br>";
+      for($i=0; $i < sizeof($this->seat); $i++)
+      {
+        echo $this->seat[$i] . " ";
+      }
+      echo "<br><br>";
+    }
+
+    public function CreateTicket () : void
+    {
+        
+    }
 
   
     // Getters and Setters
+    public function getFlightLine() : FlightLines
+    {
+      return $this->linhadeVoo;
+    }  
     public function getOrigin() : Airport
     {
       return $this->origin;
@@ -112,12 +134,11 @@ class Travel
     {
       return $this->airplane;
     }
-    public function getDepartureTime() : DateTimeImmutable
+    public function getDepartureTime() : DateTime
     {
       return $this->departure_time;
     }
-
-    public function getArrivalTime() : DateTimeImmutable
+    public function getArrivalTime() : DateTime
     {
       return $this->arrival_time;
     }
@@ -128,8 +149,7 @@ class Travel
     public function getPrice() : float
     {
       return $this->line_price;
-    }
-    
+    }    
     public function getLuggadge() : float
     {
       return $this->lugadge_price;
@@ -142,7 +162,7 @@ class Travel
       $this->lugadge_price = $this->airplane->getLuggadge();
     }
   /*
-  Como a data de chegada e data de partida estão como DateTimeImmutable não será possivel setar as datas da travel
+  Como a data de chegada e data de partida estão como DateTime não será possivel setar as datas da travel
   */
   /*
     public function setDepartureTime(string $new_departure_time) : void

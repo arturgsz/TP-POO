@@ -37,11 +37,13 @@ echo "<br>---<br>";
 
 
 // Criando aeroportos;
-$Aeroporto_Pampulha = new Airport('Aeroporto Pampulha', 'PLU', 'Belo Horizonte', 'Minas Gerais');
+$Adress_AeroPamp = new Adress ('Praça Bagatelle', 'São Luis', 'Belo Horizonte', 204, 31270705);
+$Aeroporto_Pampulha = new Airport('Aeroporto Pampulha', 'PLU', 'Belo Horizonte', 'Minas Gerais', $Adress_AeroPamp);
 var_dump($Aeroporto_Pampulha);
 echo "Airport: PAMPULHA"; echo "<br>";
 echo "<br>---<br>";
-$Aeroporto_Guarulhos = new Airport('Aeroporto de Guarulhos', 'GRU', 'Guarulhos', 'São Paulo');
+$Adress_AeroGru = new Adress ('Rod. Hélio Smidt', 'Aeroporto', 'Guarulhos', 0, 7190100);
+$Aeroporto_Guarulhos = new Airport('Aeroporto de Guarulhos', 'GRU', 'Guarulhos', 'São Paulo', $Adress_AeroGru);
 echo "Airport: GUARULHOS"; echo "<br>";
 var_dump($Aeroporto_Guarulhos);
 echo "<br>---<br>";
@@ -63,7 +65,7 @@ echo "<br>---<br>";
 echo "Passenger: ARTUR"; echo "<br>";
 $nascimento_Artur = new DateTime('16-06-2003');
 $Passenger_Artur = new Passenger('Artur', 'Souza', '02339430640', 'arturgdes2003@gmail.com',
-                                 'Brasileiro', $nascimento_Artur, false);
+                                 'Brasileiro', $nascimento_Artur, "doc123", false);
 var_dump($Passenger_Artur);
 echo "<br>---<br>";
 
@@ -71,8 +73,8 @@ echo "<br>---<br>";
 try{
 echo "Passenger: JULIETA"; echo "<br>";
 $nascimento_Julieta = new DateTime('13-07-1972');
-$Passenger_Artur = new Passenger('Julieta', 'Souza', '567.432.466-20', 'julietasouza@gmail',
-                                 'Brasileira', $nascimento_Julieta, false);
+$Passenger_Julieta = new Passenger('Julieta', 'Souza', '567.432.466-20', 'julietasouza@gmail',
+                                 'Brasileira', $nascimento_Julieta, "doc345", false);
 var_dump($Passenger_Julieta);
 echo "<br>---<br>";
 }catch(Exception $e){
@@ -84,12 +86,15 @@ echo "Travel: TRAVEL: PAMPULHA - GUARULHOS"; echo "<br>";
 $Travel_Pampulha_Guarulhos = new Travel ($Pampulha_Guarulhos);
 $Travel_Pampulha_Guarulhos->informacoes();
 echo "<br>---<br>";
-echo $Travel_Pampulha_Guarulhos->getTravelCode();
+echo $Travel_Pampulha_Guarulhos->getCode();
 echo "<br>---<br>";
 
 //Criando Flight Ticket
 echo "Flight Ticket: TICKET PAMPULHA-GUARULHOS"; echo "<br>";
 $Ticket_Pampulha_Guarulhos = new FlightTicket ($Travel_Pampulha_Guarulhos, $Passenger_Artur, 10, 1);
 //var_dump($Ticket_Pampulha_Guarulhos);
-$Ticket_Pampulha_Guarulhos->informacoes();
+var_dump($Ticket_Pampulha_Guarulhos);
 echo "<br>---<br>";
+
+$Travel_Pampulha_Guarulhos->MostraAssentos();
+

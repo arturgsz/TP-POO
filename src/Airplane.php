@@ -6,27 +6,25 @@ require_once 'FlightCompany.php';
 
 class Airplane
 {
-  private FlightCompany $FlightCompany; //pertencimento
-  
+  private FlightCompany $flightCompany; //pertencimento
   private string $manufacturer;
   private string $model;
   private string $airplane_register; 
-  private int $capacity_passenger; 
-  private float $capacity_cargo; 
+  private int $capacity_passenger;
+  private float $capacity_cargo;
 
   //esse valor é dado pela Companhia Aerea
   private float $luggadge; //preço unitario por bagagem
 
 
-  public function __construct(FlightCompany $FlightCompany,
-                              string $manufacturer, 
+  public function __construct(FlightCompany $flightCompany,
+                              string $manufacturer,
                               string $model,
                               string $airplane_register,
                               int $capacity_passenger,
                               float $capacity_cargo)
   {
-    $this->FlightCompany = $FlightCompany;
-      
+    $this->FlightCompany = $flightCompany;
     $this->manufacturer = $manufacturer;
     $this->model = $model;
   
@@ -37,7 +35,7 @@ class Airplane
     
     $this->capacity_passenger = $capacity_passenger;
     $this->capacity_cargo= $capacity_cargo;   
-    $this->luggadge = $FlightCompany->getLuggadge();
+    $this->luggadge = $flightCompany->getLuggadge();
   }
 
   //função para conferir o registro  

@@ -4,13 +4,13 @@
  */
 
 require_once './src/Travel.php' ;
-require_once './src/Client.php';
+require_once './src/Passenger.php';
 
 class FlightTicket
 { 
     private Travel $Travel;
     private string $code;
-    private Client $Client;
+    private Passenger $Passenger;
     private int $seat;
     private string $origin;
     private string $destiny;
@@ -19,32 +19,40 @@ class FlightTicket
 
     
     // Constructor
-    public function __construct(Travel $Travel,
-                                Client $Client,
-                                int $seat,
-                                int $luggadge)
+    public function __construct(Travel $Travel//,
+                                //Passenger $Passenger,
+                                //int $seat,
+                                //int $luggadge
+                                )
     {
       $this->Travel = $Travel;
       $this->code = rand(1000,9999);
-      $this->Client = $Client;
+      $this->Passenger = $Passenger;
       $this->seat = $seat;
-
       $this->origin = $Travel->getFlightLine()->getOrigin()->getName();
       $this->destiny = $Travel->getFlightLine()->getDestiny()->getName();
-
-      $this->luggadge = $luggadge;
-      
-      $this->price_flight = FlightTicket::calc_price($this->luggadge);
-        
+      $this->luggadge = $luggadge;      
+      $this->price_flight = FlightTicket::Calc_price($this->luggadge);        
     }
 
-    private function calc_price(int $luggadge) : float
+    private function Calc_price(int $luggadge) : float
     { 
                      //preço do Voo         //nº de bagagem    *     valor unitario
-      return ($this->getTravel()->getPrice() + $luggadge * ($this->getTravel()->getLuggadge()));
+      return ($this->getTravel()->getPrice() + $luggadge *
+              ($this->getTravel()->getLuggadge()));
        
     }
+  
+    private function Check_in() : bool
+    {
+      //implementar
+    }
 
+    private function On_board() : bool
+    {
+      //implementar
+    }
+    
     
     //Getters and Setters
     public function getTravel() : Travel
@@ -54,13 +62,11 @@ class FlightTicket
     public function getCode() 
     {
         return $this->code;
-    }
-     
-    public function getClient() : Client
+    }     
+    public function getPassenger() : Passenger
     {
-     return $this->Client;
-    }
-  
+     return $this->Passenger;
+    }  
     public function getOrigin() : string
     {
       return $this->origin;
@@ -73,43 +79,23 @@ class FlightTicket
     {
         return $this->luggadge;
     }
-
     public function getPrice() : float
     {
         return $this->price_flight;
     }
-
     public function getSeat() : int
     {
         return $this->seat;
     }
-
     public function setLuggadge(int $luggadge)
     {
         $this->luggadge = $luggadge;
         $this->price_flight = FlightTicket::calc_price($this->luggadge);
     }
-
     public function setSeat(string $seat)
     {
         $this->seat = $seat;
     }
-
-
-    public function informacoes() : void
-    {
-      echo ("INFORMAÇÕES DO TICKET {$this->getCode()}" . PHP_EOL .
-            "Codigo do Voo: {$this->getTravel()->getFlightCode()}" . PHP_EOL .
-            "Origem: {$this->getOrigin()}" . PHP_EOL .
-            "Destino: {$this->getDestiny()}" . PHP_EOL .
-            "Cliente: {$this->getClient()->getName()} {$this->getClient()->getSurname()}" . PHP_EOL .
-            "Assento: {$this->getSeat()}" . PHP_EOL .
-            "Preço Bagagem: {$this->getTravel()->getLuggadge()}" . PHP_EOL .
-            "Preço Voo: {$this->getTravel()->getPrice()}" . PHP_EOL . 
-            "Preço Total: (nº de bagagem) {$this->getLuggadge()} * {$this->getTravel()->getLuggadge()} + {$this->getTravel()->getPrice()} = {$this->getPrice()}" . PHP_EOL . PHP_EOL);
-    }
-
-
     
     // Destructor
     public function __destruct()

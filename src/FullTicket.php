@@ -13,24 +13,34 @@ class FullTicket
 
 
     //Methods
-    public function Add_ticket(FlightTicket $flightTicket)
+    public function Add_ticket(FlightTicket $flightTicket) : void
     {
-        array_push($this->tickets, $flightTicket); //conferir se é assim
+        array_push($this->tickets, $flightTicket);
     }
 
-    public function Calc_price()
+    public function Calc_price() : float
     {
         for($i=0; $i < count($this->tickets); $i++){
             $this->price += $this->tickets[$i]->price;
         }
     }
-    //Getters and Setters
-    public function getPrice()
+
+    public function alteracao () : void
+    {
+      //implementar
+    }
+  
+    public function cancelamento () : void
+    {
+      //implementar
+    }
+  
+    //Getters
+    public function getPrice() : float
     {
         return $this->price;
     }
-
-    public function getTickets()
+    public function getTickets() : array
     {
         return $this->tickets;
     }

@@ -1,9 +1,9 @@
 <?php
-/* Client.php
+/* Passenger.php
  * This is the class for the Passenger object.
  */
 
-class Client
+class Passenger
 {
     // Attributes
     private string $name;
@@ -37,50 +37,9 @@ class Client
         $this->vip = $vip;
     }
 
-    // Getters and Setters
-    public function getName() : string
-    {
-        return $this->name;
-    }
-
-    public function getSurname() : string
-    {
-        return $this->surname;
-    }
-
-    public function getCpf() : string
-    {
-        return $this->cpf;
-    }
-
-    public function getEmail() : string
-    {
-        return $this->email;
-    }
-
-    public function getNacionality() : string
-    {
-        return $this->nacionality;
-    }
-
-    public function getBirth() : DateTime
-    {
-        return $this->birth;
-    }
-
-    public function getDocument() : string
-    {
-        return $this->document;
-    }
-
-    public function getVip() : bool
-    {
-        return $this->vip;
-    }
+      //Validations
     
-    //Validations
-    
-    public function CpfValidation($cpf)
+    public function CpfValidation($cpf) : bool
     {
     // Extrai somente os números
     $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
@@ -104,8 +63,8 @@ class Client
     } 
     return true;
     }
-
-    public function EmailValidation($email)
+  
+    public function EmailValidation($email) : bool
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
@@ -114,7 +73,8 @@ class Client
             return false;
         }  
     }
-    public function BirthValidation(DateTime $birth)
+  
+    public function BirthValidation(DateTime $birth) : bool
     {
         $d = $birth->format('d');
         $m = $birth->format('m');
@@ -126,26 +86,66 @@ class Client
             return false;
         }
     }
-    
-    // Função que printa na tela as informações do passageiro
-    // Deve ficar em travel 
-    // public function Show_Passenger(){ 
-    // for ($i=0; $i < count($this->flights); $i++)
-    //     echo"Nome do passageiro: {$this->name[$i]}\n";
-    //     echo"Sobrenome do passageiro: {$this->surname[$i]}\n";
-    //     echo"CPF do passageiro: {$this->cpf[$i]}\n";
-    //     echo"Email do passageiro: {$this->email[$i]}\n";
-    //     echo"Nacionalidade do passageiro: {$this->nacionality[$i]}\n";
+
+    //adicionar aqui toda vez que o passageiro executar um voo
+    public function Add_flight (FlightLine $flight) : void
+    {
+      array_push($this->flights, $flight);
+    }
+
+    public function Show_flight () : void
+    {
+      echo "Voos de: " . $this->name  . " " . $this->surname . "<br>";
+      for($i = 0; $i < sizeof($this->flights); $i++){
+        echo $this->flights[$i]->origin . " até " . $this->flights[$i]->destiny . "<br>";
+        echo "Início do voo: " . $this->flights[$i]->expected_departure_time . " por R$" .
+          $this->flights[$i]->line_price . "<br>";
+      }
+      echo "<br";
+    }
+
+    // Getters and Setters
+    public function getName() : string
+    {
+        return $this->name;
+    }
+    public function getSurname() : string
+    {
+        return $this->surname;
+    }
+    public function getCpf() : string
+    {
+        return $this->cpf;
+    }
+    public function getEmail() : string
+    {
+        return $this->email;
+    }
+    public function getNacionality() : string
+    {
+        return $this->nacionality;
+    }
+    public function getBirth() : DateTime
+    {
+        return $this->birth;
+    }
+    public function getDocument() : string
+    {
+        return $this->document;
+    }
+    public function getVip() : bool
+    {
+        return $this->vip;
+    }
+    public function getFlights() : array
+    {
+        return $this->flights;
+    }
         
-    // } 
-    
-    
-    
-  
     
     // Destructor
     public function __destruct()
     {
-        echo "The object client {$this->name} {$this->surname} was destroyed." . PHP_EOL;
+        echo "The object Passenger {$this->name} {$this->surname} was destroyed.";
     }
 }

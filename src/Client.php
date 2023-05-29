@@ -8,45 +8,75 @@ class Client
     // Attributes
     private string $name;
     private string $surname;
-    private string $document;
-    //private Ticket $ticket;
+    private string $cpf;
+    private string $email;
 
     // Constructor
     public function __construct(string $name, 
                                 string $surname, 
-                                string $document)
+                                string $cpf,
+                                string $email)
     {
         $this->name = $name;
         $this->surname = $surname;
-        $this->document = $document;
+        $this->cpf = $cpf;
+        $this->email = $email;
     }
-
+  
+    public function CpfValidation($cpf) : bool
+    {
+    // Extrai somente os números
+    $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+    // Verifica se foi informado todos os digitos corretamente
+    if (strlen($cpf) != 11) {
+        return false;
+    }
+    // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+    if (preg_match('/(\d)\1{10}/', $cpf)) {
+        return false;
+    }
+    // Faz o calculo para validar o CPF
+    for ($t = 9; $t < 11; $t++) {
+        for ($d = 0, $c = 0; $c < $t; $c++) {
+            $d += $cpf[$c] * (($t + 1) - $c);
+        }
+        $d = ((10 * $d) % 11) % 10;
+        if ($cpf[$c] != $d) {
+            return false;
+        }
+    } 
+    return true;
+    }
+    public function EmailValidation($email) : bool
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return true;
+         }
+         else{
+            return false;
+        }  
+    }
     // Getters and Setters
     public function getName() : string
     {
         return $this->name;
     }
-
     public function getSurname() : string
     {
         return $this->surname;
     }
-
-    public function getDocument() : string
+    public function getCpf() : string
     {
-        return $this->document;
+        return $this->cpf;
     }
-
-    public function informacoes() : void
-   {
-    echo ("Informações do Cliente: {$this->getname()} {$this->getSurname()}" . PHP_EOL .
-          "Documento: {$this->getDocument()}" . PHP_EOL . PHP_EOL);
-   }
-
+    public function getEmail() : string
+    {
+        return $this->email;
+    }
 
     // Destructor
     public function __destruct()
     {
-        echo "The object client {$this->name} {$this->surname} was destroyed." . PHP_EOL;
+        echo "The object client {$this->name} {$this->surname} was destroyed.";
     }
 }

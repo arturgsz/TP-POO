@@ -35,7 +35,7 @@ class Route extends persist
   { //velocidade veículos = 18 km/h
     //ultimo a entrar no veiculo é o crew_members[0];
     //distancia (km) + tempo (float horas) do ultimo tripulante a entrar no veiculo:
-    $distancia = $this->calculaDistancia($this->crew_members[(0]->adress->coordenadas[0],
+    $distancia = $this->calculaDistancia($this->crew_members[0]->adress->coordenadas[0],
                                          $this->crew_members[0]->adress->coordenadas[1],
                                          $this->airport->adress->coordenadas[0],                                        
                                          $this->airport->adress->coordenadas[1]);

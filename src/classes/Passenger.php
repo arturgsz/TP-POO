@@ -3,7 +3,7 @@
  * This is the class for the Passenger object.
  */
 
-class Passenger
+class Passenger extends persist
 {
     // Attributes
     private string $name;
@@ -16,6 +16,8 @@ class Passenger
     private bool $vip;
     private $flights = [];
     //private Ticket $ticket;
+    protected static $local_filename = "Passenger.txt";
+       
 
     // Constructor
     public function __construct(string $name, 
@@ -147,5 +149,9 @@ class Passenger
     public function __destruct()
     {
         echo "The object Passenger {$this->name} {$this->surname} was destroyed.";
+    }
+    static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
     }
 }

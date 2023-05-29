@@ -3,12 +3,14 @@
  * This is the class for the Vehicle object.
  */
 
-class Vehicle
+class Vehicle extends persist
 {
     // Attributes
     private string $model;
     private string $license_plate;
     private int $capacidade;
+    protected static $local_filename = "Vehicle.txt";
+       
 
     // Constructor
     public function __construct(string $model, 
@@ -40,5 +42,9 @@ class Vehicle
     public function __destruct()
     {
         echo "The vehicle with license plate {$this->license_plate} was destroyed.";
+    }
+    static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
     }
 }

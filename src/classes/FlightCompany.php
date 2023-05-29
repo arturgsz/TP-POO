@@ -4,7 +4,7 @@
 * This is the class for the Flight Company object.
 */
 
-class FlightCompany
+class FlightCompany extends persist 
 {
   private string $name;
   private string $code;
@@ -16,7 +16,9 @@ class FlightCompany
   private $flight_lines = [];
   private MiliageProgram $miliage_program;
   private $tripulation = [];
-  
+  protected static $local_filename = "FlightCompany.txt";
+       
+
   public function __construct(string $name, 
                               string $code, 
                               string $razao_social, 
@@ -162,6 +164,10 @@ class FlightCompany
   public function __destruct()
   {
     echo "The object {$this->name} was destroyed." . PHP_EOL;
+  }
+  static public function getFilename()
+  {
+      return get_called_class()::$local_filename;
   }
 }
 

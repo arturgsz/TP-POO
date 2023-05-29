@@ -6,7 +6,7 @@
 require_once 'FlightLines.php';
 require_once 'Airplane.php';
 
-class Travel
+class Travel extends persist
 {
   private FlightLines $linhadeVoo;
   private Airport $origin; 
@@ -20,6 +20,8 @@ class Travel
   private float $line_price; //preço definido pelo FlightLines
   private float $lugadge_price; //valor unitario definido pela companhia aerea
   private $seat = []; //assentos 
+  protected static $local_filename = "Travel.txt";
+       
 
 
     public function __construct(FlightLines $linhadeVoo,
@@ -199,4 +201,8 @@ class Travel
     {
         echo "Travel object destroyed" . PHP_EOL;
     }
+  static public function getFilename()
+  {
+      return get_called_class()::$local_filename;
+  }
 }

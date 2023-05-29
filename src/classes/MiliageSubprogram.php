@@ -4,7 +4,7 @@
  */
 
 
-class MiliageSubprogram
+class MiliageSubprogram extends persist
 {
     // Attributes
     private string $name;
@@ -12,6 +12,7 @@ class MiliageSubprogram
     private string $benefits;
     private float $minimal_points;
     private $clients = [];
+    protected static $local_filename = "MiliageSubprogram.txt";
 
     // Constructor
     public function __construct(string $name, 
@@ -63,5 +64,10 @@ class MiliageSubprogram
     public function __destruct()
     {
         echo "The MiliagesubProgram {$this->name} was destroyed.";
+    }
+       
+    static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
     }
 }

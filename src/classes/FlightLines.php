@@ -18,7 +18,7 @@ sexta => Fri
 sabado => Sat
 */
 
-class FlightLines 
+class FlightLines extends persist
 {
   public Airport $origin; 
   public Airport $destiny;
@@ -32,6 +32,8 @@ class FlightLines
   public float $line_price;
   public float $lugadge_price; //valor unitario da bagagem
   public $array_travel = [];  //array de objetos do tipo Travel
+  protected static $local_filename = "FlightLines.txt";
+       
 
    public function __construct(Airport $origin,
                               Airport $destiny,
@@ -220,5 +222,9 @@ class FlightLines
           "Esta linha está operando: ");  
           var_dump($this->isOperational());
           echo PHP_EOL . PHP_EOL ;        
+  }
+  static public function getFilename()
+  {
+      return get_called_class()::$local_filename;
   }
 }

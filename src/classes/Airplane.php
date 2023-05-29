@@ -4,7 +4,7 @@
  */
 require_once 'FlightCompany.php';
 
-class Airplane
+class Airplane extends persist
 {
   private FlightCompany $flightCompany; //pertencimento
   private string $manufacturer;
@@ -15,6 +15,8 @@ class Airplane
 
   //esse valor é dado pela Companhia Aerea
   private float $luggadge; //preço unitario por bagagem
+  protected static $local_filename = "Airplane.txt";
+       
 
 
   public function __construct(FlightCompany $flightCompany,
@@ -137,4 +139,9 @@ class Airplane
   {
     echo "Airplane object destroyed." . PHP_EOL;
   }
+  static public function getFilename()
+  {
+      return get_called_class()::$local_filename;
+  }
+
 }

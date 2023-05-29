@@ -7,7 +7,7 @@ require_once 'Airport.php';
 require_once 'Vehicle.php';
 require_once 'Crew.php';
 
-class Route 
+class Route extends persist
 {
   private $crew_members = []; 
   private Vehicle $vehicle;
@@ -15,6 +15,8 @@ class Route
   private array $tempos = [];
   private DateTime $previsao_decolagem;
   private DateTime $tempo_inicio_rota;
+  protected static $local_filename = "Route.txt";
+       
 
   
   public function __construct(array $crew_members,
@@ -119,5 +121,9 @@ class Route
   public function __destruct()
   {
      echo "Route has been deleted.";
+  }
+  static public function getFilename()
+  {
+      return get_called_class()::$local_filename;
   }
 }

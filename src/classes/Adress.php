@@ -3,7 +3,7 @@
  * This is the class for the Adress object.
  */
 
-class Adress
+class Adress extends persist
 {
     // Attributes
     private string $rua;
@@ -12,6 +12,7 @@ class Adress
     private int $numero;
     private int $cep;
     private $coordenadas = [];
+    protected static $local_filename = "Adress.php";
 
     // Constructor
     public function __construct(string $rua, 
@@ -103,4 +104,10 @@ class Adress
     {
         echo "The adress with cep {$this->cep} was destroyed.";
     }
+
+    static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
+    }
 }
+

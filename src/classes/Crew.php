@@ -6,9 +6,7 @@
 require_once 'Airport.php';
 require_once 'Adress.php';
 
-
-
-class Crew 
+class Crew extends persist
 {
   private string $name;
   private string $surname;
@@ -20,6 +18,8 @@ class Crew
   private Adress $adress;
   private FlightCompany $flightcompany;
   private Airport $base_airport;
+  protected static $local_filename = "Crew.txt";
+       
 
   
   public function __construct(string $name,
@@ -196,5 +196,9 @@ class Crew
   public function __destruct()
   {
      echo "Crew {$this->name} has been deleted.";
+  }
+  static public function getFilename()
+  {
+      return get_called_class()::$local_filename;
   }
 }

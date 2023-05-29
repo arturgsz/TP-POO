@@ -6,7 +6,7 @@
 require_once './src/Travel.php' ;
 require_once './src/Passenger.php';
 
-class FlightTicket
+class FlightTicket extends persist
 { 
     private Travel $Travel;
     private string $code;
@@ -16,7 +16,8 @@ class FlightTicket
     private string $destiny;
     private float $price_flight;
     private int $luggadge; //numero de bagagens - até 3 bagagens de 23kg
-
+    protected static $local_filename = "FlightTicket.txt";
+       
     
     // Constructor
     public function __construct(Travel $Travel//,
@@ -102,4 +103,8 @@ class FlightTicket
     {
         echo "Flight Ticket with code {$this->code} was destroyed.";
     }
-}
+    static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
+    }
+  }

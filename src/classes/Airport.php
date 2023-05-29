@@ -5,7 +5,7 @@
 
 require_once 'Adress.php';
 
-class Airport
+class Airport extends persist
 {
     // Attributes
     private string $name;
@@ -13,7 +13,9 @@ class Airport
     private string $city;
     private string $state;
     private Adress $adress;
-  
+    protected static $local_filename = "Airport.txt";
+       
+    
 
     // Constructor
     public function __construct(string $name,
@@ -95,4 +97,8 @@ class Airport
     {
         echo "The object Airport {$this->name} was destroyed." . PHP_EOL;
     }
-}
+static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
+    }
+  }

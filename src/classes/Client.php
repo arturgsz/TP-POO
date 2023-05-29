@@ -3,14 +3,16 @@
  * This is the class for the Client object.
  */
 
-class Client
+class Client extends persist
 {
     // Attributes
     private string $name;
     private string $surname;
     private string $cpf;
     private string $email;
-
+    protected static $local_filename = "Client.txt";
+       
+    
     // Constructor
     public function __construct(string $name, 
                                 string $surname, 
@@ -78,5 +80,9 @@ class Client
     public function __destruct()
     {
         echo "The object client {$this->name} {$this->surname} was destroyed.";
+    }
+    static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
     }
 }

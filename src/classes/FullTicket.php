@@ -5,12 +5,14 @@
  */
 include_once('FlightTicket');
 
-class FullTicket
+class FullTicket extends persist
 {
     // Attributes
     private $tickets = [];
     private float $price = 0;
-
+    protected static $local_filename = "FullTicket.txt";
+       
+    
 
     //Methods
     public function Add_ticket(FlightTicket $flightTicket) : void
@@ -51,4 +53,8 @@ class FullTicket
         echo "Full Ticket object was destroyed.";
     }
 
+static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
+    }
 }

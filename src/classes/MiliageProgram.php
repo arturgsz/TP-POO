@@ -7,13 +7,14 @@ require_once 'FlightCompany.php';
 require_once 'MiliageSubprogram.php';
 
 
-class MiliageProgram
+class MiliageProgram extends persist
 {
     // Attributes
     private string $name;
     private FlightCompany $flightcompany;
     private $new_subGroups = [];
-
+    protected static $local_filename = "MiliageProgram.txt";
+       
     // Constructor
     public function __construct(string $name, 
                                 FlightCompany $flightcompany)
@@ -55,4 +56,8 @@ class MiliageProgram
     {
         echo "The MiliageProgram {$this->name} was destroyed.";
     }
-}
+    static public function getFilename()
+    {
+        return get_called_class()::$local_filename;
+    }
+  }

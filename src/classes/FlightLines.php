@@ -6,6 +6,7 @@
 require_once 'Airport.php';
 require_once 'Airplane.php';
 require_once 'Travel.php';
+require_once 'Persist.php';
 
 /*
 array de frequencia dos voos: Valores válidos:
@@ -18,7 +19,7 @@ sexta => Fri
 sabado => Sat
 */
 
-class FlightLines extends persist
+class FlightLines extends Persist
 {
   public Airport $origin; 
   public Airport $destiny;

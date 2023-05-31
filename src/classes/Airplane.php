@@ -3,10 +3,11 @@
  * This is the class for the Airplane object.
  */
 require_once 'FlightCompany.php';
+require_once 'Persist.php';
 
-class Airplane extends persist
+class Airplane extends Persist
 {
-  private FlightCompany $flightCompany; //pertencimento
+  public FlightCompany $flightCompany; //pertencimento
   private string $manufacturer;
   private string $model;
   private string $airplane_register; 

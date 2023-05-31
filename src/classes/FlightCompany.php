@@ -4,7 +4,9 @@
 * This is the class for the Flight Company object.
 */
 
-class FlightCompany extends persist 
+require_once 'Persist.php';
+
+class FlightCompany extends Persist 
 {
   private string $name;
   private string $code;
@@ -55,9 +57,14 @@ class FlightCompany extends persist
     //implementar
   }
 
-  public function NewMiliage_program () : bool
+  public function NewMiliage_program (string $nome, array $nome_categorias, array $pontosmin) : bool
   {
-    //implementar
+    $miliage_program = new MiliageProgram ($nome);    
+  }
+
+  public function AddCategoria (string $nome, string $nome_categorias, int $pontosmin) : bool
+  {
+    $this->miliage_program->AddCategoria($nome, $nome_categorias, $pontosmin);
   }
 
   public function NewCrew_member () : bool

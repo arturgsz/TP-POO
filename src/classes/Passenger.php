@@ -3,7 +3,7 @@
  * This is the class for the Passenger object.
  */
 
-class Passenger extends persist
+class Passenger extends Persist
 {
     // Attributes
     private string $name;
@@ -14,6 +14,8 @@ class Passenger extends persist
     private DateTime $birth;
     private string $document;
     private bool $vip;
+	  private float $miliage;
+
     private $flights = [];
     //private Ticket $ticket;
     protected static $local_filename = "Passenger.txt";
@@ -143,8 +145,11 @@ class Passenger extends persist
     {
         return $this->flights;
     }
+    public function getMiliage() : int
+    {
+        return $this->miliage;
+    }
         
-    
     // Destructor
     public function __destruct()
     {

@@ -4,8 +4,9 @@
  * object.
  */
 include_once('FlightTicket');
+require_once ('Persist.php');
 
-class FullTicket extends persist
+class FullTicket extends Persist
 {
     // Attributes
     private $tickets = [];

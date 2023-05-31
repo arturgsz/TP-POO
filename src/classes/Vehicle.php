@@ -3,7 +3,9 @@
  * This is the class for the Vehicle object.
  */
 
-class Vehicle extends persist
+require_once 'Persist.php';
+
+class Vehicle extends Persist
 {
     // Attributes
     private string $model;

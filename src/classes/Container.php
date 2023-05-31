@@ -1,6 +1,6 @@
 <?php
     //namespace Persist;
-    class container {
+    class Container {
         private string $folder = 'dataFiles';
         private string $filename;
         private array $objects;

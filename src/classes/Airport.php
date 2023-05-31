@@ -4,8 +4,9 @@
  */
 
 require_once 'Adress.php';
+require_once 'Persist.php';
 
-class Airport extends persist
+class Airport extends Persist
 {
     // Attributes
     private string $name;

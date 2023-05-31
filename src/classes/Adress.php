@@ -2,8 +2,9 @@
 /* Adress.php
  * This is the class for the Adress object.
  */
+require_once 'Persist.php';
 
-class Adress extends persist
+class Adress extends Persist
 {
     // Attributes
     private string $rua;

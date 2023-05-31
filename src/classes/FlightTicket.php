@@ -3,10 +3,11 @@
  * This is the class for the FlightTicket object.
  */
 
-require_once './src/Travel.php' ;
-require_once './src/Passenger.php';
+require_once 'Travel.php' ;
+require_once 'Passenger.php';
+require_once 'Persist.php';
 
-class FlightTicket extends persist
+class FlightTicket extends Persist
 { 
     private Travel $Travel;
     private string $code;

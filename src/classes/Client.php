@@ -2,8 +2,9 @@
 /* Client.php
  * This is the class for the Client object.
  */
+require_once 'Persist.php';
 
-class Client extends persist
+class Client extends Persist
 {
     // Attributes
     private string $name;

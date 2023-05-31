@@ -1,6 +1,6 @@
 <?php    
-    include_once('container.php');
-    abstract class persist {
+    include_once('Container.php');
+    abstract class Persist {
         private ?string $filename;
         private ?int $index = null; 
         public function __construct() {        
@@ -39,13 +39,13 @@
             $container = new container(get_called_class()::getFilename());
             //print_r(get_called_class()::getFilename()); exit();                     
             $container->addObject($this);
-            $container->persist();
+            $container->Persist();
         }
 
         private function edit() {            
             $container = new container(get_called_class()::getFilename());                  
             $container->editObject( $this->index, $this );
-            $container->persist();
+            $container->Persist();
         }
 
         static public function getRecordsByField( $p_field, $p_value ) {            

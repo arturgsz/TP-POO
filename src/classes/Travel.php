@@ -5,8 +5,9 @@
 
 require_once 'FlightLines.php';
 require_once 'Airplane.php';
+require_once 'Persist.php';
 
-class Travel extends persist
+class Travel extends Persist
 {
   private FlightLines $linhadeVoo;
   private Airport $origin; 

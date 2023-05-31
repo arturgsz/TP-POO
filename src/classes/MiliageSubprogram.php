@@ -4,66 +4,69 @@
  */
 
 
-class MiliageSubprogram extends persist
+class MiliageSubprogram extends Persist
 {
     // Attributes
-    private string $name;
+    private string $nome_categoria;  
+    private float $pontosmin;
     private string $miliage_program;
-    private string $benefits;
-    private float $minimal_points;
-    private $clients = [];
+    private $passengers = [];
     protected static $local_filename = "MiliageSubprogram.txt";
 
     // Constructor
-    public function __construct(string $name, 
-                                string $miliage_program,
-                                string $benefits,
-                                float $minimal_points)
+    public function __construct(string $nome_categoria, 
+                                string $pontosmin)
     {
-        $this->name = $name;
-        $this->miliage_program = $miliage_program;
-        $this->benefits = $benefits;
-        $this->minimal_points = $minimal_points;
+        $this->nome_categoria = nome_categoria;
+        $this->pontosmin = $pontosmin;      
     }
 
-    public function AddClient() : bool
+    public function AddPassenger($passenger) : bool
     {
-      //implementar 
-      return true;
+      if(array_push($this->passengers, $passenger)){
+        return true;
+      }
+      else {return false;}
     }
 
-    public function RemoveClient() : bool
+    public function RemovePassenger($passenger) : bool
     {
-      //implementar 
-      return true;
+      //UNSET remove elemento
+      unset($this->passengers[array_search($passenger, $this->passengers)]);
+
+      //Checa se ainda há aquele passageiro no array
+      if(array_search($passenger, $this->passengers)) == NULL ) { 
+      	return true;
+      }
+      else {
+      	return false;
+      }
+
     }
 
     // Getters and Setters
     public function getName() : string
     {
-        return $this->name;
+        return $this->nome_categoria;
     }
     public function getMiliageProgram() : string
     {
         return $this->miliage_program;
     }  
-    public function getBenefits() : string
+  
+    public function getPontos_minimos() : float
     {
-        return $this->benefits;
+        return $this->pontosmin;
     }
-    public function getMinimal_points() : float
+    public function getPassengers() : array
     {
-        return $this->minimal_points;
-    }
-    public function getClients() : array
-    {
-        return $this->clients;
+        return $this->passengers;
     }
   
     // Destructor
     public function __destruct()
     {
-        echo "The MiliagesubProgram {$this->name} was destroyed.";
+        echo "The MiliagesubProgram {$this->nome_categoria} was destroyed.";
     }
        
     static public function getFilename()

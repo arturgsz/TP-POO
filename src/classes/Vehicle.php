@@ -22,6 +22,8 @@ class Vehicle extends Persist
         $this->model = $model;
         $this->license_plate = $license_plate;
         $this->capacidade = $capacidade;
+    
+        $this->save();
     }
 
 

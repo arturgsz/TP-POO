@@ -69,7 +69,8 @@ class Travel extends Persist
       array_push($tickets, $flightTicket); //conferir se é assim
     }    
     */
-    }
+    $this->save();
+  }
     private function TravelCodigo(string $sigla, string $code) : string
     {
       return $sigla . strval($code);

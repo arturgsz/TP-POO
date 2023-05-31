@@ -17,8 +17,11 @@ class MiliageSubprogram extends Persist
     public function __construct(string $nome_categoria, 
                                 string $pontosmin)
     {
+
         $this->nome_categoria = nome_categoria;
         $this->pontosmin = $pontosmin;      
+    
+        $this->save();
     }
 
     public function AddPassenger($passenger) : bool

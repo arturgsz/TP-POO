@@ -29,6 +29,8 @@ class Route extends Persist
     $this->airport = $airport;
     $this->vehicle = $vehicle;
     $this->previsao_decolagem = $previsao_decolagem;
+  
+    $this->save();
   }
 
 

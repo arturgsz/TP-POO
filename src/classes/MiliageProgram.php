@@ -20,7 +20,10 @@ class MiliageProgram extends Persist
     {
       $this->nome = $nome;
       $this->sub_categorias = [];
-    }
+
+      $this->save();
+      }
+
 
     public function AddCategoria (string $nome_categoria, int $pontosmin) : bool
     {

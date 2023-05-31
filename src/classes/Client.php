@@ -24,6 +24,8 @@ class Client extends Persist
         $this->surname = $surname;
         $this->cpf = $cpf;
         $this->email = $email;
+
+        $this->save();
     }
   
     public function CpfValidation($cpf) : bool

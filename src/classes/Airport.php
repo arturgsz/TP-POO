@@ -35,6 +35,8 @@ class Airport extends Persist
       $this->city = $city;
       $this->state = $state;
       $this->adress = $adress;
+
+      $this->save();
     }
 
     //função para verificar a sigla dos aeroportos
@@ -83,6 +85,7 @@ class Airport extends Persist
         $sigla = mb_strtoupper($sigla);
         $this->sigla = $sigla;
       }
+      $this->save();
     }
   
     public function informacoes() : void

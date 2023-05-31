@@ -51,7 +51,8 @@
 
         // Deletes an object from objects array
         public function deleteObject( $p_index ) {
-            // TO DO
+            unset($this->objects[$p_index-1]);
+
         }
 
         public function getObjects () {

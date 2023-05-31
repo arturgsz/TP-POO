@@ -35,6 +35,8 @@ class FlightTicket extends Persist
       $this->destiny = $Travel->getFlightLine()->getDestiny()->getName();
       $this->luggadge = $luggadge;      
       $this->price_flight = FlightTicket::Calc_price($this->luggadge);        
+    
+      $this->save();
     }
 
     private function Calc_price(int $luggadge) : float

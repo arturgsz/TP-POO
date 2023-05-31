@@ -52,6 +52,8 @@ class Crew extends Persist
     $this->adress = $adress;
     $this->flightcompany = $flightcompany;
     $this->base_airport = $base_airport;
+
+    $this->save();
   }
 
 

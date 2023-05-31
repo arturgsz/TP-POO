@@ -11,9 +11,9 @@ class Adress extends Persist
     private string $bairro;
     private string $cidade;
     private int $numero;
-    private int $cep;
+    private string $cep;
     private $coordenadas = [];
-    protected static $local_filename = "Adress.php";
+    protected static $local_filename = "Adress.txt";
 
     // Constructor
     public function __construct(string $rua, 
@@ -28,6 +28,7 @@ class Adress extends Persist
         $this->numero = $numero;
         $this->cep = $cep;
         $this->adress_to_coord();
+        //$this->save();
     }
 
     public function adress_to_coord() : void
@@ -60,7 +61,7 @@ class Adress extends Persist
         return $this->numero;
     }
     
-    public function getCep() : int
+    public function getCep() : string
     {
         return $this->cep;
     }
@@ -90,7 +91,7 @@ class Adress extends Persist
         $this->cidade = $cidade;
     }
 
-    public function setNumero(string $numero)
+    public function setNumero(int $numero)
     {
         $this->numero = $numero;
     }

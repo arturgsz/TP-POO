@@ -39,6 +39,8 @@ class Passenger extends Persist
         $this->birth = $birth;
         $this->document = $document;
         $this->vip = $vip;
+    
+        $this->save();
     }
 
       //Validations

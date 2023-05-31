@@ -27,7 +27,7 @@ class Airplane extends Persist
                               int $capacity_passenger,
                               float $capacity_cargo)
   {
-    $this->FlightCompany = $flightCompany;
+    $this->flightCompany = $flightCompany;
     $this->manufacturer = $manufacturer;
     $this->model = $model;
   
@@ -39,6 +39,8 @@ class Airplane extends Persist
     $this->capacity_passenger = $capacity_passenger;
     $this->capacity_cargo= $capacity_cargo;   
     $this->luggadge = $flightCompany->getLuggadge();
+
+    $this->save();
   }
 
   //função para conferir o registro  
@@ -61,7 +63,7 @@ class Airplane extends Persist
   //Pertencimento a uma companhia aerea
   public function getFlightCompany() : FlightCompany
   {
-    return $this->FlightCompany;
+    return $this->flightCompany;
   }
 
   // Getters and Setters
@@ -97,7 +99,9 @@ class Airplane extends Persist
   
   public function setManufacturer(string $manufacturer) : void
   {
+
     $this->manufacturer = $manufacturer;
+    $this->save();  
   }
 
   public function setModel(string $model) : void

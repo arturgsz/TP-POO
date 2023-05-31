@@ -38,6 +38,8 @@ class FlightCompany extends Persist
     }     
     $this->cnpj = $cnpj;
     $this->luggadge = $luggadge;
+
+    $this->save();
   }
         
   //conferir sigla da companhia area

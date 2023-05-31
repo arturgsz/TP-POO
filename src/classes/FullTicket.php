@@ -13,7 +13,10 @@ class FullTicket extends Persist
     private float $price = 0;
     protected static $local_filename = "FullTicket.txt";
        
-    
+    public function __construct(){
+
+        $this->save();
+    }
 
     //Methods
     public function Add_ticket(FlightTicket $flightTicket) : void

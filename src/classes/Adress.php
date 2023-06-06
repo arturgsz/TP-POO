@@ -22,7 +22,8 @@ class Adress extends Persist
                                 string $cidade, 
                                 string $estado,
                                 int $numero,
-                                int $cep)
+                                int $cep,
+                                int $coordx, int $coordy)
     {
         $this->rua = $rua;
         $this->bairro = $bairro;
@@ -30,7 +31,11 @@ class Adress extends Persist
         $this->estado = $estado;
         $this->numero = $numero;
         $this->cep = $cep;
-        $this->adress_to_coord();
+
+        $this->coordenadas[0] = $coordx;
+        $this->coordenadas[1] = $coordy;
+        
+        //$this->adress_to_coord();
         $this->save();
     }
 

@@ -37,12 +37,12 @@ echo "<br>---<br>";
 
 
 // Criando aeroportos;
-$Adress_AeroPamp = new Adress ('Praça Bagatelle', 'São Luis', 'Belo Horizonte', 204, 31270705);
+$Adress_AeroPamp = new Adress ('Praça Bagatelle', 'São Luis', 'Belo Horizonte', 204, 31270705, 1, 0);
 $Aeroporto_Pampulha = new Airport('Aeroporto Pampulha', 'PLU', 'Belo Horizonte', 'Minas Gerais', $Adress_AeroPamp);
 var_dump($Aeroporto_Pampulha);
 echo "Airport: PAMPULHA"; echo "<br>";
 echo "<br>---<br>";
-$Adress_AeroGru = new Adress ('Rod. Hélio Smidt', 'Aeroporto', 'Guarulhos', 0, 7190100);
+$Adress_AeroGru = new Adress ('Rod. Hélio Smidt', 'Aeroporto', 'Guarulhos', 0, 7190100, 1 , 3);
 $Aeroporto_Guarulhos = new Airport('Aeroporto de Guarulhos', 'GRU', 'Guarulhos', 'São Paulo', $Adress_AeroGru);
 echo "Airport: GUARULHOS"; echo "<br>";
 var_dump($Aeroporto_Guarulhos);
@@ -61,6 +61,7 @@ echo "Flight Line: PAMPULHA to GUARULHOS"; echo "<br>";
 var_dump($Pampulha_Guarulhos);
 echo "<br>---<br>";
 
+
 //Criando Passenger
 echo "Passenger: ARTUR"; echo "<br>";
 $nascimento_Artur = new DateTime('16-06-2003');
@@ -68,6 +69,7 @@ $Passenger_Artur = new Passenger('Artur', 'Souza', '02339430640', 'arturgdes2003
                                  'Brasileiro', $nascimento_Artur, "doc123", false);
 var_dump($Passenger_Artur);
 echo "<br>---<br>";
+
 
 //Passenger com erro no email
 try{
@@ -81,6 +83,7 @@ echo "<br>---<br>";
   echo "<br>---<br>";
 }
 
+
 //Criando Travel
 echo "Travel: TRAVEL: PAMPULHA - GUARULHOS"; echo "<br>";
 $Travel_Pampulha_Guarulhos = new Travel ($Pampulha_Guarulhos);
@@ -88,6 +91,7 @@ $Travel_Pampulha_Guarulhos->informacoes();
 echo "<br>---<br>";
 echo $Travel_Pampulha_Guarulhos->getCode();
 echo "<br>---<br>";
+
 
 //Criando Flight Ticket
 echo "Flight Ticket: TICKET PAMPULHA-GUARULHOS"; echo "<br>";
@@ -98,3 +102,22 @@ echo "<br>---<br>";
 
 $Travel_Pampulha_Guarulhos->MostraAssentos();
 
+
+//Criando Crew Members
+$nascimento_jose = new DateTime('16-06-2003');
+$nascimento_ronaldo = new DateTime('14-11-2003');
+$Adress_Jose = new Adress ('Rod. Hélio Smidt', 'Aeroporto', 'Guarulhos', 0, 7190100, 1 , 2);
+$Adress_Ronald = new Adress ('Rua Desembargador Paulo Mota', 'Ouro Preto', 'Belo Horizonte', 40, 7190100, 0 , 1);
+
+$Pilot1 = Crew("Jose", "Almeida", "727.206.050-69", "brasileiro", $nascimento_jose, "email@email.com", "documento", $Adress_Jose, $Latam, $Aeroporto_Pampulha);
+
+$Pilot2 = Crew("Ronaldo", "Gonçalves", "142.593.620-20", "brasileiro", $nascimento_ronaldo, "ronaldogsa@gmail.com", "documento", $Adress_Ronald, $Latam, $Aeroporto_Pampulha);
+
+//Criando Veiculo
+$monza_tubarao = new Vehicle ("Monza Tubarão 94", "MON-1994", 5);
+
+//Criando Route:
+$crew_members = [$Pilot1, $Pilot2];
+$horavoo = new DateTime('2023-02-14 13:40');
+$rota1 = new Route ($crew_members, $Aeroporto_Pampulha, $monza_tubarao, $horavoo);
+$rota1->descricaoRota();

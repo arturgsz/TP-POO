@@ -15,6 +15,7 @@ class Passenger extends Persist
     private string $document;
     private bool $vip;
 	  private float $miliage;
+  
 
     private $flights = [];
     //private Ticket $ticket;

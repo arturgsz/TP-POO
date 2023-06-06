@@ -25,6 +25,12 @@ class MiliageProgram extends Persist
       }
 
 
+    public function AddCategoria (MiliageSubprogram $subprogram) : void
+    {
+      array_push($this->sub_categorias, $subprogram);
+      
+    }
+  
     public function AddCategoria (string $nome_categoria, int $pontosmin) : bool
     {
       $a1 = $this->sub_categorias;
@@ -33,63 +39,59 @@ class MiliageProgram extends Persist
       asort($this->sub_categorias);
     }
   
+		// public function UpdateSubProgramTiers(){
 
-  
-		public function UpdateSubProgramTiers(){
-
-      foreach($subprogram as $this->sub_categorias){
+  //     foreach($subprogram as $this->sub_categorias){
 					
-          foreach($passenger as $subprogram->getpassengers()){
-							$passenger_miliage = $passenger->getMiliage();
+  //         foreach($passenger as $subprogram->getpassengers()){
+		// 					$passenger_miliage = $passenger->getMiliage();
 
-                foreach($sub as $this->sub_categorias){
+  //               foreach($sub as $this->sub_categorias){
 
-                 if( $sub->getPontosMin() < $passenger_miliage){
-                      $subprogram->removePassenger($passanger);
-                      $sub->AddPassenger($passenger);
+  //                if( $sub->getPontosMin() < $passenger_miliage){
+  //                     $subprogram->removePassenger($passanger);
+  //                     $sub->AddPassenger($passenger);
+  //                 }
+  //               }
+  //         }           
+	//   }	
+  //   }		
+
+  $this->sub_categorias[$k]->AddPassenger($passenger);
+  public function UpdateSubProgramTiers() {
+    for ($i = 0; $i < sizeof($this->sub_categorias); $i++) {
+        $passengers = $this->sub_categorias[$i]->getPassengers();
+
+        for ($j = 0; $j < sizeof($passengers); $j++) {
+            $passenger_miliage = $passengers[$j]->getMiliageProgram();
+          
+              for($k = 0; $k < sizeof($this->sub_categorias); $k++){
+                  $pontosmin_sub = $sub_categorias[$k]->getPontos_minimos();
+
+                if ($passenger_miliage >= $this->sub_categorias[$k]->getPontos_minimos() && 
+                    $passenger_miliage < $this->sub_categorias[$k + 1]->getPontos_minimos()) {
+                    // fica na atual
                   }
-                }
-          }           
-		  }	
+                if($passenger_miliage < $this->sub_categorias[$k]->getPontos_minimos()){
+                    // volta para a anterior
+                    $this->sub_categorias[k]->RemovePassenger($passengers[j]);
+                    $this->sub_categorias[k-1]->AddPassenger($passengers[j]);
+                  }
+                if($passenger_miliage >= $this->sub_categorias[$k+1]->getPontosMin()){
+                    // vai para a próxima
+                    $this->sub_categorias[k]->RemovePassenger($passengers[j]);
+                    $this->sub_categorias[k+1]->AddPassenger($passengers[j]);
+                  }
+            }
+        }
     }
-
-      
-      for($i = 0; $i< sizeof($this->$sub_categorias); $i++){
-        $passangers_=$this->sub_categorias[i]->getPassangers();
-					
-          for ($j= 0; $j < sizeof($passangers_); $j++){
-							$miliage_passanger = passangers_[$j]->getMiliage();
-                
-                for($k=0; $k<sizeof($this->$sub_categorias); $k++){
-                  if($miliage_passanger > 
-								$this->$sub_categorias[$k]->getpontosmin() && $miliage_passanger < 
-								$this->$sub_categorias[$k+1]->getpontosmin() ){
-               
-                }
-                } 
-					}
-			}			
-		}
-
-	
-    public function downgrade(Passanger $passgenger) : bool
-    {
-      //implementar  
-      return true;
-    }
+  }
     
-    public function upgrade(Passanger $passgenger) : bool
-    {
-      //implementar
-      
-      return true;
-    }
-	
-
-      // Getters and Setters
+  
+  // Getters and Setters
     public function getName() : string
     {
-        return $this->name;
+        return $this->nome;
     }
 
   

@@ -198,7 +198,7 @@ class Crew extends Persist
   // Destructor
   public function __destruct()
   {
-     echo "Crew {$this->name} has been deleted.";
+   //  echo "Crew {$this->name} has been deleted.";
   }
   static public function getFilename()
   {

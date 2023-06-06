@@ -1,9 +1,10 @@
 <?php
+    #[AllowDynamicProperties]
     //namespace Persist;
     class Container {
         private string $folder = 'dataFiles';
         private string $filename;
-        private array $objects;
+        private ?array $objects;
         static private $ptr_container = null;
         static private $criticalSection = false;
 
@@ -42,16 +43,21 @@
         }
 
         public function addObject( $p_obj ) {
-            array_push( $this->objects, $p_obj );
+            
+         $key = intval(array_key_last($this->objects)) + 1;
+              
+            $this->objects[$key] = $p_obj; 
+            $this->objects[$key]->setIndex($key);
+
         }
 
         public function editObject( $p_index, $p_obj ) {
-            $this->objects[$p_index-1] = $p_obj;
+            $this->objects[$p_index] = $p_obj;
         }
 
         // Deletes an object from objects array
         public function deleteObject( $p_index ) {
-            unset($this->objects[$p_index-1]);
+            unset($this->objects[$p_index]);
 
         }
 
@@ -59,7 +65,16 @@
             $this->load();			
             return $this->objects;
         }
+        public function getByKey ($key) {
+            $this->load();			
+            
+            if(!empty( $this->objects[$key]))
+                return $this->objects[$key];
+           
+            else
+            throw(new Exception("O objeto procurado não existe ou foi deletado\n"));
 
+        }
 
         public function load() {
             if (is_file($this->filename)) {
@@ -75,8 +90,7 @@
         }
 
         public function persist() { 
-            for ( $i = 0; $i < count($this->objects); $i++ )
-                $this->objects[$i]->setIndex($i+1);            
+                            
             $serialized = serialize($this);
             file_put_contents( $this->filename, $serialized );   
         }

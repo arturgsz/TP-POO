@@ -48,24 +48,40 @@
             $container->Persist();
         }
 
-        public function delete($obj_id){
-
+        public function delete(){
+            $container = new container(get_called_class()::getFilename());                  
+            $container->deleteObject($this->index);
+            $container->Persist();
         }
 
         static public function getRecordsByField( $p_field, $p_value ) {            
             $container = new container(get_called_class()::getFilename());
             //$container = container::getInstance(get_called_class()::getFilename());          
+            
             $objs = $container->getObjects();  
             $matchObjects = array();         
-            for ( $i=0; $i<count($objs); $i++) {
-                if ( $objs[$i]->$p_field == $p_value ) {                   
-                    array_push( $matchObjects, $objs[$i] );
-                }               
+            
+            foreach( $objs as $ob) {
+                if ( $ob->$p_field == $p_value )                   
+                array_push( $matchObjects, $ob );                    
             }
-            //if ( count($matchObjects) > 0 )
+            // if ( count($matchObjects) > 0 )
                 return $matchObjects;
-            //else
-            //    throw( new Exception('Registro não encontrado.'));
+            // else
+            //     throw( new Exception('Registro não encontrado.'));
+        }
+       
+        static public function getByKey( $index ) {            
+            $container = new container(get_called_class()::getFilename());
+            
+            try{
+                $obj = $container->getByKey($index);
+                return $obj;
+            }catch(Exception $e){
+                echo $e->getMessage();
+                return null;
+            }
+     
         }
 
         static public function getRecords() {            
@@ -79,9 +95,8 @@
             $this->index = $index;
         }
 
-        public function __toString()
-        {
-            return print_r($this);
+        public function getKey(){
+            return $this->index;
         }
 
         abstract static public function getFilename();

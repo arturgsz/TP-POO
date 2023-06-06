@@ -10,6 +10,7 @@ class Adress extends Persist
     private string $rua;
     private string $bairro;
     private string $cidade;
+    private string $estado;
     private int $numero;
     private string $cep;
     private $coordenadas = [];
@@ -19,16 +20,18 @@ class Adress extends Persist
     public function __construct(string $rua, 
                                 string $bairro, 
                                 string $cidade, 
+                                string $estado,
                                 int $numero,
                                 int $cep)
     {
         $this->rua = $rua;
         $this->bairro = $bairro;
         $this->cidade = $cidade;
+        $this->estado = $estado;
         $this->numero = $numero;
         $this->cep = $cep;
         $this->adress_to_coord();
-        //$this->save();
+        $this->save();
     }
 
     public function adress_to_coord() : void
@@ -54,6 +57,10 @@ class Adress extends Persist
     public function getCidade() : string
     {
         return $this->cidade;
+    }
+    public function getEstado() : string
+    {
+        return $this->estado;
     }
 
     public function getNumero() : int
@@ -104,7 +111,7 @@ class Adress extends Persist
     // Destructor
     public function __destruct()
     {
-        echo "The adress with cep {$this->cep} was destroyed.";
+        //echo "The adress with cep {$this->cep} was destroyed.";
     }
 
     static public function getFilename()

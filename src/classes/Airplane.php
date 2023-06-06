@@ -142,7 +142,7 @@ class Airplane extends Persist
   // Destructor
   public function __destruct()
   {
-    echo "Airplane object destroyed." . PHP_EOL;
+   // echo "Airplane object destroyed." . PHP_EOL;
   }
   static public function getFilename()
   {

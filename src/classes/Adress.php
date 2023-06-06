@@ -20,14 +20,18 @@ class Adress extends Persist
                                 string $bairro, 
                                 string $cidade, 
                                 int $numero,
-                                int $cep)
+                                int $cep,
+                                int $coordx, int $coordy)
     {
         $this->rua = $rua;
         $this->bairro = $bairro;
         $this->cidade = $cidade;
         $this->numero = $numero;
         $this->cep = $cep;
-        $this->adress_to_coord();
+        $this->coordenadas[0] = $coordx;
+        $this->coordenadas[1] = $coordy;
+        
+        //$this->adress_to_coord();
         //$this->save();
     }
 

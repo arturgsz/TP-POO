@@ -21,18 +21,18 @@ sabado => Sat
 
 class FlightLines extends Persist
 {
-  public Airport $origin; 
-  public Airport $destiny;
-  public DateTime $expected_departure_time;
-  public DateTime $expected_arrival_time;
-  public DateInterval $duracao_estimada;
-  public Airplane $airplane; 
-  public string $code; //código da linha de voo
-  public bool $operational;
-  public $frequency = [];  //frequencia do voo
-  public float $line_price;
-  public float $lugadge_price; //valor unitario da bagagem
-  public $array_travel = [];  //array de objetos do tipo Travel
+  protected Airport $origin; 
+  protected Airport $destiny;
+  protected DateTime $expected_departure_time;
+  protected DateTime $expected_arrival_time;
+  protected DateInterval $duracao_estimada;
+  protected Airplane $airplane; 
+  protected string $code; //código da linha de voo
+  protected bool $operational;
+  protected $frequency = [];  //frequencia do voo
+  protected float $line_price;
+  protected float $lugadge_price; //valor unitario da bagagem
+  protected $array_travel = [];  //array de objetos do tipo Travel
   protected static $local_filename = "FlightLines.txt";
        
 

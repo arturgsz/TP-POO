@@ -4,10 +4,10 @@ require_once 'Persist.php';
 
 class User extends Persist{
 
-    private string $login;
-    private string $email;
+    protected string $login;
+    protected string $email;
     private string $password;
-    private bool $is_online = false;
+    protected int $is_online = 1;
 
     protected static $local_filename = "User.txt";
 
@@ -15,7 +15,7 @@ class User extends Persist{
 
         $this->login = $login;
         $this->email = $email;
-        $this->password = $password;
+        $this->password = md5($password);
 
        if (
         self::getRecordsByField("login", $this->login) == null &&
@@ -23,31 +23,36 @@ class User extends Persist{
         ){
             $this->save();
         }else{
-            throw(new Exception(" Ja possui um usuario cadastrado com esse email/loguin"));
+            throw(new Exception("Erro! O email ou login passados não estão disponiveis\n"));
         }
         
     }
 
-    public function login(string $email, string $senha){
-        
-        if(self::getRecordsByField("is_online", "true") == null){
-            if($email == $this->email && $senha == $this->password){
-                $this->is_online = true;
-            }else{
-                throw( new Exception("Email ou senha inválidos"));
-            }
-        }else{
-            throw( new Exception("O sistema ja possui um usuario logado"));
-        }
+    public function login(string $pass): bool{      
+        $password = md5($pass);
 
+            if($password == $this->password){
+                $this->is_online = 0;
+                return true;
+            }else{
+                throw( new Exception("Senha inválida\n"));
+            }
+    }
+
+    private function validateEmail(){
+        //a fazer
     }
 
     public function logout(){
-        $this->is_online = false;
+        $this->is_online = 1;
+        $this->save();
     }
 
     public function __destruct(){
-       $this->logout();
+
+    }
+    public function getLogin(){
+        return $this->login;
     }
 
     static public function getFilename()

@@ -8,16 +8,16 @@ require_once 'Persist.php';
 
 class FlightCompany extends Persist 
 {
-  private string $name;
-  private string $code;
-  private string $razao_social;
-  private string $cnpj;
-  private string $sigla;  //a sigla deve ser formada por duas letras
+  protected string $name;
+  protected string $code;
+  protected string $razao_social;
+  protected string $cnpj;
+  protected string $sigla;  //a sigla deve ser formada por duas letras
   //valor unitário da bagagem é definido por cada companhia aerea
-  private float $luggadge; //bagagem
-  private $flight_lines = [];
-  private MiliageProgram $miliage_program;
-  private $tripulation = [];
+  protected float $luggadge; //bagagem
+  protected $flight_lines = [];
+  protected MiliageProgram $miliage_program;
+  protected $tripulation = [];
   protected static $local_filename = "FlightCompany.txt";
        
 

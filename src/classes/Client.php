@@ -6,11 +6,12 @@ require_once 'Persist.php';
 
 class Client extends Persist
 {
+
     // Attributes
-    private string $name;
-    private string $surname;
-    private string $cpf;
-    private string $email;
+    protected string $name;
+    protected string $surname;
+    protected string $cpf;
+    protected string $email;
     protected static $local_filename = "Client.txt";
        
     

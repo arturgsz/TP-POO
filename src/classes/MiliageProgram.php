@@ -9,8 +9,8 @@ require_once "Passenger.php";
 class MiliageProgram extends Persist
 {
     // Attributes
-    private $nome;
-    private array $sub_categorias;
+    protected $nome;
+    protected array $sub_categorias;
     
     
     protected static $local_filename = "MiliageProgram.txt";

@@ -8,9 +8,9 @@ require_once 'Persist.php';
 class Vehicle extends Persist
 {
     // Attributes
-    private string $model;
-    private string $license_plate;
-    private int $capacidade;
+    protected string $model;
+    protected string $license_plate;
+    protected int $capacidade;
     protected static $local_filename = "Vehicle.txt";
        
 

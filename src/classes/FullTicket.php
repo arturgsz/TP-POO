@@ -9,8 +9,8 @@ require_once ('Persist.php');
 class FullTicket extends Persist
 {
     // Attributes
-    private $tickets = [];
-    private float $price = 0;
+    protected $tickets = [];
+    protected float $price = 0;
     protected static $local_filename = "FullTicket.txt";
        
     public function __construct(){

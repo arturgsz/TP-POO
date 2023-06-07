@@ -1,5 +1,7 @@
 <?php    
     include_once('Container.php');
+    require_once "UserAuthenticate.php";
+
     abstract class Persist {
         private ?string $filename;
         private ?int $index = null; 
@@ -29,32 +31,55 @@
         }             
 
         public function save() {
-            if ( $this->index != null ) 
-                $this->edit();            
-            else               
-                $this->insert();            
+            
+            if ( $this->index != null ){
+                if(!self::Authentication()){
+                    echo "->save(). Não há usuário logado no sistema\n";
+                    return;
+                }
+                
+                $this->edit();
+            
+            }else{ 
+                if(!self::Authentication())
+                    throw(new Exception("->__construct(). Não há usuário logado no sistema\n"));
+               
+                $this->insert(); 
+            }           
+                           
         }
 
         private function insert() {           
             $container = new container(get_called_class()::getFilename());
             //print_r(get_called_class()::getFilename()); exit();                     
+            new WriteLog(null, $this);
+            
             $container->addObject($this);
             $container->Persist();
         }
 
         private function edit() {            
             $container = new container(get_called_class()::getFilename());                  
+            new WriteLog(self::getByKey($this->index), $this);
+
             $container->editObject( $this->index, $this );
             $container->Persist();
         }
 
         public function delete(){
             $container = new container(get_called_class()::getFilename());                  
+            new WriteLog($this, null);
+            
             $container->deleteObject($this->index);
             $container->Persist();
         }
 
         static public function getRecordsByField( $p_field, $p_value ) {            
+            if(!self::Authentication()){
+                echo "->getRecordsByField(). Não há usuário logado no sistema\n";
+                return;
+            }
+            
             $container = new container(get_called_class()::getFilename());
             //$container = container::getInstance(get_called_class()::getFilename());          
             
@@ -63,19 +88,27 @@
             
             foreach( $objs as $ob) {
                 if ( $ob->$p_field == $p_value )                   
+                new ReadLog($ob);
                 array_push( $matchObjects, $ob );                    
             }
-            // if ( count($matchObjects) > 0 )
+             if ( count($matchObjects) > 0 )
                 return $matchObjects;
-            // else
-            //     throw( new Exception('Registro não encontrado.'));
+             else
+                return null;
+             //     throw( new Exception('Registro não encontrado.'));
         }
        
         static public function getByKey( $index ) {            
-            $container = new container(get_called_class()::getFilename());
+            if(!self::Authentication()){
+                echo "->getByKey(). Não há usuário logado no sistema\n";
+                return;
+            }
+            
+            $container = new container(get_called_class()::getFilename());       
             
             try{
                 $obj = $container->getByKey($index);
+                new ReadLog($obj);
                 return $obj;
             }catch(Exception $e){
                 echo $e->getMessage();
@@ -85,9 +118,19 @@
         }
 
         static public function getRecords() {            
+            if(!self::Authentication()){
+                echo "->getRecords(). Não há usuário logado no sistema\n";
+                return;
+            }
+                
+
             $container = new container(get_called_class()::getFilename());
             //$container = container::getInstance(get_called_class()::getFilename());          
             $objs = $container->getObjects();            
+            
+            foreach($objs as $ob){
+                new ReadLog($ob);
+            }
             return $objs;
         }
 
@@ -97,6 +140,19 @@
 
         public function getKey(){
             return $this->index;
+        }
+        static private function Authentication():bool{
+            try{
+               $bool= UserAuthenticate::Authentication();
+               return $bool;
+            }catch( Exception $e){
+                echo $e->getMessage().get_called_class();
+                return false;
+            }
+        }
+
+        public function getVars(): array{
+            return get_class_vars(get_class($this));
         }
 
         abstract static public function getFilename();

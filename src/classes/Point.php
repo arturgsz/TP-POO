@@ -6,8 +6,8 @@
 class Point extends Persist
 {
     // Attributes
-    private $pontos = [];
-    private $dataspontos = [];
+    protected $pontos = [];
+    protected $dataspontos = [];
 
        
     //QUANDO FOR PERCORRER O ARRAY DE PONTOS E DATETIMES, SEMPRE USAR O FOREACH

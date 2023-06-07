@@ -6,18 +6,18 @@
 class Passenger extends Persist
 {
     // Attributes
-    private string $name;
-    private string $surname;
-    private string $cpf;
-    private string $email;
-    private string $nacionality;
-    private DateTime $birth;
-    private string $document;
-    private bool $vip;
-	  private float $miliage;
+    protected string $name;
+    protected string $surname;
+    protected string $cpf;
+    protected string $email;
+    protected string $nacionality;
+    protected DateTime $birth;
+    protected string $document;
+    protected bool $vip;
+	  protected float $miliage;
   
 
-    private $flights = [];
+    protected $flights = [];
     //private Ticket $ticket;
     protected static $local_filename = "Passenger.txt";
        

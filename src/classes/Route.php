@@ -10,12 +10,12 @@ require_once 'Persist.php';
 
 class Route extends Persist
 {
-  private $crew_members = []; 
-  private Vehicle $vehicle;
-  private Airport $airport;
-  private array $tempos = [];
-  private DateTime $previsao_decolagem;
-  private DateTime $tempo_inicio_rota;
+  protected $crew_members = []; 
+  protected Vehicle $vehicle;
+  protected Airport $airport;
+  protected array $tempos = [];
+  protected DateTime $previsao_decolagem;
+  protected DateTime $tempo_inicio_rota;
   protected static $local_filename = "Route.txt";
        
 

@@ -8,13 +8,13 @@ require_once 'Passenger.php';
 class VipPassenger extends Passenger
 {
     // Attributes
-    private int $register_number;
-    private float $points_last_year;
-    private float $points_alltime;
-    private DateTime $entered_program;
-    private DateTime $expire_program;
-    private string $milliage_program;
-    private string $milliage_subprogram;
+    protected int $register_number;
+    protected float $points_last_year;
+    protected float $points_alltime;
+    protected DateTime $entered_program;
+    protected DateTime $expire_program;
+    protected string $milliage_program;
+    protected string $milliage_subprogram;
 
 
     // Constructor

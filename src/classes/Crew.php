@@ -9,16 +9,16 @@ require_once 'Persist.php';
 
 class Crew extends Persist
 {
-  private string $name;
-  private string $surname;
-  private string $cpf;
-  private string $nacionality;
-  private DateTime $birth;
-  private string $email;
-  private string $flight_doc;
-  private Adress $adress;
-  private FlightCompany $flightcompany;
-  private Airport $base_airport;
+  protected string $name;
+  protected string $surname;
+  protected string $cpf;
+  protected string $nacionality;
+  protected DateTime $birth;
+  protected string $email;
+  protected string $flight_doc;
+  protected Adress $adress;
+  protected FlightCompany $flightcompany;
+  protected Airport $base_airport;
   protected static $local_filename = "Crew.txt";
        
 

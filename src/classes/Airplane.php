@@ -8,14 +8,14 @@ require_once 'Persist.php';
 class Airplane extends Persist
 {
   public FlightCompany $flightCompany; //pertencimento
-  private string $manufacturer;
-  private string $model;
-  private string $airplane_register; 
-  private int $capacity_passenger;
-  private float $capacity_cargo;
+  protected string $manufacturer;
+  protected string $model;
+  protected string $airplane_register; 
+  protected int $capacity_passenger;
+  protected float $capacity_cargo;
 
   //esse valor é dado pela Companhia Aerea
-  private float $luggadge; //preço unitario por bagagem
+  protected float $luggadge; //preço unitario por bagagem
   protected static $local_filename = "Airplane.txt";
        
 

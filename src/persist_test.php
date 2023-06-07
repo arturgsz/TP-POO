@@ -1,14 +1,20 @@
 <?php 
-
 include_once "global.php";
- // $ad = new Adress("campfoeubs", "swntsa","MG", "gv","38", "350");
+$sed = new UserAuthenticate();
+$sed->LogIn("cruze", "123");
 
- // $airport1 = new Airport("c port", "SFT", $ad);
+$user = new User("santos", "kv","123");
+$user = new User("turito", "kib","123");
+
+$ad = new Adress("bs", "swntsa","MG", "gv","38", "350","6165","
+  44");
+
+//  $airport1 = new Airport("c port", "SFT", $ad);
 //  $airport2 = new Airport("cnv port", "SFT", $ad );
 //  $airport3 = new Airport("guss port", "SFT", $ad );
 
 
-$airport = Airport::getBykey(200);
+$airport = Airport::getBykey(2);
 // $ad1 = $airport->getAdress();
 // print_r($ad1);
 

@@ -9,14 +9,14 @@ require_once 'Persist.php';
 
 class FlightTicket extends Persist
 { 
-    private Travel $Travel;
-    private string $code;
-    private Passenger $Passenger;
-    private int $seat;
-    private string $origin;
-    private string $destiny;
-    private float $price_flight;
-    private int $luggadge; //numero de bagagens - até 3 bagagens de 23kg
+    protected Travel $Travel;
+    protected string $code;
+    protected Passenger $Passenger;
+    protected int $seat;
+    protected string $origin;
+    protected string $destiny;
+    protected float $price_flight;
+    protected int $luggadge; //numero de bagagens - até 3 bagagens de 23kg
     protected static $local_filename = "FlightTicket.txt";
        
     

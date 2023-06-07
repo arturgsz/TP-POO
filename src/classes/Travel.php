@@ -9,18 +9,18 @@ require_once 'Persist.php';
 
 class Travel extends Persist
 {
-  private FlightLines $linhadeVoo;
-  private Airport $origin; 
-  private Airport $destiny;
-  private Airplane $airplane; 
-  private string $Travel_code; // 2 letras seguida de 4 digitos
-  private string $code; 
-  private DateTime $departure_time; 
-  private DateTime $arrival_time;
-  private DateInterval $duracaoVoo;
-  private float $line_price; //preço definido pelo FlightLines
-  private float $lugadge_price; //valor unitario definido pela companhia aerea
-  private $seat = []; //assentos 
+  protected FlightLines $linhadeVoo;
+  protected Airport $origin; 
+  protected Airport $destiny;
+  protected Airplane $airplane; 
+  protected string $Travel_code; // 2 letras seguida de 4 digitos
+  protected string $code; 
+  protected DateTime $departure_time; 
+  protected DateTime $arrival_time;
+  protected DateInterval $duracaoVoo;
+  protected float $line_price; //preço definido pelo FlightLines
+  protected float $lugadge_price; //valor unitario definido pela companhia aerea
+  protected $seat = []; //assentos 
   protected static $local_filename = "Travel.txt";
        
 

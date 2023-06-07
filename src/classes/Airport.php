@@ -9,11 +9,10 @@ require_once 'Persist.php';
 class Airport extends Persist
 {
     // Attributes
-    private string $name;
-    private string $sigla;  //possui três letras
+    protected string $name;
+    protected string $sigla;  //possui três letras
 
-    //private Adress $adress;
-    private int $adressKey;
+    protected int $adressKey;
     protected static $local_filename = "Airport.txt";
        
     // Constructor

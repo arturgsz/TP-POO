@@ -7,10 +7,10 @@
 class MiliageSubprogram extends Persist
 {
     // Attributes
-    private string $nome_categoria;  
-    private float $pontosmin;
-    private string $miliage_program;
-    private $passengers = [];
+    protected string $nome_categoria;  
+    protected float $pontosmin;
+    protected string $miliage_program;
+    protected $passengers = [];
     protected static $local_filename = "MiliageSubprogram.txt";
 
     // Constructor

@@ -7,13 +7,13 @@ require_once 'Persist.php';
 class Adress extends Persist
 {
     // Attributes
-    private string $rua;
-    private string $bairro;
-    private string $cidade;
-    private string $estado;
-    private int $numero;
-    private string $cep;
-    private $coordenadas = [];
+    protected string $rua;
+    protected string $bairro;
+    protected string $cidade;
+    protected string $estado;
+    protected int $numero;
+    protected string $cep;
+    protected $coordenadas = [];
     protected static $local_filename = "Adress.txt";
 
     // Constructor
@@ -36,7 +36,13 @@ class Adress extends Persist
         $this->coordenadas[1] = $coordy;
         
         //$this->adress_to_coord();
-        $this->save();
+        try{
+           $this->save(); 
+        }catch(Exception $e){
+            echo $e->getMessage();
+            $this->__destruct();
+        }
+        
     }
 
     public function adress_to_coord() : void

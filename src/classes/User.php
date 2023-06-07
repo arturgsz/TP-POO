@@ -23,7 +23,10 @@ class User extends Persist{
         ){
             $this->save();
         }else{
+
             throw(new Exception("Erro! O email ou login passados não estão disponiveis\n"));
+
+
         }
         
     }

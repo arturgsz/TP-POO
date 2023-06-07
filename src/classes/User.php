@@ -23,7 +23,7 @@ class User extends Persist{
         ){
             $this->save();
         }else{
-            throw(new Exception(" Ja possui um usuario cadastrado com esse email/loguin"));
+            throw(new Exception(" Ja possui um usuario cadastrado com esse email/login"));
         }
         
     }

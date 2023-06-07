@@ -3,11 +3,13 @@
  * This is the class for the Vehicle object.
  */
 
-class Point extends Persist
+class Points extends Persist
 {
     // Attributes
     private $pontos = [];
     private $dataspontos = [];
+    private $pontostotais = 0;
+    
 
        
     //QUANDO FOR PERCORRER O ARRAY DE PONTOS E DATETIMES, SEMPRE USAR O FOREACH
@@ -30,7 +32,7 @@ class Point extends Persist
     public function RemovePontos()
     {
       $hoje = new DateTime();
-      foreach ($pontos as $i => $v) {
+      foreach ($this->pontos as $i => $v) {
         $intervalo = $this->dataspontos[$i]->diff($hoje);
         if(intval($intervalo->format('%Y')) >= 1){
         	unset($this->pontos[$i]);
@@ -38,6 +40,16 @@ class Point extends Persist
         }
       }
       
+    }
+
+    public function getPontos_acumulados() : float
+    {
+      $this->pontostotais = 0;
+     foreach ($this->pontos as $p)
+       {
+         $this->pontostotais += $p;
+       }
+      return $this->pontostotais;
     }
 
 

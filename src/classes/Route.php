@@ -56,12 +56,22 @@ class Route extends Persist
    $this->concatenaTempo();
   }
 
-  private function calculaDistancia (float $x1, float $y1, float $x2, float $y2) : float
+  private function calculaDistancia (float $lat1, float $lon1, float $lat2, float $lon2) : float
   {
-    //convertendo as coordenadas (implementar uma função ????);
-    $x1 = $x1*0.01; $x2 = $x2*0.01;
-    $y1 = $y1*0.01; $y2 = $y2*0.01;
-    return 110.57 * sqrt( pow($x2-$x1,2) + pow($y2-$y1, 2) );
+    $r = 6371; // Raio médio da Terra em quilômetros
+    // Converter graus em radianos
+    $lat1 = deg2rad($lat1);
+    $lon1 = deg2rad($lon1);
+    $lat2 = deg2rad($lat2);
+    $lon2 = deg2rad($lon2);
+    // Diferença das coordenadas
+    $dlat = $lat2 - $lat1;
+    $dlon = $lon2 - $lon1;
+    // Fórmula de Haversine
+    $a = sin($dlat/2) * sin($dlat/2) + cos($lat1) * cos($lat2) * sin($dlon/2) * sin($dlon/2);
+    $c = 2 * atan2(sqrt($a), sqrt(1-$a));
+    $distancia = $r * $c;
+    return $distancia;
   }
 
   private function concatenaTempo () : void

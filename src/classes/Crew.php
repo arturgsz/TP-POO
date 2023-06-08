@@ -39,13 +39,13 @@ class Crew extends Persist
     $this->nacionality = $nacionality;
     if(mb_strtoupper($nacionality) == 'BRASILEIRO' || 
        mb_strtoupper($nacionality) == 'BRASILEIRA'){
-      if(Passenger::CpfValidation($cpf)){$this->cpf = $cpf;}
+      if($this->CpfValidation($cpf)){$this->cpf = $cpf;}
       else { throw new Exception ("CPF Invalido");}
     }else{$this->cpf = $cpf;}
-    if(Passenger::EmailValidation ($email)){$this->email = $email;}
+    if($this->EmailValidation ($email)){$this->email = $email;}
     else{ throw new Exception ("Email Invalido");}
     $this->nacionality = $nacionality;
-    if(Passenger::BirthValidation($birth)){$this->birth = $birth;}
+    if($this->BirthValidation($birth)){$this->birth = $birth;}
     else{ throw new Exception ("Nascimento Invalido");}
 
     $this->flight_doc = $flight_doc;

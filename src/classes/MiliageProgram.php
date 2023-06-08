@@ -25,13 +25,13 @@ class MiliageProgram extends Persist
       }
 
 
-    public function AddCategoria (MiliageSubprogram $subprogram) : void
-    {
-      array_push($this->sub_categorias, $subprogram);
+    // public function AddCategoria (MiliageSubprogram $subprogram) : void
+    // {
+    //   array_push($this->sub_categorias, $subprogram);
       
-    }
+    // }
   
-    public function AddCategoria (string $nome_categoria, int $pontosmin) : bool
+    public function AddCategoria (string $nome_categoria, int $pontosmin) 
     {
       $a1 = $this->sub_categorias;
 	    $a2 = array($nome_categoria => $pontosmin);
@@ -57,7 +57,7 @@ class MiliageProgram extends Persist
 	//   }	
   //   }		
 
-  $this->sub_categorias[$k]->AddPassenger($passenger);
+  //$this->sub_categorias[$k]->AddPassenger($passenger);
   public function UpdateSubProgramTiers() {
     for ($i = 0; $i < sizeof($this->sub_categorias); $i++) {
         $passengers = $this->sub_categorias[$i]->getPassengers();
@@ -66,7 +66,7 @@ class MiliageProgram extends Persist
             $passenger_miliage = $passengers[$j]->getMiliageProgram();
           
               for($k = 0; $k < sizeof($this->sub_categorias); $k++){
-                  $pontosmin_sub = $sub_categorias[$k]->getPontos_minimos();
+                  $pontosmin_sub = $this->sub_categorias[$k]->getPontos_minimos();
 
                 if ($passenger_miliage >= $this->sub_categorias[$k]->getPontos_minimos() && 
                     $passenger_miliage < $this->sub_categorias[$k + 1]->getPontos_minimos()) {
@@ -74,13 +74,13 @@ class MiliageProgram extends Persist
                   }
                 if($passenger_miliage < $this->sub_categorias[$k]->getPontos_minimos()){
                     // volta para a anterior
-                    $this->sub_categorias[k]->RemovePassenger($passengers[j]);
-                    $this->sub_categorias[k-1]->AddPassenger($passengers[j]);
+                    $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
+                    $this->sub_categorias[$k-1]->AddPassenger($passengers[$j]);
                   }
                 if($passenger_miliage >= $this->sub_categorias[$k+1]->getPontosMin()){
                     // vai para a próxima
-                    $this->sub_categorias[k]->RemovePassenger($passengers[j]);
-                    $this->sub_categorias[k+1]->AddPassenger($passengers[j]);
+                    $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
+                    $this->sub_categorias[$k+1]->AddPassenger($passengers[$j]);
                   }
             }
         }
@@ -98,10 +98,11 @@ class MiliageProgram extends Persist
     // Destructor
     public function __destruct()
     {
-        echo "The MiliageProgram {$this->name} was destroyed.";
+        echo "The MiliageProgram {$this->nome} was destroyed.";
     }
     static public function getFilename()
     {
         return get_called_class()::$local_filename;
     }
+
   }

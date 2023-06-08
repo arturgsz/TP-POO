@@ -95,7 +95,7 @@ class Passenger extends Persist
     }
 
     //adicionar aqui toda vez que o passageiro executar um voo
-    public function Add_flight (FlightLine $flight) : void
+    public function Add_flight (FlightLines $flight) : void
     {
       array_push($this->flights, $flight);
     }

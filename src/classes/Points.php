@@ -62,7 +62,7 @@ class Points extends Persist
     public function getDatapontos() : array
     {
         $this->RemovePontos();
-        return $this->datapontos;
+        return $this->dataspontos;
     }
 
     // Destructor

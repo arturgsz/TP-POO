@@ -15,10 +15,10 @@ class MiliageSubprogram extends Persist
 
     // Constructor
     public function __construct(string $nome_categoria, 
-                                string $pontosmin)
+                                float $pontosmin)
     {
 
-        $this->nome_categoria = nome_categoria;
+        $this->nome_categoria = $nome_categoria;
         $this->pontosmin = $pontosmin;      
     
         $this->save();
@@ -38,7 +38,7 @@ class MiliageSubprogram extends Persist
       unset($this->passengers[array_search($passenger, $this->passengers)]);
 
       //Checa se ainda há aquele passageiro no array
-      if(array_search($passenger, $this->passengers)) == NULL ) { 
+      if(array_search($passenger, $this->passengers) == NULL ) { 
       	return true;
       }
       else {

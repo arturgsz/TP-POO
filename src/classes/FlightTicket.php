@@ -36,7 +36,12 @@ class FlightTicket extends Persist
       $this->luggadge = $luggadge;      
       $this->price_flight = FlightTicket::Calc_price($this->luggadge);        
     
-      $this->save();
+      try{
+        $this->save(); 
+      }catch(Exception $e){
+         echo $e->getMessage();
+         throw($e);
+      }
     }
 
     private function Calc_price(int $luggadge) : float
@@ -96,7 +101,7 @@ class FlightTicket extends Persist
         $this->luggadge = $luggadge;
         $this->price_flight = FlightTicket::calc_price($this->luggadge);
     }
-    public function setSeat(string $seat)
+    public function setSeat(int $seat)
     {
         $this->seat = $seat;
     }
@@ -104,7 +109,7 @@ class FlightTicket extends Persist
     // Destructor
     public function __destruct()
     {
-        echo "Flight Ticket with code {$this->code} was destroyed.";
+     //   echo "Flight Ticket with code {$this->code} was destroyed.";
     }
     static public function getFilename()
     {

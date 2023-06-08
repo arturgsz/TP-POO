@@ -69,7 +69,12 @@ class Travel extends Persist
       array_push($tickets, $flightTicket); //conferir se é assim
     }    
     */
-    $this->save();
+    try{
+      $this->save(); 
+    }catch(Exception $e){
+       echo $e->getMessage();
+       throw($e);
+    }
   }
     private function TravelCodigo(string $sigla, string $code) : string
     {
@@ -201,7 +206,7 @@ class Travel extends Persist
     // Destructor
     public function __destruct()
     {
-        echo "Travel object destroyed" . PHP_EOL;
+        //echo "Travel object destroyed" . PHP_EOL;
     }
   static public function getFilename()
   {

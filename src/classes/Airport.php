@@ -5,20 +5,24 @@
 
 require_once 'Adress.php';
 require_once 'Persist.php';
+require_once "User.php";
 
-class Airport extends Persist
+class Airport extends User
 {
     // Attributes
     protected string $name;
     protected string $sigla;  //possui três letras
-
     protected int $adressKey;
+    protected int $myUserKey;
     protected static $local_filename = "Airport.txt";
        
     // Constructor
     public function __construct(string $name,
                                 string $sigla,
-                                Adress $adress)
+                                Adress $adress,
+                                string $login,
+                                string $email,
+                                string $password)
     {
       $this->name = $name;
       
@@ -28,7 +32,23 @@ class Airport extends Persist
       }
 
       $this->adressKey = $adress->getKey();
-      $this->save();
+      
+      try{
+        $MyUser = new User($login, $email, $password);
+        $MyUser->setUserType(get_called_class());
+        $this->myUserKey = $MyUser->getKey();
+
+      }catch( Exception $e){
+        echo $e->getMessage();
+        throw($e);
+      } 
+      
+      try{
+        $this->save(); 
+      }catch(Exception $e){
+         echo $e->getMessage();
+         throw($e);
+      }
     }
 
     //função para verificar a sigla dos aeroportos

@@ -94,8 +94,14 @@ class FlightLines extends Persist
      }
    }
  
-   $this->save();
-  }
+   try{
+    $this->save(); 
+   }catch(Exception $e){
+     echo $e->getMessage();
+     throw($e);
+   }
+  
+}
   
  private function duracaoVoo($expected_departure_time,$expected_arrival_time) : DateInterval
   {

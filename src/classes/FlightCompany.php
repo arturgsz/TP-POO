@@ -6,7 +6,7 @@
 
 require_once 'Persist.php';
 
-class FlightCompany extends Persist 
+class FlightCompany extends User
 {
   protected string $name;
   protected string $code;
@@ -18,6 +18,7 @@ class FlightCompany extends Persist
   protected $flight_lines = [];
   protected MiliageProgram $miliage_program;
   protected $tripulation = [];
+  protected int $myUserKey;
   protected static $local_filename = "FlightCompany.txt";
        
 
@@ -26,7 +27,10 @@ class FlightCompany extends Persist
                               string $razao_social, 
                               string $cnpj, 
                               string $sigla,
-                              float $luggadge)
+                              float $luggadge,
+                              string $login,
+                              string $email,
+                              string $password)
   {
     $this->name = $name;
     $this->code = $code;
@@ -39,7 +43,22 @@ class FlightCompany extends Persist
     $this->cnpj = $cnpj;
     $this->luggadge = $luggadge;
 
-    $this->save();
+    try{
+      $MyUser = new User($login, $email, $password);
+      $MyUser->setUserType(get_called_class());
+      $this->myUserKey = $MyUser->getKey();
+
+    }catch( Exception $e){
+      echo $e->getMessage();
+      throw($e);
+    }
+    
+    try{
+      $this->save(); 
+    }catch(Exception $e){
+       echo $e->getMessage();
+       throw($e);
+    }
   }
         
   //conferir sigla da companhia area

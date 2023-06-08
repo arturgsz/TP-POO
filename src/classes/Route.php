@@ -31,7 +31,12 @@ class Route extends Persist
     $this->previsao_decolagem = $previsao_decolagem;
     $this->distanciaTotal();
   
-    $this->save();
+    try{
+      $this->save(); 
+   }catch(Exception $e){
+       echo $e->getMessage();
+       throw($e);
+   }
   }
 
 
@@ -39,10 +44,10 @@ class Route extends Persist
   { //velocidade veículos = 18 km/h
     //ultimo a entrar no veiculo é o crew_members[0];
     //distancia (km) + tempo (float horas) do ultimo tripulante a entrar no veiculo:
-    $distancia = $this->calculaDistancia($this->crew_members[0]->adress->coordenadas[0],
-                                         $this->crew_members[0]->adress->coordenadas[1],
-                                         $this->airport->adress->coordenadas[0],                                        
-                                         $this->airport->adress->coordenadas[1]);
+    $distancia = $this->calculaDistancia($this->crew_members[0]->getAdress()->getLat(),
+                                         $this->crew_members[0]->getAdress()->getLong(),
+                                         $this->airport->getAdress()->getlat(),                                        
+                                         $this->airport->getAdress()->getLong());
     $this->tempos[0] = $distancia / 18;
     
     for($i = 1; $i < sizeof($this->crew_members); $i++){
@@ -78,7 +83,7 @@ class Route extends Persist
   {
     $this->tempos[0] += 1.5;
     //temos os tempos em float (ex: 1,5 = 1 hora e 30 min)
-    for($i = 0; $i < sizeof($tempos); $i++){
+    for($i = 0; $i < sizeof($this->tempos); $i++){
       $tempoTotal = $this->tempos[$i]; //adicionando 90 min para chegar 90 min antes da decolagem
       $h = intval($tempoTotal);
       if((($tempoTotal - $h)*60) > intval(($tempoTotal - $h)*60)){ 
@@ -97,9 +102,9 @@ class Route extends Persist
   //Descrição da Rota
   public function descricaoRota() : void
   {
-    for($i = 0; $i < sizeof($crew_members); $i++){
-      echo $this->crew_members[$i]->name . " " . $this->crew_members[$i]->surname . " - "
-           date_format($this->tempos[$i], 'H:i:s d-m-Y') . "<br>";
+    for($i = 0; $i < sizeof($this->crew_members); $i++){
+      echo $this->crew_members[$i]->name . " " . $this->crew_members[$i]->surname . " - ".
+      date_format($this->tempos[$i], 'H:i:s d-m-Y') . "<br>";
     }
 
   }
@@ -113,13 +118,9 @@ class Route extends Persist
   {
     return $this->airport;
   }  
-  public function getTempo() : float
+  public function getTempos() : array
   {
-    return $this->tempo;
-  }  
-  public function getDistancia() : float
-  {
-    return $this->calculaDistancia();
+    return $this->tempos;
   }  
   public function setAirport(Airport $airport) : void
   {
@@ -133,12 +134,10 @@ class Route extends Persist
   {
     $this->crew_members = $crew_members;
   }
-
-  
   // Destructor
   public function __destruct()
   {
-     echo "Route has been deleted.";
+    // echo "Route has been deleted.";
   }
   static public function getFilename()
   {

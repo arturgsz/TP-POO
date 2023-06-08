@@ -40,7 +40,7 @@ class Adress extends Persist
            $this->save(); 
         }catch(Exception $e){
             echo $e->getMessage();
-            $this->__destruct();
+            throw($e);
         }
         
     }

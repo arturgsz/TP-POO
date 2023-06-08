@@ -13,7 +13,6 @@ class Vehicle extends Persist
     protected int $capacidade;
     protected static $local_filename = "Vehicle.txt";
        
-
     // Constructor
     public function __construct(string $model, 
                                 string $license_plate, 
@@ -23,7 +22,12 @@ class Vehicle extends Persist
         $this->license_plate = $license_plate;
         $this->capacidade = $capacidade;
     
-        $this->save();
+        try{
+            $this->save(); 
+         }catch(Exception $e){
+             echo $e->getMessage();
+             throw($e);
+         }
     }
 
 
@@ -45,7 +49,7 @@ class Vehicle extends Persist
     // Destructor
     public function __destruct()
     {
-        echo "The vehicle with license plate {$this->license_plate} was destroyed.";
+      //  echo "The vehicle with license plate {$this->license_plate} was destroyed.";
     }
     static public function getFilename()
     {

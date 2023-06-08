@@ -7,13 +7,12 @@ require_once 'Persist.php';
 
 class Airplane extends Persist
 {
-  public FlightCompany $flightCompany; //pertencimento
+  public int $flightCompanyKey; //pertencimento
   protected string $manufacturer;
   protected string $model;
   protected string $airplane_register; 
   protected int $capacity_passenger;
   protected float $capacity_cargo;
-
   //esse valor é dado pela Companhia Aerea
   protected float $luggadge; //preço unitario por bagagem
   protected static $local_filename = "Airplane.txt";
@@ -27,7 +26,7 @@ class Airplane extends Persist
                               int $capacity_passenger,
                               float $capacity_cargo)
   {
-    $this->flightCompany = $flightCompany;
+    $this->flightCompanyKey = $flightCompany->getKey();
     $this->manufacturer = $manufacturer;
     $this->model = $model;
   
@@ -40,7 +39,12 @@ class Airplane extends Persist
     $this->capacity_cargo= $capacity_cargo;   
     $this->luggadge = $flightCompany->getLuggadge();
 
-    $this->save();
+    try{
+      $this->save(); 
+    }catch(Exception $e){
+       echo $e->getMessage();
+       throw($e);
+    }
   }
 
   //função para conferir o registro  
@@ -63,7 +67,7 @@ class Airplane extends Persist
   //Pertencimento a uma companhia aerea
   public function getFlightCompany() : FlightCompany
   {
-    return $this->flightCompany;
+    return FlightCompany::getByKey($this->flightCompanyKey);
   }
 
   // Getters and Setters

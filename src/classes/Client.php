@@ -2,31 +2,46 @@
 /* Client.php
  * This is the class for the Client object.
  */
-require_once 'Persist.php';
+require_once 'User.php';
+require_once "Persist.php";
 
-class Client extends Persist
-{
-
+class Client extends User{
+    
     // Attributes
     protected string $name;
     protected string $surname;
     protected string $cpf;
-    protected string $email;
     protected static $local_filename = "Client.txt";
-       
+    protected int $myUserKey;
     
     // Constructor
     public function __construct(string $name, 
                                 string $surname, 
                                 string $cpf,
-                                string $email)
+                                string $login,
+                                string $email,
+                                string $password)
     {
         $this->name = $name;
         $this->surname = $surname;
         $this->cpf = $cpf;
-        $this->email = $email;
 
-        $this->save();
+        try{
+            $MyUser = new User($login, $email, $password);
+            $MyUser->setUserType(get_called_class());
+            $this->myUserKey = $MyUser->getKey();
+
+        }catch( Exception $e){
+            echo $e->getMessage();
+            throw($e);
+        }
+    
+        try{
+            $this->save(); 
+         }catch(Exception $e){
+             echo $e->getMessage();
+             throw($e);
+         }
     }
   
     public function CpfValidation($cpf) : bool
@@ -52,19 +67,11 @@ class Client extends Persist
         }
     } 
     return true;
-    }
-    public function EmailValidation($email) : bool
-    {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-         }
-         else{
-            return false;
-        }  
-    }
+    } 
+
     // Getters and Setters
     public function getName() : string
-    {
+    {   
         return $this->name;
     }
     public function getSurname() : string

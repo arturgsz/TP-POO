@@ -2,22 +2,21 @@
 /* Passenger.php
  * This is the class for the Passenger object.
  */
-
-class Passenger extends Persist
+require_once "Persist.php";
+require_once "User.php";
+require_once "Travel.php";
+class Passenger extends User
 {
     // Attributes
     protected string $name;
     protected string $surname;
     protected string $cpf;
-    protected string $email;
     protected string $nacionality;
     protected DateTime $birth;
     protected string $document;
     protected bool $vip;
-	  protected float $miliage;
-  
-
-    protected $flights = [];
+	protected float $miliage;
+    protected int $myUserKey;
     //private Ticket $ticket;
     protected static $local_filename = "Passenger.txt";
        
@@ -26,22 +25,47 @@ class Passenger extends Persist
     public function __construct(string $name, 
                                 string $surname, 
                                 string $cpf,
-                                string $email,
                                 string $nacionality,
                                 DateTime $birth,
                                 string $document,
-                                bool $vip)
+                                bool $vip,
+                                string $login, 
+                                string $email,
+                                string $password)
     {
         $this->name = $name;
-        $this->surname = $surname;
-        $this->cpf = $cpf;
-        $this->email = $email;
+        $this->surname = $surname;    
         $this->nacionality = $nacionality;
-        $this->birth = $birth;
         $this->document = $document;
         $this->vip = $vip;
-    
-        $this->save();
+
+        
+        if($this->CpfValidation($cpf))
+            $this->cpf = $cpf;
+        else
+            throw(new Exception("CPF invpalido!\n"));
+        
+        if($this->BirthValidation($birth))
+            $this->birth = $birth;
+        else 
+            throw(new Exception("Data de nascimento inválida!\n"));
+        
+        try{
+            $MyUser = new User($login, $email, $password);
+            $MyUser->setUserType(get_called_class());
+            $this->myUserKey = $MyUser->getKey();
+
+        }catch( Exception $e){
+            echo $e->getMessage();
+            throw($e);
+        }
+
+        try{
+            $this->save(); 
+        }catch(Exception $e){
+             echo $e->getMessage();
+             throw($e);
+        }
     }
 
       //Validations
@@ -71,16 +95,6 @@ class Passenger extends Persist
     return true;
     }
   
-    public function EmailValidation($email) : bool
-    {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-         }
-         else{
-            return false;
-        }  
-    }
-  
     public function BirthValidation(DateTime $birth) : bool
     {
         $d = $birth->format('d');
@@ -94,23 +108,11 @@ class Passenger extends Persist
         }
     }
 
-    //adicionar aqui toda vez que o passageiro executar um voo
-    public function Add_flight (FlightLine $flight) : void
-    {
-      array_push($this->flights, $flight);
+    public function showTravels(){
+        $tickets = FlightTicket::getRecordsByField("PassengerKey", $this->getKey());
+        echo "As viagens realizadas por voçe foram: \n\n";
+        print_r($tickets);
     }
-
-    public function Show_flight () : void
-    {
-      echo "Voos de: " . $this->name  . " " . $this->surname . "<br>";
-      for($i = 0; $i < sizeof($this->flights); $i++){
-        echo $this->flights[$i]->origin . " até " . $this->flights[$i]->destiny . "<br>";
-        echo "Início do voo: " . $this->flights[$i]->expected_departure_time . " por R$" .
-          $this->flights[$i]->line_price . "<br>";
-      }
-      echo "<br";
-    }
-
     // Getters and Setters
     public function getName() : string
     {
@@ -123,10 +125,6 @@ class Passenger extends Persist
     public function getCpf() : string
     {
         return $this->cpf;
-    }
-    public function getEmail() : string
-    {
-        return $this->email;
     }
     public function getNacionality() : string
     {
@@ -144,10 +142,6 @@ class Passenger extends Persist
     {
         return $this->vip;
     }
-    public function getFlights() : array
-    {
-        return $this->flights;
-    }
     public function getMiliage() : int
     {
         return $this->miliage;
@@ -156,7 +150,7 @@ class Passenger extends Persist
     // Destructor
     public function __destruct()
     {
-        echo "The object Passenger {$this->name} {$this->surname} was destroyed.";
+      //  echo "The object Passenger {$this->name} {$this->surname} was destroyed.";
     }
     static public function getFilename()
     {

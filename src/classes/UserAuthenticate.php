@@ -5,11 +5,13 @@ require_once "Container.php";
 
  class UserAuthenticate{
 
-    static private bool $user_online = false;
+    static private bool $user_online =  false;
     static private int $open_sessions = 0;
     static private ?User $user = null;
 
 public function __construct(){
+   // self::solveFirstUser();
+    
     if(self::$open_sessions == 0)
         ++self::$open_sessions; 
     else{
@@ -68,7 +70,7 @@ static public function getLogedUser(){
             self::$user = $user;
             $user->save();
             
-            echo "\nBem vindo! Mr.".self::getLogedUser()."\n\n";
+            echo "\nBem vindo! Mr.".self::getLogedUser()." tu es um ".(self::getLogedUserObj())->getUserType()."\n\n";
 
         }catch( Exception $e){ 
             echo $e->getMessage();
@@ -92,11 +94,25 @@ static public function LogOut(){
         echo $e->getMessage();
     }   
 }
-    public function __destruct(){
-        --self::$open_sessions; 
-        if(self::$user_online == true)
-            self::LogOut();
-    }
+public function __destruct(){
+    --self::$open_sessions; 
+    if(self::$user_online == true)
+        self::LogOut();
 }
 
+// static public function solveFirstUser(){
+//     if(!file_exists("/dataFiles/User.txt")){
+//         try{
+//         $user = new User("cruze", "Cruze@gmail.com", "1234");
+//         }catch(Exception $e){
+
+//         }
+//         $container = new Container("User.txt");
+//         $container->addObject($user);
+//         $container->persist();
+
+//     }
+// }
+
+}
 ?>

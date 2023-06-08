@@ -2,6 +2,7 @@
 
 require_once "UserAuthenticate.php";
 require_once "Log.php";
+date_default_timezone_set("America/Sao_Paulo");
 
 class ReadLog extends Log{
     protected string $user_loguin;
@@ -16,7 +17,7 @@ class ReadLog extends Log{
         $this->class_name = get_class($obj);
         $this->data_fields_acecced = $obj->getVars();   
         $this->user_loguin = UserAuthenticate::getLogedUser();
-        $this->date = date('d-m-y h:i:s'); 
+        $this->date = date("d-m-y h:i:s A "); 
 
         $this->save();
     }

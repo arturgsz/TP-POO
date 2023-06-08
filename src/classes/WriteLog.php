@@ -2,6 +2,7 @@
 
 require_once "UserAuthenticate.php";
 require_once "Log.php";
+date_default_timezone_set("America/Sao_Paulo");
 
 class WriteLog extends Log{
     
@@ -16,9 +17,13 @@ class WriteLog extends Log{
         $this->data_before = $obj_before;
         $this->data_after = $obj_after;
 
-        $this->class_name = get_class($obj_before);  
+        if(!empty($obj_before))
+            $this->class_name = get_class($obj_before); 
+        else 
+            $this->class_name = get_class($obj_after);
+
         $this->user_loguin = UserAuthenticate::getLogedUser();
-        $this->date = date('d-m-y h:i:s'); 
+        $this->date = date("d-m-y h:i:s A"); 
 
         $this->save();
     }

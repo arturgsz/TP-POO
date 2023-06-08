@@ -33,6 +33,13 @@ class VipPassenger extends Passenger
         $this->expire_program = $expire_program;
         $this->milliage_program = $milliage_program;
         $this->document = $milliage_subprogram;
+    
+        try{
+            $this->save(); 
+         }catch(Exception $e){
+             echo $e->getMessage();
+             throw($e);
+         }
     }
 
     public function refreshPoints() : bool
@@ -83,6 +90,6 @@ class VipPassenger extends Passenger
     // Destructor
     public function __destruct()
     {
-        echo "The object VipPassenger with register {$this->register_number} was destroyed.";
+      //  echo "The object VipPassenger with register {$this->register_number} was destroyed.";
     }
 }

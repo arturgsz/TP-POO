@@ -95,6 +95,11 @@
             file_put_contents( $this->filename, $serialized );   
         }
 
+
+        public function loadObjs($objs){
+            $this->objects = $objs;
+        }
+
         /* get's e set's aqui */
         public function __sleep(){
             return array(

@@ -2,6 +2,7 @@
 /* Point.php
  * This is the class for the Vehicle object.
  */
+require_once "Persist.php";
 
 class Points extends Persist
 {
@@ -11,7 +12,7 @@ class Points extends Persist
     private $dataspontos = [];
     private $pontostotais = 0;
 
-       
+    protected static $local_filename = "Points.txt";       
     //QUANDO FOR PERCORRER O ARRAY DE PONTOS E DATETIMES, SEMPRE USAR O FOREACH
   
     // Constructor
@@ -20,7 +21,12 @@ class Points extends Persist
       array_push($this->pontos, $pontos);
       array_push($this->dataspontos, $dataponto);
     
-      $this->save();
+      try{
+        $this->save(); 
+     }catch(Exception $e){
+         echo $e->getMessage();
+         throw($e);
+     }
     }
 
     public function AddPontos(float $pontos, DateTime $dataponto)
@@ -62,13 +68,13 @@ class Points extends Persist
     public function getDatapontos() : array
     {
         $this->RemovePontos();
-        return $this->datapontos;
+        return $this->dataspontos;
     }
 
     // Destructor
     public function __destruct()
     {
-        echo "The Points class was destroyed.";
+      //  echo "The Points class was destroyed.";
     }
     static public function getFilename()
     {

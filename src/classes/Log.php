@@ -5,6 +5,7 @@ abstract class Log{
 
     protected int $log_index;
 
+    
     protected function save(){
         $container = new Container(get_called_class()::getFileName());
         $container->addObject($this);

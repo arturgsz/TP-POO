@@ -6,8 +6,9 @@
 require_once 'Airport.php';
 require_once 'Adress.php';
 require_once 'Persist.php';
+require_once "User.php";
 
-class Crew extends Persist
+class Crew extends User
 {
   protected string $name;
   protected string $surname;
@@ -16,9 +17,10 @@ class Crew extends Persist
   protected DateTime $birth;
   protected string $email;
   protected string $flight_doc;
-  protected Adress $adress;
-  protected FlightCompany $flightcompany;
-  protected Airport $base_airport;
+  protected int $adressKey;
+  protected int $flightcompanyKey;
+  protected int $base_airportKey;
+  protected int $myUserKey;
   protected static $local_filename = "Crew.txt";
        
 
@@ -28,34 +30,58 @@ class Crew extends Persist
                               string $cpf,
                               string $nacionality,
                               DateTime $birth,
-                              string $email,
                               string $flight_doc,
                               Adress $adress,
                               FlightCompany $flightcompany,
-                              Airport $base_airport)
+                              Airport $base_airport,
+                              string $login,
+                              string $email,
+                              string $password)
   {
     $this->name = $name;
     $this->surname = $surname;
     $this->nacionality = $nacionality;
+    $this->flight_doc = $flight_doc;
+    $this->adressKey = $adress->getKey();
+    $this->flightcompanyKey = $flightcompany->getKey();
+    $this->base_airportKey = $base_airport->getKey();  
+      
     if(mb_strtoupper($nacionality) == 'BRASILEIRO' || 
        mb_strtoupper($nacionality) == 'BRASILEIRA'){
-      if(Passenger::CpfValidation($cpf)){$this->cpf = $cpf;}
-      else { throw new Exception ("CPF Invalido");}
-    }else{$this->cpf = $cpf;}
-    if(Passenger::EmailValidation ($email)){$this->email = $email;}
-    else{ throw new Exception ("Email Invalido");}
-    $this->nacionality = $nacionality;
-    if(Passenger::BirthValidation($birth)){$this->birth = $birth;}
-    else{ throw new Exception ("Nascimento Invalido");}
+      
+      if($this->CpfValidation($cpf))
+        $this->cpf = $cpf;
+      else 
+        throw new Exception ("CPF Invalido");
 
-    $this->flight_doc = $flight_doc;
-    $this->adress = $adress;
-    $this->flightcompany = $flightcompany;
-    $this->base_airport = $base_airport;
+      if($this->EmailValidation ($email))
+        $this->email = $email;
+      else
+        throw new Exception ("Email Invalido");
+    
+      if($this->BirthValidation($birth))
+        $this->birth = $birth;
+      else
+        throw new Exception ("Nascimento Invalido");
+    }
+    
+    try{
+        $MyUser = new User($login, $email, $password);
+        $MyUser->setUserType(get_called_class());
+        $this->myUserKey = $MyUser->getKey();
 
-    $this->save();
-  }
-
+    }catch( Exception $e){
+        echo $e->getMessage();
+        throw($e);
+    }
+    try{
+      $this->save(); 
+    }catch(Exception $e){
+      
+      echo $e->getMessage();
+      throw($e);
+    }
+}
 
 //Validations    
   public function CpfValidation($cpf) : bool
@@ -80,23 +106,13 @@ class Crew extends Persist
       }
       $d = ((10 * $d) % 11) % 10;
       if ($cpf[$c] != $d) {
-          echo "CPF invalido" . PHP_EOL;
+         // echo "CPF invalido" . PHP_EOL;
           return false;
       }
   } 
   return true;
   }
 
-  public function EmailValidation($email) : bool
-  {
-      if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-          return true;
-       }
-       else{
-          echo "Email invalido" . PHP_EOL;
-          return false;
-      }  
-  }
   public function BirthValidation(DateTime $birth) : bool
   {
     $d = $birth->format('d');
@@ -111,13 +127,13 @@ class Crew extends Persist
     if(checkdate($m, $d, $y)){
       if($y > $hy || ($y == $hy && $m > $hm) ||
         ($y == $hy && $m == $hm && $d > $hd)){
-        echo "Nascimento invalido" . PHP_EOL;
+        //echo "Nascimento invalido" . PHP_EOL;
         return false;
       } 
       return true;
     }
     else{
-      echo "Nascimento invalida=o" . PHP_EOL;
+      //echo "Data de nascimento invalidado" . PHP_EOL;
       return false;
     }
   }
@@ -138,10 +154,6 @@ class Crew extends Persist
       return $this->cpf;
   }
 
-  public function getEmail() : string
-  {
-      return $this->email;
-  }
 
   public function getNacionality() : string
   {
@@ -155,17 +167,17 @@ class Crew extends Persist
     
   public function getAirport() : Airport
   {
-    return $this->base_airport;
+    return Airport::getByKey($this->base_airportKey);
   }
 
   public function getFlightCompany() : FlightCompany
   {
-    return $this->flightcompany;
+    return FlightCompany::getByKey($this->flightcompanyKey);
   }
   
   public function getAdress() : Adress
   {
-    return $this->adress;
+    return Adress::getByKey($this->adressKey);
   }
   
   public function getFlight_doc() : string
@@ -176,17 +188,17 @@ class Crew extends Persist
   
   public function setAirport(Airport $base_airport) : void
   {
-    $this->base_airport = $base_airport;
+    $this->base_airportKey = $base_airport->getKey();
   }
 
   public function setFlightCompany(FlightCompany $flightcompany) : void
   {
-    $this->flightcompany = $flightcompany;
+    $this->flightcompanyKey = $flightcompany->getKey();
   }
 
   public function setAdress(Adress $adress) : void
   {
-    $this->adress = $adress;
+    $this->adressKey = $adress->getKey();
   }
 
   public function setFlight_doc(string $flight_doc) : void

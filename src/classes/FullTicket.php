@@ -15,7 +15,12 @@ class FullTicket extends Persist
        
     public function __construct(){
 
-        $this->save();
+        try{
+            $this->save(); 
+         }catch(Exception $e){
+             echo $e->getMessage();
+             throw($e);
+         }
     }
 
     //Methods
@@ -26,9 +31,11 @@ class FullTicket extends Persist
 
     public function Calc_price() : float
     {
+        $price = 0;
         for($i=0; $i < count($this->tickets); $i++){
-            $this->price += $this->tickets[$i]->price;
+            $price += $this->tickets[$i]->price;
         }
+        return $price;
     }
 
     public function alteracao () : void
@@ -54,7 +61,7 @@ class FullTicket extends Persist
     // Destructor
     public function __destruct()
     {
-        echo "Full Ticket object was destroyed.";
+       // echo "Full Ticket object was destroyed.";
     }
 
 static public function getFilename()

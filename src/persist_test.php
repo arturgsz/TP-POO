@@ -1,13 +1,13 @@
 <?php 
 include_once "global.php";
 $sed = new UserAuthenticate();
-$sed->LogIn("cruze", "123");
+$sed->LogIn("santospoat", "123");
 
-$user = new User("santos", "kv","123");
-$user = new User("turito", "kib","123");
+// $user = new User("santos", "kv","123");
+// $user = new User("turito", "kib","123");
 
-$ad = new Adress("bs", "swntsa","MG", "gv","38", "350","6165","
-  44");
+// $ad = new Adress("bs", "swntsa","MG", "gv","38", "350","6165","
+//   44");
 
 //  $airport1 = new Airport("c port", "SFT", $ad);
 //  $airport2 = new Airport("cnv port", "SFT", $ad );

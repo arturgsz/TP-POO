@@ -45,7 +45,7 @@ private function getUserByLogin($login){
                 if ( $ob->getLogin() == $login )                   
                 return $ob;                    
             }
-                throw(new Exception("Não foi possivel encontrar o usuario\n"));
+                throw(new Exception("Não foi possivel encontrar ".$login." no sistema\n"));
 
 }
 static public function getLogedUser(){

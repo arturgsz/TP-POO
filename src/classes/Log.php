@@ -1,6 +1,6 @@
 <?php 
 require_once "container.php";
-
+require_once "UserAuthenticate.php";
 abstract class Log{
 
     protected int $log_index;
@@ -13,6 +13,10 @@ abstract class Log{
     }
 
     static public function showLogs(){
+       
+        if(!UserAuthenticate::Authentication())
+            throw(new Exception("Impossivel gerar relatório de Logs, não há usuario no sistema"));
+
         $container = new Container(get_called_class()::getFileName());
         $objs = $container->getObjects();
         

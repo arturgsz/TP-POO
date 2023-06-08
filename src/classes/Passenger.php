@@ -108,11 +108,19 @@ class Passenger extends User
         }
     }
 
+
     public function showTravels(){
         $tickets = FlightTicket::getRecordsByField("PassengerKey", $this->getKey());
         echo "As viagens realizadas por voçe foram: \n\n";
         print_r($tickets);
     }
+    //adicionar aqui toda vez que o passageiro executar um voo
+    
+    public function Add_flight (FlightLines $flight) : void
+    {
+      array_push($this->flights, $flight);
+    }
+
     // Getters and Setters
     public function getName() : string
     {

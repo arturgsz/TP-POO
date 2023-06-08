@@ -29,7 +29,7 @@ class FullTicket extends Persist
         array_push($this->tickets, $flightTicket);
     }
 
-    public function Calc_price() : float
+    public function Calc_price()
     {
         $price = 0;
         for($i=0; $i < count($this->tickets); $i++){

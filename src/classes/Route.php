@@ -105,6 +105,9 @@ class Route extends Persist
     for($i = 0; $i < sizeof($this->crew_members); $i++){
       echo $this->crew_members[$i]->name . " " . $this->crew_members[$i]->surname . " - ".
       date_format($this->tempos[$i], 'H:i:s d-m-Y') . "<br>";
+      
+      // echo $this->crew_members[$i]->name . " " . $this->crew_members[$i]->surname . " - " .
+      //      date_format($this->tempos[$i], 'H:i:s d-m-Y') . "<br>";
     }
 
   }
@@ -118,10 +121,12 @@ class Route extends Persist
   {
     return $this->airport;
   }  
+
   public function getTempos() : array
   {
     return $this->tempos;
   }  
+
   public function setAirport(Airport $airport) : void
   {
     $this->airport = $airport;

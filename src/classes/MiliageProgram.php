@@ -27,6 +27,7 @@ class MiliageProgram extends Persist
          echo $e->getMessage();
          throw($e);
       }
+
     }
 
     // public function AddCategoria (MiliageSubprogram $subprogram) : void
@@ -35,7 +36,8 @@ class MiliageProgram extends Persist
       
     // }
   
-    public function AddCategoria (string $nome_categoria, int $pontosmin)
+
+    public function AddCategoria (string $nome_categoria, int $pontosmin) 
     {
       $a1 = $this->sub_categorias;
 	    $a2 = array($nome_categoria => $pontosmin);
@@ -109,4 +111,5 @@ class MiliageProgram extends Persist
     {
         return get_called_class()::$local_filename;
     }
+
   }

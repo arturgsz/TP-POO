@@ -27,7 +27,7 @@ class VipPassenger extends Passenger
                                 string $milliage_subprogram)
   {
         $this->register_number = $register_number;
-        $this->points_last12 = $points_last_year;
+        $this->points_last_year = $points_last_year;
         $this->points_alltime = $points_alltime;
         $this->entered_program = $entered_program;
         $this->expire_program = $expire_program;
@@ -44,14 +44,14 @@ class VipPassenger extends Passenger
 
     public function refreshPoints() : bool
     {
-      $this->points_last12 = 0;
+      $this->points_last_year = 0;
       $this->points_alltime = 0;
-      if($this->points_last12 == $this->points_alltime == 0){return true;}
+      if($this->points_last_year == $this->points_alltime == 0){return true;}
       else {return false;}
       //só isso?
     }
 
-    public function refreshMiliage() : bool
+    public function refreshMiliage()
     {
       //implementar
     }
@@ -63,7 +63,7 @@ class VipPassenger extends Passenger
     }
     public function getPoints_last12() : float
     {
-        return $this->points_last12;
+        return $this->points_last_year;
     }
     public function getPoints_alltime() : float
     {
@@ -75,15 +75,15 @@ class VipPassenger extends Passenger
     }
     public function getExpired_program() : DateTime
     {
-        return $this->expired_program;
+        return $this->expire_program;
     }
     public function getMiliage_program() : string
     {
-        return $this->miliage_program;
+        return $this->milliage_program;
     }
     public function getmiliage_subprogram() : string
     {
-        return $this->miliage_subprogram;
+        return $this->milliage_subprogram;
     } 
   
     

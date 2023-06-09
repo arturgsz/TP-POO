@@ -1,11 +1,5 @@
 <?php
-require_once("./src/classes/FlightCompany.php");
-require_once("./src/classes/Airplane.php");
-require_once("./src/classes/Airport.php");
-require_once("./src/classes/Travel.php");
-require_once("./src/classes/FlightLines.php");
-require_once("./src/classes/Passenger.php");
-require_once("./src/classes/FlightTicket.php");
+require_once "./src/System.php";
 
 //Testando funcionalidades sem fazer nenhum login:
 //Criando avião:

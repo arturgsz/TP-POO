@@ -4,31 +4,7 @@
 
     abstract class Persist {
       //  private ?string $filename;
-        private ?int $index = null; 
-        // public function __construct() {        
-        //     if (func_num_args()==1) {
-        //         $this->filename = func_get_arg(0);	                		
-		// 	}  
-        //     else if (func_num_args()==2) {
-        //         $this->filename = func_get_arg(0);	
-        //         $this->index = func_get_arg(1);              
-		// 	}             
-		// 	else {
-		// 		throw( new Exception('Eror ao instanciar objeto da classe Persist - Número de parâmetros incorreto.'));
-        //     }
-        // }
-
-        // public function __destruct() {
-        //     //print "Destroying " . __CLASS__ . "\n";
-        // }
-
-        // public function load($p_obj) {           
-        //    $class_vars = get_class_vars(get_class($p_obj));
-        //     foreach ($class_vars as $name => $value) {
-        //         echo "$name : $value\n";
-        //         $this->$name = $value;            
-        //     }
-        // }             
+        private ?int $index = null;            
 
         public function save() {
             

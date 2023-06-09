@@ -44,14 +44,6 @@ use FFI\Exception;
                     $users = $container->getObjects();
                     $newUsers = array();
                     $newUsers[1] = $users[1];
-                    
-                    //$i = true;
-                    
-                    // foreach($users as $user){
-                    //     if($i)
-                    //         $newUsers;
-                    //     $i = false;
-                    // }
 
                     $container->loadObjs($newUsers);
                     $container->persist();

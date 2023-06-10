@@ -5,7 +5,6 @@
 
 require_once 'Airport.php';
 require_once 'Adress.php';
-require_once 'Persist.php';
 require_once "User.php";
 
 class Crew extends User
@@ -21,6 +20,7 @@ class Crew extends User
   protected int $flightcompanyKey;
   protected int $base_airportKey;
   protected int $myUserKey;
+  protected string $cargo;
   protected static $local_filename = "Crew.txt";
        
 
@@ -31,6 +31,7 @@ class Crew extends User
                               string $nacionality,
                               DateTime $birth,
                               string $flight_doc,
+                              string $cargo,
                               Adress $adress,
                               FlightCompany $flightcompany,
                               Airport $base_airport,
@@ -42,9 +43,11 @@ class Crew extends User
     $this->surname = $surname;
     $this->nacionality = $nacionality;
     $this->flight_doc = $flight_doc;
+    $this->cargo = strtoupper($cargo);
     $this->adressKey = $adress->getKey();
     $this->flightcompanyKey = $flightcompany->getKey();
     $this->base_airportKey = $base_airport->getKey();  
+    
       
     if(mb_strtoupper($nacionality) == 'BRASILEIRO' || 
        mb_strtoupper($nacionality) == 'BRASILEIRA'){
@@ -164,10 +167,16 @@ class Crew extends User
   {
       return $this->birth;
   }
+
+  public function getCargo() : string
+  {
+    return $this->cargo;
+  }
     
   public function getAirport() : Airport
   {
-    return Airport::getByKey($this->base_airportKey);
+    $airport = Airport::getByKey($this->base_airportKey);
+    return $airport;
   }
 
   public function getFlightCompany() : FlightCompany

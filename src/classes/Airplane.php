@@ -7,14 +7,13 @@ require_once 'Persist.php';
 
 class Airplane extends Persist
 {
-  public int $flightCompanyKey; //pertencimento
+  protected int $flightCompanyKey; //pertencimento
   protected string $manufacturer;
   protected string $model;
   protected string $airplane_register; 
   protected int $capacity_passenger;
   protected float $capacity_cargo;
   //esse valor é dado pela Companhia Aerea
-  protected float $luggadge; //preço unitario por bagagem
   protected static $local_filename = "Airplane.txt";
        
 
@@ -37,7 +36,6 @@ class Airplane extends Persist
     
     $this->capacity_passenger = $capacity_passenger;
     $this->capacity_cargo= $capacity_cargo;   
-    $this->luggadge = $flightCompany->getLuggadge();
 
     try{
       $this->save(); 
@@ -96,10 +94,10 @@ class Airplane extends Persist
     return $this->capacity_cargo;
   }
 
-  public function getLuggadge() : float
-  {
-    return $this->luggadge;
-  }
+  // public function getLuggadge() : float
+  // {
+  //   return $this->luggadge;
+  // }
   
   public function setManufacturer(string $manufacturer) : void
   {
@@ -139,8 +137,8 @@ class Airplane extends Persist
           "Capacidade de Passageiros: {$this->getPassengerCapacity()} " . PHP_EOL . 
           "Capacidade de Carga: {$this->getWeightCapacity()}" . PHP_EOL .
           "Registro: {$this->getRegistration()}" . PHP_EOL .
-          "Pertence a Companhia Aerea: {$this->getFlightCompany()->getName()}" . PHP_EOL .
-          "Valor unitario da bagagem: {$this->getLuggadge()}" . PHP_EOL . PHP_EOL); 
+          "Pertence a Companhia Aerea: {$this->getFlightCompany()->getName()}" . PHP_EOL );
+          //"Valor unitario da bagagem: {$this->getLuggadge()}" . PHP_EOL . PHP_EOL); 
   }
 
   // Destructor

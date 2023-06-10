@@ -11,8 +11,8 @@ require_once 'Persist.php';
 class Route extends Persist
 {
   protected $crew_members = []; 
-  protected Vehicle $vehicle;
-  protected Airport $airport;
+  protected int $vehicleKey;
+  protected int $airportKey;
   protected array $tempos = [];
   protected DateTime $previsao_decolagem;
   protected DateTime $tempo_inicio_rota;
@@ -20,14 +20,16 @@ class Route extends Persist
        
 
   
-  public function __construct(array $crew_members,
+  public function __construct(array $crew_membersKey,
                               Airport $airport,
                               Vehicle $vehicle,
                               DateTime $previsao_decolagem)
   {
-    $this->crew_members = $crew_members;
-    $this->airport = $airport;
-    $this->vehicle = $vehicle;
+    foreach($crew_membersKey as $crew_memberKey){
+      array_push($this->crew_members, Crew::getByKey($crew_memberKey));
+    }
+    $this->airportKey = $airport->getKey();
+    $this->vehicleKey = $vehicle->getKey();
     $this->previsao_decolagem = $previsao_decolagem;
     $this->distanciaTotal();
   
@@ -40,14 +42,14 @@ class Route extends Persist
   }
 
 
-  private function distanciaTotal()
+  public function distanciaTotal()
   { //velocidade veículos = 18 km/h
     //ultimo a entrar no veiculo é o crew_members[0];
     //distancia (km) + tempo (float horas) do ultimo tripulante a entrar no veiculo:
     $distancia = $this->calculaDistancia($this->crew_members[0]->getAdress()->getLat(),
                                          $this->crew_members[0]->getAdress()->getLong(),
-                                         $this->airport->getAdress()->getlat(),                                        
-                                         $this->airport->getAdress()->getLong());
+                                         Airport::getByKey($this->airportKey)->getAdress()->getlat(),                                        
+                                         Airport::getByKey($this->airportKey)->getAdress()->getLong());
     $this->tempos[0] = $distancia / 18;
     
     for($i = 1; $i < sizeof($this->crew_members); $i++){
@@ -115,11 +117,11 @@ class Route extends Persist
  // Setters and Getters
   public function getVehicle() : Vehicle
   {
-    return $this->vehicle;
+    return Vehicle::getByKey($this->vehicleKey);
   }    
   public function getAirport() : Airport
   {
-    return $this->airport;
+    return Airport::getByKey($this->airportKey);
   }  
 
   public function getTempos() : array
@@ -129,11 +131,11 @@ class Route extends Persist
 
   public function setAirport(Airport $airport) : void
   {
-    $this->airport = $airport;
+    $this->airportKey = $airport->getKey();
   }    
   public function setVehicle(Vehicle $vehicle) : void
   {
-    $this->vehicle = $vehicle;
+    $this->vehicleKey = $vehicle->getKey();
   }  
   public function setCrew_members(array $crew_members) : void
   {

@@ -30,9 +30,11 @@ class MiliageSubprogram extends Persist
          }
     }
 
-    public function AddPassenger($passenger) : bool
+    public function AddPassenger(Passenger $passenger) : bool
     {
-      if(array_push($this->passengers, $passenger)){
+      $passengerKey = $passenger->getKey();
+      $passenger_ = Airport::getByKey($passengerKey);
+      if(array_push($this->passengers, $passenger_)){
         return true;
       }
       else {return false;}
@@ -40,11 +42,13 @@ class MiliageSubprogram extends Persist
 
     public function RemovePassenger($passenger) : bool
     {
+      $passengerKey = $passenger->getKey();
+      $passenger_ = Airport::getByKey($passengerKey);
       //UNSET remove elemento
-      unset($this->passengers[array_search($passenger, $this->passengers)]);
+      unset($this->passengers[array_search($passenger_, $this->passengers)]);
 
       //Checa se ainda há aquele passageiro no array
-      if(array_search($passenger, $this->passengers) == NULL ) { 
+      if(array_search($passenger_, $this->passengers) == NULL ) { 
       	return true;
       }
       else {

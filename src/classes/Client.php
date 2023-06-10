@@ -25,7 +25,7 @@ class Client extends User{
         $this->name = $name;
         $this->surname = $surname;
         $this->cpf = $cpf;
-
+        
         try{
             $MyUser = new User($login, $email, $password);
             $MyUser->setUserType(get_called_class());
@@ -35,7 +35,7 @@ class Client extends User{
             echo $e->getMessage();
             throw($e);
         }
-    
+        
         try{
             $this->save(); 
          }catch(Exception $e){

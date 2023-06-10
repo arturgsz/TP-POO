@@ -84,12 +84,12 @@ class Adress extends Persist
         return $this->cep;
     }
 
-    public function getLat() : string
+    public function getLat() : int
     {
         return $this->coordenadas[0];
     }
 
-    public function getLong() : string
+    public function getLong() : int
     {
         return $this->coordenadas[1];
     }

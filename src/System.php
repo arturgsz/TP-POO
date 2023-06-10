@@ -1,5 +1,6 @@
 <?php
 use FFI\Exception;
+
     function autoloader($pClassName) {
         echo __NAMESPACE__;
         $path = __DIR__ . '/classes/' . $pClassName . '.php';
@@ -60,7 +61,7 @@ use FFI\Exception;
         }
 
         static public function update(){
-
+            
         }
     }
 

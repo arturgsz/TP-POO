@@ -20,6 +20,7 @@ class MiliageProgram extends Persist
     {
       $this->nome = $nome;
       $this->sub_categorias = [];
+
       
       try{
         $this->save(); 

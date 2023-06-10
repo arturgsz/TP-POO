@@ -1,5 +1,5 @@
 <?php 
-require_once "./src/System.php";
+require_once "../src/System.php";
 
     try{
         $ad = new Adress("ougdwc","giy","vi","ogu","561","465","48","145");

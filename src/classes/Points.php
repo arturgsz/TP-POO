@@ -50,11 +50,12 @@ class Points extends Persist
 
     public function getPontos_acumulados() : float
     {
+      $this->RemovePontos();
       $this->pontostotais = 0;
-     foreach ($this->pontos as $p)
-       {
+      foreach ($this->pontos as $p)
+      {
          $this->pontostotais += $p;
-       }
+      }
       return $this->pontostotais;
     }
 

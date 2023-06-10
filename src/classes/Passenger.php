@@ -14,8 +14,10 @@ class Passenger extends User
     protected string $nacionality;
     protected DateTime $birth;
     protected string $document;
+    protected float $balance;
     protected bool $vip;
 	protected float $miliage;
+    protected array $flights;
     protected int $myUserKey;
     //private Ticket $ticket;
     protected static $local_filename = "Passenger.txt";
@@ -43,7 +45,7 @@ class Passenger extends User
         if($this->CpfValidation($cpf))
             $this->cpf = $cpf;
         else
-            throw(new Exception("CPF invpalido!\n"));
+            throw(new Exception("CPF invalido!\n"));
         
         if($this->BirthValidation($birth))
             $this->birth = $birth;
@@ -116,9 +118,27 @@ class Passenger extends User
     }
     //adicionar aqui toda vez que o passageiro executar um voo
     
-    public function Add_flight (FlightLines $flight) : void
+
+    public function addCredit($add){
+        $this->balance += $add;
+        $this->save();
+    }
+    public function showBalance(){
+        echo $this->name." seu saldo é de ".$this->balance."R$\n";
+    }
+    public function pay($price){
+        if($this->balance < $price)
+            throw(new Exception("O Cliente não possui saldo suficiente"));
+        
+        $this->balance -=$price;
+        $this->save();
+    }
+
+
+    public function Add_flight (FlightLine $flight) : void
     {
-      array_push($this->flights, $flight);
+      //$flight_new = $flight->getKey();
+      array_push($this->flights, FlightLine::getByKey($flight));
     }
 
     // Getters and Setters

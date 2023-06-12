@@ -9,6 +9,7 @@ System::cleanDB();
 //Passageiros
 $Birth_Artur = new DateTime('16-06-03');
 $Passenger_Artur = new Passenger('Artur', 'Souza', '02339430640','Brasileiro', $Birth_Artur,'MG20928340', true, 'Turito', 'arturgs@email.com','galo');
+$Passenger_ArturKey = $Passenger_Artur->getKey();
 
 //Pontos Artur
 $Ponto_Artur = new Points (0, new DateTime("now"));
@@ -32,18 +33,17 @@ $Aeroporto_Confins = new Airport('Aeroporto Confins', 'PMP', $Adress_AeroConfins
 $Milhas = new MiliageProgram ('Milhas-AZUL', $AzulKey);
 $Milhas->AddCategoria('Azul Inicial', 0);
 $Milhas->AddCategoria('Azul Safira', 100);
+$Milhas->showSubCategorias();
 $SubCategorias = $Milhas->getArraySubCategorias();
 $AzulSafira = $Milhas->getSubCategoria(1);
-$AzulSafira->AddPassenger($Passenger_Artur);
+$AzulSafira->AddPassenger($Passenger_ArturKey);
 $AzulSafiraKey = $AzulSafira->getKey();
 
 
 $Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
-echo "PONTOS " . $Passenger_Artur->getPoints() . "\n";
+echo "PONTOS " . $Passenger_Artur->getPoints() . "\n" ;
 
-$flightCompany =  $Passenger_Artur->getVipFlightCompany();
+$Company =  $Passenger_Artur->getVipFlightCompany();
 
-var_dump($flightCompany);
-
-// var_dump($SubProgram);
+var_dump($Company);
 echo "---------------------------------\n";

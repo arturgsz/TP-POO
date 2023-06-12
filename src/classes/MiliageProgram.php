@@ -97,7 +97,14 @@ class MiliageProgram extends Persist
         }
     }
   }
-    
+  public function showSubCategorias() {
+    echo "SubCategorias de " . $this->nome ." : \n";
+    for($i = 0; $i < sizeof($this->sub_categorias); $i++)
+    {
+      echo "[".$i."] " . $this->sub_categorias[$i]->getName() . " - Pontos Mínimos: "
+      . $this->sub_categorias[$i]->getPontos_minimos() . "\n";
+    }
+  }
   
   // Getters and Setters
     public function getName() : string

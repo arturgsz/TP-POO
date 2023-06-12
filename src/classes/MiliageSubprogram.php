@@ -30,10 +30,9 @@ class MiliageSubprogram extends Persist
          }
     }
 
-    public function AddPassenger(Passenger $passenger) : bool
+    public function AddPassenger(int $passengerKey) : bool
     {
-      $passengerKey = $passenger->getKey();
-      $passenger_ = Airport::getByKey($passengerKey);
+      $passenger_ = Passenger::getByKey($passengerKey);
       if(array_push($this->passengers, $passenger_)){
         return true;
       }

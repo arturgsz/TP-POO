@@ -76,7 +76,7 @@ class Passenger extends User
     }
 
     //Vip "Construct"
-    public function Vip(int $register_number, int $flight_companyKey, int $pointsKey) : void
+    public function Vip(int $register_number, int $flight_companyKey, /*int $milliage_subprogramKey ,*/int $pointsKey) : void
     {
         if($this->vip == true){
             $this->register_number = $register_number;
@@ -200,19 +200,26 @@ class Passenger extends User
     public function getPoints() : float
     {         
         if($this->vip == true){return(Points::getByKey($this->pointsKey))->getPontos_acumulados();}
-        else{return 0;}
+        else{throw(new Exception("O passageiro não é vip"));}
     }   
     
     public function getVipFlightCompany() : FlightCompany
     {         
         if($this->vip == true){return(FlightCompany::getByKey($this->flight_companyKey));}
-        else{return NULL;}
+        else{throw(new Exception("O passageiro não é vip"));}
     }
+
+    public function getSubProgram() : MiliageSubprogram
+    {         
+        if($this->vip == true){return(MiliageSubprogram::getByKey($this->milliage_subprogramKey));}
+        else{throw(new Exception("O passageiro não é vip"));}
+    }
+
     // Getters and Setters
     public function getRegister_number() : int
     {
         if($this->vip == true){return $this->register_number;}
-        else {return 0;}
+        else {throw(new Exception("O passageiro não é vip"));}
     }
 
     public function getMiliage_subprogram()

@@ -11,7 +11,10 @@ class Vehicle extends Persist
     protected string $model;
     protected string $license_plate;
     protected int $capacidade;
+
+    protected int $velocidade;
     protected static $local_filename = "Vehicle.txt";
+
        
     // Constructor
     public function __construct(string $model, 
@@ -21,6 +24,7 @@ class Vehicle extends Persist
         $this->model = $model;
         $this->license_plate = $license_plate;
         $this->capacidade = $capacidade;
+        $this->velocidade = 18;
     
         try{
             $this->save(); 
@@ -44,6 +48,11 @@ class Vehicle extends Persist
     public function getCapacidade() : int
     {
         return $this->capacidade;
+    }
+
+    public function getVelocidade() : int
+    {
+        return $this->velocidade;
     }
 
     // Destructor

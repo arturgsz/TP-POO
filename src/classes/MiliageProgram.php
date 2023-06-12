@@ -41,8 +41,10 @@ class MiliageProgram extends Persist
 
     public function AddCategoria (string $nome_categoria, int $pontosmin) 
     {
+      $subProgram = new MiliageSubprogram ($nome_categoria, $pontosmin);
       $a1 = $this->sub_categorias;
-	    $a2 = array($nome_categoria => $pontosmin);
+	    //$a2 = array($nome_categoria => $pontosmin);
+      $a2 = array($subProgram);
 	    $this->sub_categorias = (array_merge($a1,$a2));
       asort($this->sub_categorias);
     }
@@ -105,6 +107,14 @@ class MiliageProgram extends Persist
 
     public function getCompanyKey(){
       return $this->companyKey;
+    }
+
+    public function getArraySubCategorias() : array {
+      return $this->sub_categorias;
+    }
+
+    public function getSubCategoria(int $i) : MiliageSubprogram {
+      return $this->sub_categorias[$i];
     }
   
     // Destructor

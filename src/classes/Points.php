@@ -33,6 +33,7 @@ class Points extends Persist
     {
       array_push($this->pontos, $pontos);
       array_push($this->dataspontos, $dataponto);
+      $this->save();
     }
 
     public function RemovePontos()
@@ -45,7 +46,7 @@ class Points extends Persist
           unset($this->dataspontos[$i]);
         }
       }
-      
+      $this->save();
     }
 
     public function getPontos_acumulados() : float

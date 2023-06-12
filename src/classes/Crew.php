@@ -49,8 +49,8 @@ class Crew extends User
     $this->base_airportKey = $base_airport->getKey();  
     
       
-    if(mb_strtoupper($nacionality) == 'BRASILEIRO' || 
-       mb_strtoupper($nacionality) == 'BRASILEIRA'){
+    if(strtoupper($nacionality) == 'BRASILEIRO' || 
+       strtoupper($nacionality) == 'BRASILEIRA'){
       
       if($this->CpfValidation($cpf))
         $this->cpf = $cpf;

@@ -15,7 +15,7 @@ class Route extends Persist
   protected int $airportKey;
   protected array $tempos = [];
   protected DateTime $previsao_decolagem;
-  protected DateTime $tempo_inicio_rota;
+  protected float $chegada_aeroporto;
   protected static $local_filename = "Route.txt";
        
 
@@ -48,23 +48,31 @@ class Route extends Persist
     //distancia (km) + tempo (float horas) do ultimo tripulante a entrar no veiculo:
     $distancia = $this->calculaDistancia($this->crew_members[0]->getAdress()->getLat(),
                                          $this->crew_members[0]->getAdress()->getLong(),
-                                         Airport::getByKey($this->airportKey)->getAdress()->getlat(),                                        
+                                         Airport::getByKey($this->airportKey)->getAdress()->getLat(),                                        
                                          Airport::getByKey($this->airportKey)->getAdress()->getLong());
     $this->tempos[0] = $distancia / 18;
+    $this->chegada_aeroporto = $this->tempos[0];
     
-    for($i = 1; $i < sizeof($this->crew_members); $i++){
-      $distancia += $this->calculaDistancia($this->crew_members[sizeof($this->crew_members) - 1]->adress->coordenadas[0],
-                                            $this->crew_members[sizeof($this->crew_members) - 1]->adress->coordenadas[1],
-                                            $this->crew_members[$i]->adress->coordenadas[0],
-                                            $this->crew_members[$i]->coordenadas[1]);
-      $this->tempos[$i] = $distancia / 18;
-    }
 
-   $this->concatenaTempo();
+
+    for($i = 1; $i < sizeof($this->crew_members); $i++){
+      $distancia = $this->calculaDistancia($this->crew_members[$i-1]->getAdress()->getLat(),
+                                            $this->crew_members[$i-1]->getAdress()->getLong(),
+                                            $this->crew_members[$i]->getAdress()->getLat(),
+                                            $this->crew_members[$i]->getAdress()->getLong());
+      $this->tempos[$i] = $distancia / 18;
+      try{
+        $this->save(); 
+     }catch(Exception $e){
+         echo $e->getMessage();
+         throw($e);
+     }
+    }
   }
 
   private function calculaDistancia (float $lat1, float $lon1, float $lat2, float $lon2) : float
   {
+    $distancia = 0;
     $r = 6371; // Raio médio da Terra em quilômetros
     // Converter graus em radianos
     $lat1 = deg2rad($lat1);
@@ -86,7 +94,7 @@ class Route extends Persist
     $this->tempos[0] += 1.5;
     //temos os tempos em float (ex: 1,5 = 1 hora e 30 min)
     for($i = 0; $i < sizeof($this->tempos); $i++){
-      $tempoTotal = $this->tempos[$i]; //adicionando 90 min para chegar 90 min antes da decolagem
+      $tempoTotal = $this->tempos[$i]; 
       $h = intval($tempoTotal);
       if((($tempoTotal - $h)*60) > intval(($tempoTotal - $h)*60)){ 
         $min = intval(($tempoTotal - $h)*60 + 1);
@@ -98,20 +106,34 @@ class Route extends Persist
       //mudando o array de tempos que era float (tempo em horas antes da decolagem) p/ datetime (date e hora normais)
       $t = 'PT'. $h . 'H' . $min . 'M';
       $this->tempos[$i] = $this->previsao_decolagem->sub(new DateInterval($t));
+
+      echo $this->crew_members[$i]->getName() . " " . $this->crew_members[$i]->getSurname() . " - ".
+      date_format($this->tempos[$i], 'H:i:s d-m-Y') . "\n";
+
+      try{
+        $this->save(); 
+     }catch(Exception $e){
+         echo $e->getMessage();
+         throw($e);
+     }
     }
+
   }
 
   //Descrição da Rota
   public function descricaoRota() : void
   {
-    for($i = 0; $i < sizeof($this->crew_members); $i++){
-      echo $this->crew_members[$i]->name . " " . $this->crew_members[$i]->surname . " - ".
-      date_format($this->tempos[$i], 'H:i:s d-m-Y') . "<br>";
-      
-      // echo $this->crew_members[$i]->name . " " . $this->crew_members[$i]->surname . " - " .
-      //      date_format($this->tempos[$i], 'H:i:s d-m-Y') . "<br>";
-    }
+    echo "Horario Voo - " . date_format($this->previsao_decolagem, 'H:i:s d-m-Y') . "\n";
+    $this->concatenaTempo();
 
+    // for($i = 0; $i < sizeof($this->crew_members); $i++){
+    //   echo $this->crew_members[$i]->getName() . " " . $this->crew_members[$i]->getSurname() . " - ".
+    //   date_format($this->tempos[$i], 'H:i:s d-m-Y') . "\n";
+      
+      
+    //   // echo $this->crew_members[$i]->name . " " . $this->crew_members[$i]->surname . " - " .
+    //   //      date_format($this->tempos[$i], 'H:i:s d-m-Y') . "<br>";
+    // }
   }
 
  // Setters and Getters

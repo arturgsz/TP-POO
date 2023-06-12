@@ -27,7 +27,7 @@ class Airport extends User
       $this->name = $name;
       
       if(Airport::confereSigla($sigla)){
-        $sigla = mb_strtoupper($sigla);
+        $sigla = strtoupper($sigla);
         $this->sigla = $sigla;
       }
 
@@ -54,7 +54,7 @@ class Airport extends User
     //função para verificar a sigla dos aeroportos
     private function confereSigla($sigla) : bool
     {
-      if( (mb_strlen($sigla)) == 3 && ((gettype($sigla)) == 'string'))
+      if( (strlen($sigla)) == 3 && ((gettype($sigla)) == 'string'))
         return true;
       
       else {
@@ -85,7 +85,7 @@ class Airport extends User
     public function setSigla(string $sigla) :void
     {
       if(Airport::confereSigla($sigla)){
-        $sigla = mb_strtoupper($sigla);
+        $sigla = strtoupper($sigla);
         $this->sigla = $sigla;
       }
       $this->save();

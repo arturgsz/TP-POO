@@ -23,8 +23,9 @@ class Passenger extends User
 
     //VIP passenger atributos
     protected int $register_number;
-    protected int $pointsKey;
-    protected string $milliage_subprogramKey;
+    public int $pointsKey;
+    protected int $milliage_subprogramKey;
+    protected int $flight_companyKey;
     protected static $local_filename = "Passenger.txt";
        
 
@@ -75,12 +76,14 @@ class Passenger extends User
     }
 
     //Vip "Construct"
-    public function Vip(int $register_number, string $milliage_subprogramKey, Points $points) : void
+    public function Vip(int $register_number, int $flight_companyKey, int $pointsKey) : void
     {
         if($this->vip == true){
             $this->register_number = $register_number;
-            $this->$milliage_subprogramKey = $milliage_subprogramKey;
-            $this->pointsKey = $points->getKey();
+            $this->flight_companyKey = $flight_companyKey;
+            //$this->$milliage_subprogramKey = $milliage_subprogramKey;
+            $this->pointsKey = $pointsKey;
+            $this->save();
         }
     }
 
@@ -129,7 +132,7 @@ class Passenger extends User
 
     public function showTravels(){
         $tickets = FlightTicket::getRecordsByField("PassengerKey", $this->getKey());
-        echo "As viagens realizadas por voçe foram: \n\n";
+        echo "As viagens realizadas por voce foram: \n\n";
         print_r($tickets);
     }
     //adicionar aqui toda vez que o passageiro executar um voo
@@ -196,10 +199,15 @@ class Passenger extends User
     //Vip Methods
     public function getPoints() : float
     {         
-        if($this->vip == true){return(Points::getByKey($this->pointsKey))->getPoints();}
+        if($this->vip == true){return(Points::getByKey($this->pointsKey))->getPontos_acumulados();}
         else{return 0;}
     }   
-  
+    
+    public function getVipFlightCompanyName() : string
+    {         
+        if($this->vip == true){return(FlightCompany::getByKey($this->flight_companyKey))->getName();}
+        else{return "Passageiro não é vip e não possui Companhia Aerea.\n";}
+    }
     // Getters and Setters
     public function getRegister_number() : int
     {
@@ -207,13 +215,9 @@ class Passenger extends User
         else {return 0;}
     }
 
-    // public function getMiliage_subprogram()
-    // {
-    //     if($this->vip == true){return $this->milliage_subprogramKey;}
-    //     else {return "Não é VIP Passenger";}
-    // } 
-    public function getMiliage_subprogram(){
-       return MiliageSubprogram::getByKey($this->milliage_subprogramKey);
+    public function getMiliage_subprogram()
+    {
+       return (MiliageSubprogram::getByKey($this->milliage_subprogramKey))->getName();
     }
     
     public function setTravel($TravelKey){

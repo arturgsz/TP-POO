@@ -1,5 +1,5 @@
 <?php
-require_once "./src/System.php";
+require_once "../src/System.php";
 
 $us = new UserAuthenticate();
 $us->LogIn("Cruze","1234");
@@ -31,13 +31,13 @@ $dateChegada1->setTime("23","30");
 $freq = [false, true, true, false, false, false, true];
 
 $line1 = new FlightLine($airport1, $airport2, $dateSaida, $dateChegada,
-                        $airplane, true, $freq, 100, 80, 15);
+                        $airplane, $company,true, $freq,100, 80, 15);
 
 $line2 = new FlightLine($airport1, $airport3, $dateSaida, $dateChegada,
-                        $airplane, true, $freq, 300, 80,15);
+                        $airplane, $company, true, $freq, 300, 80,15);
 
 $line3 = new FlightLine($airport2, $airport3, $dateSaida1, $dateChegada1,
-                        $airplane, true, $freq, 100, 80, 15);
+                        $airplane, $company, true, $freq, 100, 80, 15);
 
 
 $birth = new DateTime;

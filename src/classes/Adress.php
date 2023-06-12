@@ -23,7 +23,7 @@ class Adress extends Persist
                                 string $estado,
                                 int $numero,
                                 int $cep,
-                                int $coordx, int $coordy)
+                                float $coordx, float $coordy)
     {
         $this->rua = $rua;
         $this->bairro = $bairro;
@@ -84,12 +84,12 @@ class Adress extends Persist
         return $this->cep;
     }
 
-    public function getLat() : int
+    public function getLat() : float
     {
         return $this->coordenadas[0];
     }
 
-    public function getLong() : int
+    public function getLong() : float
     {
         return $this->coordenadas[1];
     }

@@ -30,7 +30,7 @@ class Airplane extends Persist
     $this->model = $model;
   
     if(Airplane::confereRegistro($airplane_register)){
-      $airplane_register = mb_strtoupper($airplane_register);
+      $airplane_register = strtoupper($airplane_register);
       $this->airplane_register = $airplane_register; 
     } 
     
@@ -50,9 +50,9 @@ class Airplane extends Persist
   {
     $prefixo = $airplane_register[0] . $airplane_register[1];
     $letras = $airplane_register[3] . $airplane_register[4] . $airplane_register[5];
-    $letras = mb_strtoupper($letras);
+    $letras = strtoupper($letras);
       
-    if(($prefixo == 'PT' || $prefixo == 'PR' || $prefixo == 'PP' || $prefixo == 'PS') &&($airplane_register[2] == '-') && ((mb_strlen($letras)) == 3) && ((gettype($letras)) == 'string'))
+    if(($prefixo == 'PT' || $prefixo == 'PR' || $prefixo == 'PP' || $prefixo == 'PS') &&($airplane_register[2] == '-') && ((strlen($letras)) == 3) && ((gettype($letras)) == 'string'))
     return true;
     
     else {
@@ -114,7 +114,7 @@ class Airplane extends Persist
   public function setRegistration(string $airplane_register) : void
   {
     if(Airplane::confereRegistro($airplane_register)){
-      $airplane_register = mb_strtoupper($airplane_register);
+      $airplane_register = strtoupper($airplane_register);
       $this->airplane_register = $airplane_register; 
     } 
   }

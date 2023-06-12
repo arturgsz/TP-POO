@@ -35,7 +35,7 @@ class FlightCompany extends User
     $this->razao_social = $razao_social;
       
     if(FlightCompany::confereSigla($sigla)){
-      $sigla = mb_strtoupper($sigla);
+      $sigla = strtoupper($sigla);
       $this->sigla = $sigla;
     }     
     $this->cnpj = $cnpj;
@@ -61,7 +61,7 @@ class FlightCompany extends User
   //conferir sigla da companhia area
   private function confereSigla(string $sigla) : bool
   {
-    if( (mb_strlen($sigla) == 2) && gettype($sigla) =='string')
+    if( (strlen($sigla) == 2) && gettype($sigla) =='string')
       return true;
     else {
       //tratar a Sigla da Companhia Áerea

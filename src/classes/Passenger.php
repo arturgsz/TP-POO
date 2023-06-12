@@ -14,12 +14,17 @@ class Passenger extends User
     protected string $nacionality;
     protected DateTime $birth;
     protected string $document;
-    protected float $balance;
-    protected bool $vip;
+    protected float $balance = 0;
+    protected bool $vip = false;
 	protected float $miliage;
-    protected array $flights;
+    protected $TravelsKey = [];
     protected int $myUserKey;
     //private Ticket $ticket;
+
+    //VIP passenger atributos
+    protected int $register_number;
+    protected int $pointsKey;
+    protected string $milliage_subprogramKey;
     protected static $local_filename = "Passenger.txt";
        
 
@@ -40,7 +45,6 @@ class Passenger extends User
         $this->nacionality = $nacionality;
         $this->document = $document;
         $this->vip = $vip;
-
         
         if($this->CpfValidation($cpf))
             $this->cpf = $cpf;
@@ -70,8 +74,17 @@ class Passenger extends User
         }
     }
 
-      //Validations
-    
+    //Vip "Construct"
+    public function Vip(int $register_number, string $milliage_subprogramKey, Points $points) : void
+    {
+        if($this->vip == true){
+            $this->register_number = $register_number;
+            $this->$milliage_subprogramKey = $milliage_subprogramKey;
+            $this->pointsKey = $points->getKey();
+        }
+    }
+
+    //Validations
     public function CpfValidation($cpf) : bool
     {
     // Extrai somente os números
@@ -108,8 +121,11 @@ class Passenger extends User
         else{
             return false;
         }
+    
     }
-
+    public function isVip(){
+        return $this->vip;
+    }
 
     public function showTravels(){
         $tickets = FlightTicket::getRecordsByField("PassengerKey", $this->getKey());
@@ -123,6 +139,7 @@ class Passenger extends User
         $this->balance += $add;
         $this->save();
     }
+
     public function showBalance(){
         echo $this->name." seu saldo é de ".$this->balance."R$\n";
     }
@@ -138,7 +155,7 @@ class Passenger extends User
     public function Add_flight (FlightLine $flight) : void
     {
       //$flight_new = $flight->getKey();
-      array_push($this->flights, FlightLine::getByKey($flight));
+      array_push($this->TravelsKey, FlightLine::getByKey($flight));
     }
 
     // Getters and Setters
@@ -174,7 +191,36 @@ class Passenger extends User
     {
         return $this->miliage;
     }
-        
+
+
+    //Vip Methods
+    public function getPoints() : float
+    {         
+        if($this->vip == true){return(Points::getByKey($this->pointsKey))->getPoints();}
+        else{return 0;}
+    }   
+  
+    // Getters and Setters
+    public function getRegister_number() : int
+    {
+        if($this->vip == true){return $this->register_number;}
+        else {return 0;}
+    }
+
+    // public function getMiliage_subprogram()
+    // {
+    //     if($this->vip == true){return $this->milliage_subprogramKey;}
+    //     else {return "Não é VIP Passenger";}
+    // } 
+    public function getMiliage_subprogram(){
+       return MiliageSubprogram::getByKey($this->milliage_subprogramKey);
+    }
+    
+    public function setTravel($TravelKey){
+        array_push($this->TravelsKey, $TravelKey);
+        $this->save();
+    }
+
     // Destructor
     public function __destruct()
     {

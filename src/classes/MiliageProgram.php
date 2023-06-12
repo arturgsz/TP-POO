@@ -2,7 +2,7 @@
 /* MiliageProgram.php
  * This is the class for the MiliageProgram object.
  */
-
+require_once "FlightCompany.php";
 require_once 'MiliageSubprogram.php';
 require_once "Passenger.php";
 require_once "Persist.php";
@@ -12,16 +12,17 @@ class MiliageProgram extends Persist
     // Attributes
     protected $nome;
     protected array $sub_categorias;
+    protected int $companyKey;
     
     protected static $local_filename = "MiliageProgram.txt";
        
     // Constructor
-    public function __construct(string $nome)
+    public function __construct(string $nome, int $companyKey)
     {
+      $this->companyKey = $companyKey;
       $this->nome = $nome;
       $this->sub_categorias = [];
 
-      
       try{
         $this->save(); 
       }catch(Exception $e){
@@ -102,6 +103,9 @@ class MiliageProgram extends Persist
         return $this->nome;
     }
 
+    public function getCompanyKey(){
+      return $this->companyKey;
+    }
   
     // Destructor
     public function __destruct()

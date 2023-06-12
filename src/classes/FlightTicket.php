@@ -4,6 +4,7 @@
  */
 
 require_once 'Flight.php' ;
+require_once "Travel.php";
 require_once 'Passenger.php';
 require_once 'Persist.php';
 
@@ -12,6 +13,7 @@ class FlightTicket extends Persist
     protected int $FlightKey;
     protected string $code;
     protected int $passengerKey;
+    protected int $travelKey;
     protected int $seat;
     protected float $price;
     protected float $miliage;
@@ -22,13 +24,15 @@ class FlightTicket extends Persist
     public function __construct(int $flightKey,
                                 int $passenger,
                                 int $seat,
-                                int $luggadge
+                                int $luggadge,
+                                int $travelKey
                                 )
     {
       $this->FlightKey = $flightKey;
       $this->passengerKey = $passenger;
+      $this->travelKey = $travelKey;
       $this->price = $this->calc_price($luggadge);
-      $this->miliage = $this->miliagePoints();
+   //   $this->miliage = $this->miliagePoints();
     
       try{
         $this->save(); 
@@ -53,20 +57,38 @@ class FlightTicket extends Persist
       //TO DO
     }
 
-    public function miliagePoints() {
-      //$passeger = (Passenger::getByKey($this->passengerKey));
-      
+    // public function miliagePoints() {
+    //   $passenger = (Passenger::getByKey($this->passengerKey));
+    //   if($passenger->getVip() == true){
+    //     $flight = Flight::getByKey($this->FlightKey);
+    //     $flightLine = $flight->getFlightLine();
+    //     $this->miliage = $flightLine->calcMiliage();
+    //   }
+    //   return $this->miliage;
+    // }
 
+    public function getTravel(): Travel{
+      return Travel::getByKey($this->travelKey);
     }
-
-
     private function calc_price(int $luggadge): float
     { 
         
       $flightLine = (Flight::getByKey($this->FlightKey))->getFlightLine();
       //preço do Voo         //nº de bagagem    *     valor unitario
-      return $flightLine->getPrice() + $luggadge*($flightLine->getLugadgeprice());
-       
+      
+      if(Travel::getByKey($this->travelKey)->payFine($this->FlightKey)){
+        return $flightLine->getPrice() + $luggadge*($flightLine->getLugadgeprice());
+      }else{
+        if($luggadge >0 ){
+          return  $flightLine->getPrice() + $luggadge*($flightLine->getLugadgeprice())/2;
+        }else
+          return $flightLine->getPrice();
+      }  
+    }
+
+    public function cancelTicket(){
+      Flight::getByKey($this->FlightKey)->cancelSeat($this->getKey());
+      $this->delete();
     }
     //Getters and Setters
     public function getFlight() : Flight
@@ -86,6 +108,11 @@ class FlightTicket extends Persist
     {
         return get_called_class()::$local_filename;
     }
+
+    public function getPrice(): float{
+      return $this->price;
+    }
+
   }
 
 

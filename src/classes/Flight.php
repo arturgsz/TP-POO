@@ -2,13 +2,14 @@
 
 //require_once "FlightTicket";
 require_once "Persist.php";
-require_once "Passenger.php";
+//require_once "Passenger.php";
 require_once "FlightLine.php";
-require_once "Airport.php";
-require_once "Airplane.php";
+//require_once "Airport.php";
+//require_once "Airplane.php";
 require_once "Route.php";
 require_once "Crew.php";
-require_once "Travel.php";
+require_once "FlightTicket.php";
+//require_once "Travel.php";
 date_default_timezone_set("America/Sao_Paulo");
 
 enum FlightState{
@@ -122,8 +123,9 @@ class Flight extends Persist
         $this->state == FlightState::Embarque){
 
         foreach($this->ticketsKey as $ticketKey){
-            (FlightTicket::getByKey($ticketKey))->refund();    
+            ((FlightTicket::getByKey($ticketKey)))->getTravel()->refund();    
         }
+
         $this->state = FlightState::Voo_cancelado;
         $this->save();
         }else{
@@ -145,6 +147,14 @@ class Flight extends Persist
         throw(new Exception("Não é possivel mostrar acentos"));
         
         return $this->freeSeats;
+    }
+    public function numberAvailableseats(): int{
+        $i = 0;
+        foreach($this->freeSeats as $seat){
+            if($seat == "Free")
+            $i++;
+        }
+        return $i;
     }
 
     public function secureSeat(int $seat, int $ticketKey){
@@ -178,6 +188,12 @@ class Flight extends Persist
         $rota = Route::getByKey($this->routeKey);
         $rota->descricaoRota();
     }
+    public function isFreeSeat(int $seat): bool{
+        if($this->freeSeats[$seat] == "Free")
+            return true;
+        else
+            return false;
+    }
 
     public function setAirplane(Airplane $airplane){
         $this->airplaneKey = $airplane->getKey();
@@ -186,8 +202,11 @@ class Flight extends Persist
     public function getDeparture(): DateTime{
         return $this->expectedDepartureTime;
     }
+    public function getArrivel():DateTime{
+        return $this->expectedArrivelTime;
+    }
 
-    public function getFlightLine(){
+    public function getFlightLine(): FlightLine {
         return FlightLine::getByKey($this->flightLineKey);
     }
 

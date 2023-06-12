@@ -17,11 +17,13 @@ class FlightLine extends Persist
   protected DateTime $expected_arrival_time;
   protected DateInterval $duracao_estimada;
   protected int $airplaneKey; 
+  protected int $flightCompanyKey;
   protected string $code; //código da linha de voo
   protected bool $operational;
   protected $frequency = [];  //frequencia do voo
   protected float $line_price;
   protected float $lugadge_price; //valor unitario da bagagem
+  protected float $cancelationFine;
   protected float $flightMiliage;
   protected array $flightsKey;  //array de objetos do tipo Travel
   protected static $local_filename = "FlightLine.txt";
@@ -32,16 +34,20 @@ class FlightLine extends Persist
                               DateTime $expected_departure_time,
                               DateTime $expected_arrival_time,
                               Airplane $airplane,
+                              FlightCompany $company,
                               bool $operational,
                               array $frequency,
                               float $line_price,
-                              float $lugadge_price)
+                              float $lugadge_price,
+                              float $cancelationFine)
   {
     $this->airportOriginKey = $origin->getKey();
     $this->airportDestinyKey = $destiny->getKey();
     $this->expected_departure_time = $expected_departure_time;
     $this->expected_arrival_time = $expected_arrival_time;
-    $this->flightMiliage = $this->calcMiliage();
+    $this->cancelationFine = $cancelationFine;
+    $this->flightCompanyKey = $company->getKey();
+    //$this->flightMiliage = $this->calcMiliage();
     $this->airplaneKey = $airplane->getKey();
     
     $code = ($airplane->getFlightCompany())->getCode().rand(1000,9999);
@@ -85,7 +91,7 @@ class FlightLine extends Persist
     //frequency é um array que vai de 0 até 6 e possui valores de true ou false
     if(($this->frequency)[($i + $shift) % 7]){
       $flightDeparture = clone $this->expected_departure_time;
-      $flightDeparture->modify('+'.$i.' days');
+      $flightDeparture->modify('+'.$i.' day');
       
       $flightArrivel = clone $this->expected_arrival_time;
       $flightArrivel->modify('+'.$i.' day');
@@ -150,11 +156,15 @@ class FlightLine extends Persist
   //Airport
   public function getOrigin() : Airport
   {
-    return Airport::getByKey($this->airportDestinyKey);
+    return Airport::getByKey($this->airportOriginKey);
   }
   public function getDestiny() : Airport
   {
     return Airport::getByKey($this->airportDestinyKey);
+  }
+
+  public function getCompanyKey(){
+    return $this->flightCompanyKey;
   }
   public function setOrigin(int $origin) : void
   {
@@ -196,6 +206,10 @@ class FlightLine extends Persist
   {
     return $this->line_price;
   }
+  public function getFullPrice($luggadge) : float
+  {
+    return ($this->line_price) + ($this->lugadge_price)*$luggadge;
+  }
   public function getLugadgeprice() : float
   {
     return $this->lugadge_price;
@@ -219,6 +233,9 @@ class FlightLine extends Persist
   public function setOperational(bool $operational) : void
   {
     $this->operational = $operational;
+  }
+  public function getFine(){
+    return $this->cancelationFine;
   }
 
   public function getMiliage():float{

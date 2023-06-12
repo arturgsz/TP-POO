@@ -10,7 +10,7 @@ class MiliageSubprogram extends Persist
     // Attributes
     protected string $nome_categoria;  
     protected float $pontosmin;
-    protected string $miliage_program;
+    protected int $miliage_programKey;
     protected $passengers = [];
     protected static $local_filename = "MiliageSubprogram.txt";
 
@@ -62,9 +62,9 @@ class MiliageSubprogram extends Persist
     {
         return $this->nome_categoria;
     }
-    public function getMiliageProgram() : string
+    public function getMiliageProgram()
     {
-        return $this->miliage_program;
+        return MiliageProgram::getByKey($this->miliage_programKey);
     }  
   
     public function getPontos_minimos() : float

@@ -1,5 +1,5 @@
 <?php
-require_once "../src/System.php";
+require_once "./src/System.php";
 
 $us = new UserAuthenticate();
 $us->LogIn("Cruze","1234");
@@ -23,33 +23,38 @@ $dateChegada = new DateTime('now');
 $dateSaida->setTime("10", "30");
 $dateChegada->setTime("20","00");
 
+$dateSaida1 = new DateTime('now');
+$dateChegada1 = new DateTime('now');
+$dateSaida1->setTime("21", "10");
+$dateChegada1->setTime("23","30");
 
 $freq = [false, true, true, false, false, false, true];
 
 $line1 = new FlightLine($airport1, $airport2, $dateSaida, $dateChegada,
-                        $airplane, true, $freq, 20000, 80);
+                        $airplane, true, $freq, 100, 80, 15);
 
 $line2 = new FlightLine($airport1, $airport3, $dateSaida, $dateChegada,
-                        $airplane, true, $freq, 20000, 80);
+                        $airplane, true, $freq, 300, 80,15);
 
-$line3 = new FlightLine($airport2, $airport3, $dateSaida, $dateChegada,
-                        $airplane, true, $freq, 20000, 80);
-
-print_r(FlightLine::getRecords());
+$line3 = new FlightLine($airport2, $airport3, $dateSaida1, $dateChegada1,
+                        $airplane, true, $freq, 100, 80, 15);
 
 
-// $flight = Flight::getByKey(3);
-// $flight->secureSeat("3","5");
-// $flight->secureSeat("1","5");
-// $flight->secureSeat("4","5");
+$birth = new DateTime;
+$birth->setDate(2003,12,3);                     
+$passanger = new Passenger("cruze", "sousa", "70123394627", "BRASILEIRO", $birth, "16746", false,"curcru","cruzee@gmail.com","1234");
+$passanger->addCredit(2000);
 
-// $flight->cancelSeat("4");
-// print_r($flight->availableSeats());
+$paths = Travel::showPossibleTravels($airport1, $airport3,new DateTime('2023-06-14 8:00'),2);
 
-//print_r(Flight::getRecords());
+$travel = new Travel($paths[1], $passanger->getKey());
+$travel->showSeats();
 
-print_r(Travel::showPossibleTravels($airport1, $airport3));
+$travel->buyTravel(4, 2, 2);
 
-
+print_r(FlightTicket::getRecords());
+print_r(Travel::getRecords());
+// print_r(Flight::getRecords());
+print_r(Passenger::getByKey($passanger->getKey()));
 
 

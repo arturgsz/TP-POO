@@ -50,13 +50,13 @@ use FFI\Exception;
                     $container->persist();
 
                 }else{
-                    echo $fileName." Limpo com exito!\n";
+                    //echo $fileName." Limpo com exito!\n";
                     file_put_contents($path.$fileName,"");
                 }
                     
             }
             
-            echo "\n\nDataBase limpo com exito!\n\n";
+            echo "DataBase limpo com exito!\n\n";
         
         }
 

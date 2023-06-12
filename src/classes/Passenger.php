@@ -203,10 +203,10 @@ class Passenger extends User
         else{return 0;}
     }   
     
-    public function getVipFlightCompanyName() : string
+    public function getVipFlightCompany() : FlightCompany
     {         
-        if($this->vip == true){return(FlightCompany::getByKey($this->flight_companyKey))->getName();}
-        else{return "Passageiro não é vip e não possui Companhia Aerea.\n";}
+        if($this->vip == true){return(FlightCompany::getByKey($this->flight_companyKey));}
+        else{return NULL;}
     }
     // Getters and Setters
     public function getRegister_number() : int

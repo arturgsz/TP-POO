@@ -41,11 +41,9 @@ $AzulSafiraKey = $AzulSafira->getKey();
 $Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
 echo "PONTOS " . $Passenger_Artur->getPoints() . "\n";
 
-echo $Passenger_Artur->getVipFlightCompanyName() . "\n";
+$flightCompany =  $Passenger_Artur->getVipFlightCompany();
 
-if($Passenger_Artur->getVipFlightCompanyName() == $Azul->getName())
-{
-    echo "Mesma Flight Company\n";
-}
+var_dump($flightCompany);
+
 // var_dump($SubProgram);
 echo "---------------------------------\n";

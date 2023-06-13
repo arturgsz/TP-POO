@@ -25,11 +25,13 @@ class FlightLine extends Persist
   protected float $lugadge_price; //valor unitario da bagagem
   protected float $cancelationFine;
   protected float $flightMiliage;
+  protected string $codigo_voo;
   protected array $flightsKey;  //array de objetos do tipo Travel
   protected static $local_filename = "FlightLine.txt";
        
 
-   public function __construct(Airport $origin,
+   public function __construct(string $codigo_voo,
+                              Airport $origin,
                               Airport $destiny,
                               DateTime $expected_departure_time,
                               DateTime $expected_arrival_time,
@@ -41,6 +43,7 @@ class FlightLine extends Persist
                               float $lugadge_price,
                               float $cancelationFine)
   {
+    $this->codigo_voo = $codigo_voo;
     $this->airportOriginKey = $origin->getKey();
     $this->airportDestinyKey = $destiny->getKey();
     $this->expected_departure_time = $expected_departure_time;
@@ -63,6 +66,12 @@ class FlightLine extends Persist
     $this->line_price = $line_price;
     $this->lugadge_price = $lugadge_price;
 
+    try{
+      $this->checkCodigo_voo(); 
+    }catch(Exception $e){
+      echo $e->getMessage() . "\n";
+    }
+
    try{
     $this->save(); 
    }catch(Exception $e){
@@ -75,7 +84,14 @@ class FlightLine extends Persist
     $this->save();
   }
 }
-  
+  public function checkCodigo_voo (){
+    $letra1 = $this->codigo_voo[0]; $letra2 = $this->codigo_voo[1];
+    $sigla = $letra1 . $letra2;
+    $FlightCompanySigla = (FlightCompany::getByKey($this->flightCompanyKey))->getSigla();
+    if($sigla != $FlightCompanySigla){
+            throw(new Exception("Código de Voo inválido."));
+    }
+    }
  public function buildNextFlights(){
 
   $shift = intval(($this->expected_departure_time)->format('w'));

@@ -79,7 +79,7 @@ $dateSaidaAD1329->setTime("21", "10");
 $dateChegadaAD1329->setTime("23","30");
 $freqAD1329 = [true, true, true, true, true, true, true]; //Diário
 
-echo "\nREGISTRANDO CÓDIGO DE VOO INVÁLIDO: \n";
+echo "\nREGISTRANDO CÓDIGO DE LINHA AÉREA INVÁLIDO: \n";
 $VooAC1329 = new FlightLine("AC1329", $Aeroporto_Confins, $Aeroporto_Guarulhos, $dateSaidaAD1329, $dateChegadaAD1329,
                         $Embraer_175_AD, $Azul, true, $freqAD1329,100, 80, 49);
 

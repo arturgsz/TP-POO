@@ -89,7 +89,7 @@ class FlightLine extends Persist
     $sigla = $letra1 . $letra2;
     $FlightCompanySigla = (FlightCompany::getByKey($this->flightCompanyKey))->getSigla();
     if($sigla != $FlightCompanySigla){
-            throw(new Exception("Código de Voo inválido."));
+            throw(new Exception("Código de Linha Aérea inválido."));
     }
     }
  public function buildNextFlights(){

@@ -29,21 +29,30 @@ $Embraer_175_AD = new Airplane ($Azul, 'Embraer', '175', 'PP-RUZ', 180, 600);
 $Adress_AeroConfins = new Adress ('LMG-800 Km 7,9', 'Sem Bairro', 'Confins', 'Minas Gerais', 0, 31270705, -19.6340855, -44.0354364);
 $Aeroporto_Confins = new Airport('Aeroporto Confins', 'PMP', $Adress_AeroConfins, 'aeroconfins', 'aeroconfins@email.com', '1234');
 
+
+//Passageiro Vip
+$Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
+echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
+
+
 //Criando Programa Milhagem
 $Milhas = new MiliageProgram ('Milhas-AZUL', $AzulKey);
 $Milhas->AddCategoria('Azul Inicial', 0);
 $Milhas->AddCategoria('Azul Safira', 100);
+$Milhas->AddCategoria('Azul Diamante', 400);
 $Milhas->showSubCategorias();
 $SubCategorias = $Milhas->getArraySubCategorias();
+
+$AzulInicial = $Milhas->getSubCategoria(0);
 $AzulSafira = $Milhas->getSubCategoria(1);
-$AzulSafira->AddPassenger($Passenger_ArturKey);
-$AzulSafiraKey = $AzulSafira->getKey();
+$AzulDiamante = $Milhas->getSubCategoria(2);
+
+echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
+$AzulInicial->AddPassenger($Passenger_ArturKey);
+$Milhas->showSubCategorias();
+
+$Ponto_Artur->AddPontos(400.0, $DataPonto1);
+echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
+$Milhas->showSubCategorias();
 
 
-$Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
-echo "PONTOS " . $Passenger_Artur->getPoints() . "\n" ;
-
-$Company =  $Passenger_Artur->getVipFlightCompany();
-
-var_dump($Company);
-echo "---------------------------------\n";

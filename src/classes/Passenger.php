@@ -203,7 +203,7 @@ class Passenger extends User
     {
         return $this->miliage;
     }
-
+    
 
     //Vip Methods
     public function getPoints() : float

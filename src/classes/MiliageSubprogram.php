@@ -32,23 +32,27 @@ class MiliageSubprogram extends Persist
          }
     }
 
-    public function AddPassenger(int $passengerKey) : bool
+    public function AddPassenger(int $passengerKey)
     {
       //$passenger_ = Passenger::getByKey($passengerKey);
       if(array_push($this->passengersKey, $passengerKey)){
         Passenger::getByKey($passengerKey)->setMiliageSubprogram($this->getKey());
         $this->save();      
-        return true;
       }
-      else {return false;}
+      // $passenger_ = Passenger::getByKey($passengerKey);
+      // if(array_push($this->passengers, $passenger_) and array_push($this->passengersKey, $passengerKey)){
+      //   $this->save();
+      //   return true;
+      // }
+      // else {return false;}
 
     }
 
-    public function RemovePassenger($passenger) : bool
+    public function RemovePassenger($passengerKey) : bool
     {
-      $passengerKey = $passenger->getKey();
-      $passenger_ = Airport::getByKey($passengerKey);
+      $passenger_ = Passenger::getByKey($passengerKey);
       //UNSET remove elemento
+
       unset($this->passengersKey[array_search($passenger_, $this->passengersKey)]);
 
       //Checa se ainda há aquele passageiro no array
@@ -57,10 +61,19 @@ class MiliageSubprogram extends Persist
         return true;
       
       }
-      else {
-      	return false;
-      }
-
+      return false;
+      // unset($this->passengers[array_search($passenger_, $this->passengers)]);
+      // unset($this->passengersKey[array_search($passengerKey, $this->passengersKey)]);
+      
+      // //Checa se ainda há aquele passageiro no array
+      // if(array_search($passenger_, $this->passengers) == NULL ) { 
+      // 	$this->save();
+      //   return true;
+      // }
+      // else {
+      // 	return false;
+      // }
+      
     }
 
     // Getters and Setters
@@ -78,6 +91,11 @@ class MiliageSubprogram extends Persist
         return $this->pontosmin;
     }
     public function getPassengers() : array
+    {
+        return $this->passengersKey;
+    }
+
+    public function getPassengersKey() : array
     {
         return $this->passengersKey;
     }

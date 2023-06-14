@@ -42,34 +42,17 @@ $Milhas->AddCategoria('Azul Safira', 100);
 $Milhas->AddCategoria('Azul Diamante', 400);
 $Milhas->showSubCategorias();
 $SubCategorias = $Milhas->getArraySubCategorias();
+
 $AzulInicial = $Milhas->getSubCategoria(0);
 $AzulSafira = $Milhas->getSubCategoria(1);
 $AzulDiamante = $Milhas->getSubCategoria(2);
 
+echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
 $AzulInicial->AddPassenger($Passenger_ArturKey);
-
-echo "\n Print Azul Inicial:\n";
-print_r($AzulInicial->getPassengers());
-echo "\n---------------------------------\n";
-echo "\n Print Azul Safira:\n";
-print_r($AzulSafira->getPassengers());
-echo "---------------------------------\n";
-echo "\n Print Azul Diamante:\n";
-print_r($AzulDiamante->getPassengers());
-echo "---------------------------------\n";
+$Milhas->showSubCategorias();
 
 $Ponto_Artur->AddPontos(400.0, $DataPonto1);
-$Milhas->UpdateSubProgramTiers();
-
 echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
-echo "\n Print Azul Inicial:\n";
-print_r($AzulInicial->getPassengers());
-echo "\n---------------------------------\n";
-echo "\n Print Azul Safira:\n";
-print_r($AzulSafira->getPassengers());
-echo "---------------------------------\n";
-echo "\n Print Azul Diamante:\n";
-print_r($AzulDiamante->getPassengers());
-echo "---------------------------------\n";
+$Milhas->showSubCategorias();
 
 

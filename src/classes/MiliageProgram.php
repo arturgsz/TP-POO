@@ -43,6 +43,7 @@ class MiliageProgram extends Persist
     {
       $subProgram = new MiliageSubprogram ($nome_categoria, $pontosmin);
       array_push($this->sub_categorias, $subProgram);
+      $this->UpdateSubProgramTiers();
     }
 
     public function UpdateSubProgramTiers() {
@@ -96,12 +97,22 @@ class MiliageProgram extends Persist
 
 
   public function showSubCategorias() {
-    echo "SubCategorias de " . $this->nome ." : \n";
+    $this->UpdateSubProgramTiers();
+
+    echo "\nSubcategorias de " . $this->nome ." :";
     for($i = 0; $i < sizeof($this->sub_categorias); $i++)
     {
-      echo "[".$i."] " . $this->sub_categorias[$i]->getName() . " - Pontos Mínimos: "
-      . $this->sub_categorias[$i]->getPontos_minimos() . "\n";
-    }
+      echo "\n[".$i."] " . $this->sub_categorias[$i]->getName() . " - Pontos Mínimos: "
+      . $this->sub_categorias[$i]->getPontos_minimos();
+
+      if(sizeof($this->sub_categorias[$i]->getPassengersKey())){echo "\nPassageiros: ";}
+      else{echo "\nSem Passageiros.\n";}
+      foreach($this->sub_categorias[$i]->getPassengersKey() as $passengerKey)
+      {
+        echo "\n   - " . (Passenger::getByKey($passengerKey))->getName() . " " . (Passenger::getByKey($passengerKey))->getSurname() . 
+              " - registro: " . (Passenger::getByKey($passengerKey))->getRegister_number() . "\n";
+      }
+    } echo "\n\n";
   }
   
   // Getters and Setters
@@ -115,10 +126,12 @@ class MiliageProgram extends Persist
     }
 
     public function getArraySubCategorias() : array {
+      $this->UpdateSubProgramTiers();
       return $this->sub_categorias;
     }
 
     public function getSubCategoria(int $i) : MiliageSubprogram {
+      $this->UpdateSubProgramTiers();
       return $this->sub_categorias[$i];
     }
   

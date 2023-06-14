@@ -50,7 +50,6 @@ class FlightLine extends Persist
     $this->expected_arrival_time = $expected_arrival_time;
     $this->cancelationFine = $cancelationFine;
     $this->flightCompanyKey = $company->getKey();
-    //$this->flightMiliage = $this->calcMiliage();
     $this->airplaneKey = $airplane->getKey();
     
     $code = ($airplane->getFlightCompany())->getCode().rand(1000,9999);
@@ -65,7 +64,8 @@ class FlightLine extends Persist
     $this->frequency = $frequency;
     $this->line_price = $line_price;
     $this->lugadge_price = $lugadge_price;
-
+    $this->flightMiliage = $this->calcMiliage();
+   
     try{
       $this->checkCodigo_voo(); 
     }catch(Exception $e){
@@ -139,7 +139,7 @@ class FlightLine extends Persist
       $long_destino = $destino->getAdress()->getLong();
       $distancia = $this->calculaDistancia($lat_origem, $long_origem, $lat_destino, $long_destino);
       $total = $distancia + $this->line_price;
-      return $total;
+      return round($total);
   }
 
  private function duracaoVoo($expected_departure_time,$expected_arrival_time) : DateInterval

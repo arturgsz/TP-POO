@@ -14,8 +14,12 @@ $airport2 = new Airport("santoso master", "GRU",$ad2 ,"sant","saos@gmail.com","1
 $airport3 = new Airport("santoso Duplo", "GRU",$ad2 ,"santinho","saougos@gmail.com","1234");
 
 $company = new FlightCompany("azul","AE","bougo","ouhouo","AE","aul","azul@gmail.com","1234");
+$company2 = new FlightCompany("gool","GO","bougo","ouhouo","GO","goo","aul@gmail.com","1234");
+
 //print_r($company);
 $airplane = new Airplane($company, "ougpib","iyg","PT-abc","5","50");
+$airplane2 = new Airplane($company2, "ougpib","iyg","PT-abc","5","50");
+
 //print_r($airplane);
 
 $dateSaida = new DateTime('now');
@@ -36,8 +40,8 @@ $line1 = new FlightLine("AE2456",$airport1, $airport2, $dateSaida, $dateChegada,
 $line2 = new FlightLine("AE1234",$airport1, $airport3, $dateSaida, $dateChegada,
                         $airplane, $company, true, $freq, 300, 80,15);
 
-$line3 = new FlightLine("AE2568",$airport2, $airport3, $dateSaida1, $dateChegada1,
-                        $airplane, $company, true, $freq, 100, 80, 15);
+$line3 = new FlightLine("GO2568",$airport2, $airport3, $dateSaida1, $dateChegada1,
+                        $airplane2, $company2, true, $freq, 100, 80, 15);
 
 
 $birth = new DateTime;
@@ -47,7 +51,6 @@ $passanger->addCredit(2000);
 
 $Milhas = new MiliageProgram ('Milhas-AZUL', $company->getKey());
 $Milhas->AddCategoria('Azul Inicial', 0);
-$Milhas = $Milhas->update();
 $Milhas->addPassanger($passanger);
 
 
@@ -57,9 +60,11 @@ $travel = new Travel($paths[1], $passanger->getKey());
 $travel->showSeats();
 $travel->buyTravel(4, 2, 2);
 
+$travel->atributeMiliage();
+
 print_r(FlightTicket::getRecords());
 print_r(Travel::getRecords());
-// print_r(Flight::getRecords());
+print_r(Points::getRecords());
 print_r(Passenger::getByKey($passanger->getKey()));
 
 

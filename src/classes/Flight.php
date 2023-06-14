@@ -15,9 +15,7 @@ date_default_timezone_set("America/Sao_Paulo");
 enum FlightState{
     case Passagens_a_venda;
     case Crew_Preparada;
-    case Embarque;
     case Em_vool;
-    case Desembarque;
     case Voo_realziado;
     case Voo_cancelado;
 }
@@ -100,27 +98,50 @@ class Flight extends Persist
        }
     }
 
-    public function setDeparture(dateTime $departure){
+    public function planeTookOff(dateTime $departure){
         if($this->state != FlightState::Crew_Preparada)
-        throw(new Exception("Não há uma tripulação preparada para o voo"));
+            throw(new Exception("Não é possível setar horário de decolagem\n"));
         
         $this->departureTime = $departure;
         $this->state = FlightState::Em_vool;
+
+        //Verificar passagens, aquelas que nao estiverem com checkIN, devem ser alteradas para NO_Show
+        foreach($this->ticketsKey as $ticket){
+            $travel = FlightTicket::getByKey($ticket)->getTravel();
+            
+            if($travel-> getTravelState() == TravelStatus::CheckIn){
+                $travel->TookOff();
+            }else{
+                $travel->setTravelState(TravelStatus::NO_SHOW);
+            }
+        }
+
         $this->save();
     }
-    public function setArrivel(dateTime $arrivel){
+    public function planeLanded(dateTime $arrivel){
         if($this->state != FlightState::Em_vool)
-        throw(new Exception("Não é possivel setar um horio de desembarque"));
+            throw(new Exception("Não é possivel setar um horio de desembarque\n"));
         
         $this->arrivelTime = $arrivel;
-        $this->state = FlightState::Desembarque;
+        $this->state = FlightState::Voo_realziado;
+        
+        //Atribuir pontos de milhagem aos passageiros vip, alterar status das travels para realizado
+        foreach($this->ticketsKey as $ticket){
+            $travel = FlightTicket::getByKey($ticket)->getTravel();
+            
+            if($travel-> getTravelState() == TravelStatus::EmVool){
+                $travel->setTravelState(TravelStatus::Viagem_realizada);
+                $travel->Landed();
+            }else{
+                $travel->setTravelState(TravelStatus::NO_SHOW);
+            }
+        }
         $this->save();
     }
 
     public function cancelFlight(){
         if($this->state == FlightState::Passagens_a_venda ||
-        $this->state == FlightState::Crew_Preparada ||
-        $this->state == FlightState::Embarque){
+        $this->state == FlightState::Crew_Preparada ){
 
         foreach($this->ticketsKey as $ticketKey){
             ((FlightTicket::getByKey($ticketKey)))->getTravel()->refund();    
@@ -133,14 +154,6 @@ class Flight extends Persist
         }
     }
 
-    public function flightWasDone(){
-        if($this->state == FlightState::Desembarque){
-            $this->state = FlightState::Voo_realziado;
-            $this->save();
-        }else{
-            throw(new Exception("Não é possivel terminar o voo"));
-        }
-    }
     public function availableSeats(){
         if($this->state != FlightState::Passagens_a_venda &&
            $this->state != FlightState::Crew_Preparada)
@@ -177,7 +190,7 @@ class Flight extends Persist
     public function cancelSeat(int $seat){
         if($this->state != FlightState::Passagens_a_venda &&
         $this->state != FlightState::Crew_Preparada)
-            throw(new Exception("Não é possivel cancelar a passagem"));
+            throw(new Exception("Não é possivel cancelar o lugar\n"));
         
         ($this->freeSeats)[$seat] = "Free";
         ($this->ticketsKey)[$seat] = null;

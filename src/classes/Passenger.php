@@ -204,13 +204,17 @@ class Passenger extends User
         return $this->miliage;
     }
     
-
     //Vip Methods
     public function getPoints() : float
     {         
         if($this->vip == true){return(Points::getByKey($this->pointsKey))->getPontos_acumulados();}
         else{throw(new Exception("O passageiro não é vip"));}
     }   
+
+    public function getPointsObj(){
+        if(!empty($this->pointsKey))
+            return Points::getByKey($this->pointsKey);
+    }
     
     public function getVipFlightCompany() : FlightCompany
     {         

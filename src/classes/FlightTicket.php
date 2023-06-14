@@ -87,7 +87,8 @@ class FlightTicket extends Persist
     }
 
     public function cancelTicket(){
-      Flight::getByKey($this->FlightKey)->cancelSeat($this->getKey());
+      Flight::getByKey($this->FlightKey)->cancelSeat($this->seat);
+      
       $this->delete();
     }
     //Getters and Setters

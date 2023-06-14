@@ -46,7 +46,7 @@
             $container = new container(get_called_class()::getFilename());                  
             new WriteLog($this, null);
             
-            echo "O objeto ".get_called_class()." foi deletado";
+           // echo "O objeto ".get_called_class()." foi deletado";
             
             $container->deleteObject($this->index);
             $container->Persist();

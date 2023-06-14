@@ -10,12 +10,10 @@ enum TravelStatus{
     case Trajeto_definido;
     case Passagem_adquirida;
     case CheckIn;
-    case NO_SHOW;
-    case Embarque;
     case EmVool;
-    case Desembarque;
     case Viagem_realizada;
-    case Viagem_cancelada;
+    case Viagem_cancelada;    
+    case NO_SHOW;
 }
 
 class Travel extends FlightPath{
@@ -25,18 +23,18 @@ protected array $flightsKey;
 protected int $passangerKey;
 protected float $price;
 protected TravelStatus $status;
+protected float $miliage = 0;
 protected static $local_filename = "Travel.txt";
 
 public function __construct(FlightPath $flightPath, int $passangerKey){
 //funciona e constroi a travel
 $this->passangerKey = $passangerKey;
     ($this->flightsKey)[0] = ((Flight::getRecordsByField("flightCode", $flightPath->flightCode))[0])->getkey();
-    //$this->price = (Flight::getByKey(($this->flightsKey)[0]))->getFullPrice($luggadge);
     
     if(!empty($flightPath->connectionFlightCode)){
         ($this->flightsKey)[1] = ((Flight::getRecordsByField("flightCode", $flightPath->connectionFlightCode))[0])->getKey();
-        //$this->price += (Flight::getByKey(($this->flightsKey)[1]))->getFullPrice($luggadge);
     }
+    $this->miliage = $this->calcMiliage();
     $this->status = TravelStatus::Trajeto_definido;
 
     try{
@@ -97,6 +95,40 @@ public function checkIn(){
 }
 
 public function setTravelState(TravelStatus $state){
+    $this->status = $state;
+    $this->save();
+}
+public function getTravelState(): TravelStatus{
+    return $this->status;
+}
+
+public function TookOff(){
+
+}
+public function Landed(){
+
+}
+
+public function calcMiliage(): float{
+    $miliage = 0;
+        if(!($this->payFine(($this->flightsKey)[0]))){
+         
+            $miliage += Flight::getByKey(($this->flightsKey)[0])->getFlightLine()->getMiliage();
+
+        }
+        if(!empty($this->flightsKey[1])){
+            if(!($this->payFine(($this->flightsKey)[1]))){
+                $miliage += Flight::getByKey(($this->flightsKey)[1])->getFlightLine()->getMiliage();
+
+            }
+        }
+        echo $miliage;
+        return $miliage;
+}
+//Uma vez a flight é terminada
+public function atributeMiliage(){
+    $departure = Flight::getByKey($this->flightsKey[0])->getDeparture();
+    Passenger::getByKey($this->passangerKey)->getPointsObj()->AddPontos($this->miliage, $departure);
 
 }
 
@@ -139,15 +171,19 @@ public function editTravel(int $seat1, ?int $seat2, int $luggadge){
     if(!($this->validateSeat($seat1, $seat2)))
         throw(new Exception("O lugar requerido não está mais disponivel\n"));
     
+
     Passenger::getByKey($this->passangerKey)->addCredit($this->price - $this->getFine());
 
     $ticket1 = FlightTicket::getByKey($this->flightTicketsKey[0]);
     $ticket1->cancelTicket();
-    
+
+
     if(!empty(($this->flightTicketsKey)[1])){
         $ticket2 = FlightTicket::getByKey($this->flightTicketsKey[1]);
         $ticket2->cancelTicket();
     }
+        echo "Confirmado multa de alteração de R$".$this->getFine()."\n";
+
     $this->status = TravelStatus::Trajeto_definido;
     $this->buyTravel($seat1, $seat2, $luggadge);
 }
@@ -178,6 +214,8 @@ if(!empty(($this->flightTicketsKey)[1])){
     $ticket2 = FlightTicket::getByKey($this->flightTicketsKey[1]);
     $ticket2->cancelTicket();
 }
+unset($this->flightTicketsKey);
+echo "Confirmado multa de cancelamento de R$".$this->getFine()."\n";
 
 $this->status = TravelStatus::Viagem_cancelada;
 $this->save();

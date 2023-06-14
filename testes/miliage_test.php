@@ -29,21 +29,47 @@ $Embraer_175_AD = new Airplane ($Azul, 'Embraer', '175', 'PP-RUZ', 180, 600);
 $Adress_AeroConfins = new Adress ('LMG-800 Km 7,9', 'Sem Bairro', 'Confins', 'Minas Gerais', 0, 31270705, -19.6340855, -44.0354364);
 $Aeroporto_Confins = new Airport('Aeroporto Confins', 'PMP', $Adress_AeroConfins, 'aeroconfins', 'aeroconfins@email.com', '1234');
 
+
+//Passageiro Vip
+$Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
+echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
+
+
 //Criando Programa Milhagem
 $Milhas = new MiliageProgram ('Milhas-AZUL', $AzulKey);
 $Milhas->AddCategoria('Azul Inicial', 0);
 $Milhas->AddCategoria('Azul Safira', 100);
+$Milhas->AddCategoria('Azul Diamante', 400);
 $Milhas->showSubCategorias();
 $SubCategorias = $Milhas->getArraySubCategorias();
+$AzulInicial = $Milhas->getSubCategoria(0);
 $AzulSafira = $Milhas->getSubCategoria(1);
-$AzulSafira->AddPassenger($Passenger_ArturKey);
-$AzulSafiraKey = $AzulSafira->getKey();
+$AzulDiamante = $Milhas->getSubCategoria(2);
 
+$AzulInicial->AddPassenger($Passenger_ArturKey);
 
-$Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
-echo "PONTOS " . $Passenger_Artur->getPoints() . "\n" ;
-
-$Company =  $Passenger_Artur->getVipFlightCompany();
-
-var_dump($Company);
+echo "\n Print Azul Inicial:\n";
+print_r($AzulInicial->getPassengers());
+echo "\n---------------------------------\n";
+echo "\n Print Azul Safira:\n";
+print_r($AzulSafira->getPassengers());
 echo "---------------------------------\n";
+echo "\n Print Azul Diamante:\n";
+print_r($AzulDiamante->getPassengers());
+echo "---------------------------------\n";
+
+$Ponto_Artur->AddPontos(400.0, $DataPonto1);
+$Milhas->UpdateSubProgramTiers();
+
+echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
+echo "\n Print Azul Inicial:\n";
+print_r($AzulInicial->getPassengers());
+echo "\n---------------------------------\n";
+echo "\n Print Azul Safira:\n";
+print_r($AzulSafira->getPassengers());
+echo "---------------------------------\n";
+echo "\n Print Azul Diamante:\n";
+print_r($AzulDiamante->getPassengers());
+echo "---------------------------------\n";
+
+

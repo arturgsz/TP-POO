@@ -12,6 +12,7 @@ class MiliageSubprogram extends Persist
     protected float $pontosmin;
     protected int $miliage_programKey;
     protected $passengers = [];
+    protected $passengersKey = [];
     protected static $local_filename = "MiliageSubprogram.txt";
 
     // Constructor
@@ -33,22 +34,24 @@ class MiliageSubprogram extends Persist
     public function AddPassenger(int $passengerKey) : bool
     {
       $passenger_ = Passenger::getByKey($passengerKey);
-      if(array_push($this->passengers, $passenger_)){
+      if(array_push($this->passengers, $passenger_) and array_push($this->passengersKey, $passengerKey)){
+        $this->save();
         return true;
       }
       else {return false;}
     }
 
-    public function RemovePassenger($passenger) : bool
+    public function RemovePassenger($passengerKey) : bool
     {
-      $passengerKey = $passenger->getKey();
-      $passenger_ = Airport::getByKey($passengerKey);
+      $passenger_ = Passenger::getByKey($passengerKey);
       //UNSET remove elemento
       unset($this->passengers[array_search($passenger_, $this->passengers)]);
-
+      unset($this->passengersKey[array_search($passengerKey, $this->passengersKey)]);
+      
       //Checa se ainda há aquele passageiro no array
       if(array_search($passenger_, $this->passengers) == NULL ) { 
-      	return true;
+      	$this->save();
+        return true;
       }
       else {
       	return false;
@@ -73,6 +76,11 @@ class MiliageSubprogram extends Persist
     public function getPassengers() : array
     {
         return $this->passengers;
+    }
+
+    public function getPassengersKey() : array
+    {
+        return $this->passengersKey;
     }
   
     // Destructor

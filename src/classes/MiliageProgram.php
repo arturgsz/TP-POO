@@ -42,61 +42,59 @@ class MiliageProgram extends Persist
     public function AddCategoria (string $nome_categoria, int $pontosmin) 
     {
       $subProgram = new MiliageSubprogram ($nome_categoria, $pontosmin);
-      $a1 = $this->sub_categorias;
-	    //$a2 = array($nome_categoria => $pontosmin);
-      $a2 = array($subProgram);
-	    $this->sub_categorias = (array_merge($a1,$a2));
-      asort($this->sub_categorias);
+      array_push($this->sub_categorias, $subProgram);
+    }
+
+    public function UpdateSubProgramTiers() {
+      foreach($this->sub_categorias as $subcat){
+        foreach($subcat->getPassengersKey() as $passengerKey){
+          $subcat->RemovePassenger($passengerKey);
+          $verif = false;
+          $indice_sub = 0;
+          for($i=0; $i < sizeof($this->sub_categorias); $i++){
+            if((Passenger::getByKey($passengerKey))->getPoints() >= $this->sub_categorias[$i]->getPontos_minimos()){
+              if($verif == true){$this->sub_categorias[$indice_sub]->RemovePassenger($passengerKey);}
+              $this->sub_categorias[$i]->AddPassenger($passengerKey);
+              $verif = true;
+              $indice_sub = $i;
+            }
+          }
+        }
+      }
+      $this->save();
     }
   
-		//public function UpdateSubProgramTiers(){
-
-  //     foreach($subprogram as $this->sub_categorias){
-					
-  //         foreach($passenger as $subprogram->getpassengers()){
-		// 					$passenger_miliage = $passenger->getMiliage();
-
-  //               foreach($sub as $this->sub_categorias){
-
-  //                if( $sub->getPontosMin() < $passenger_miliage){
-  //                     $subprogram->removePassenger($passanger);
-  //                     $sub->AddPassenger($passenger);
-  //                 }
-  //               }
-  //         }           
-	//   }	
-  //   }		
-
-  //$this->sub_categorias[$k]->AddPassenger($passenger);
-  public function UpdateSubProgramTiers() {
-    for ($i = 0; $i < sizeof($this->sub_categorias); $i++) {
+  // public function UpdateSubProgramTiers() {
+  //   for ($i = 0; $i < sizeof($this->sub_categorias); $i++) {
         
-      $passengers = $this->sub_categorias[$i]->getPassengers();
+  //     $passengers = $this->sub_categorias[$i]->getPassengers();
 
-        for ($j = 0; $j < sizeof($passengers); $j++) {
-            $passenger_miliage = $passengers[$j]->getMiliageProgram();
+  //       for ($j = 0; $j < sizeof($passengers); $j++) {
+  //           $passenger_miliage = $passengers[$j]->getMiliageProgram();
           
-              for($k = 0; $k < sizeof($this->sub_categorias); $k++){
-                  $pontosmin_sub = $this->sub_categorias[$k]->getPontos_minimos();
+  //             for($k = 0; $k < sizeof($this->sub_categorias); $k++){
+  //                 $pontosmin_sub = $this->sub_categorias[$k]->getPontos_minimos();
 
-                if ($passenger_miliage >= $this->sub_categorias[$k]->getPontos_minimos() && 
-                    $passenger_miliage < $this->sub_categorias[$k + 1]->getPontos_minimos()) {
-                    // fica na atual
-                  }
-                if($passenger_miliage < $this->sub_categorias[$k]->getPontos_minimos()){
-                    // volta para a anterior
-                    $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
-                    $this->sub_categorias[$k-1]->AddPassenger($passengers[$j]);
-                  }
-                if($passenger_miliage >= $this->sub_categorias[$k+1]->getPontosMin()){
-                    // vai para a próxima
-                    $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
-                    $this->sub_categorias[$k+1]->AddPassenger($passengers[$j]);
-                  }
-            }
-        }
-    }
-  }
+  //               if ($passenger_miliage >= $this->sub_categorias[$k]->getPontos_minimos() && 
+  //                   $passenger_miliage < $this->sub_categorias[$k + 1]->getPontos_minimos()) {
+  //                   // fica na atual
+  //                 }
+  //               if($passenger_miliage < $this->sub_categorias[$k]->getPontos_minimos()){
+  //                   // volta para a anterior
+  //                   $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
+  //                   $this->sub_categorias[$k-1]->AddPassenger($passengers[$j]);
+  //                 }
+  //               if($passenger_miliage >= $this->sub_categorias[$k+1]->getPontosMin()){
+  //                   // vai para a próxima
+  //                   $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
+  //                   $this->sub_categorias[$k+1]->AddPassenger($passengers[$j]);
+  //                 }
+  //           }
+  //       }
+  //   }
+  // }
+
+
   public function showSubCategorias() {
     echo "SubCategorias de " . $this->nome ." : \n";
     for($i = 0; $i < sizeof($this->sub_categorias); $i++)

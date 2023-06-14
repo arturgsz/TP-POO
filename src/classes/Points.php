@@ -16,10 +16,10 @@ class Points extends Persist
     //QUANDO FOR PERCORRER O ARRAY DE PONTOS E DATETIMES, SEMPRE USAR O FOREACH
   
     // Constructor
-    public function __construct(float $pontos, DateTime $dataponto) 
+    public function __construct(/*float $pontos, DateTime $dataponto*/) 
     {
-      array_push($this->pontos, $pontos);
-      array_push($this->dataspontos, $dataponto);
+      // array_push($this->pontos, $pontos);
+      // array_push($this->dataspontos, $dataponto);
     
       try{
         $this->save(); 

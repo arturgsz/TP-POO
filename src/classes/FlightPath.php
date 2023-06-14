@@ -3,7 +3,7 @@ require_once "Persist.php";
 
 class FlightPath extends Persist{
     protected string $origin_airport;
-    protected string $connection_aiport = "Sem conexão. Linha direta.";    
+    protected string $connection_aiport;    
     protected string $destiny_airport;
     protected DateTime $DepartureTime; 
     protected string $flightCode;
@@ -23,6 +23,7 @@ protected function __construct(string $origin_airport,
     $this->DepartureTime  = $DepartureTime;
     $this->flightCode =  $flightCode;
     $this->flightPriceByPassanger = $flightPriceByPassanger;
+    $this->connection_aiport = "Sem conexão. Linha direta.";
 } 
 protected function setForConnection(string $connection_aiport,
                                 string $connectionFlightCode,

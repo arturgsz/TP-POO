@@ -41,14 +41,25 @@ class MiliageProgram extends Persist
 
     public function AddCategoria (string $nome_categoria, int $pontosmin) 
     {
-      $subProgram = new MiliageSubprogram ($nome_categoria, $pontosmin);
-      $a1 = $this->sub_categorias;
-	    //$a2 = array($nome_categoria => $pontosmin);
-      $a2 = array($subProgram);
-	    $this->sub_categorias = (array_merge($a1,$a2));
+      $subProgram = new MiliageSubprogram ($nome_categoria, $pontosmin, $this->getKey());
+      // $a1 = $this->sub_categorias;
+	    // //$a2 = array($nome_categoria => $pontosmin);
+      // $a2 = array($subProgram);
+	    // $this->sub_categorias = (array_merge($a1,$a2));
+      array_push($this->sub_categorias, $subProgram->getKey());
       asort($this->sub_categorias);
+
+      $this->save();
     }
   
+    public function addPassanger(Passenger $passanger){
+        
+        $passangerKey = $passanger->getKey();
+        (MiliageSubprogram::getByKey($this->sub_categorias[0]))->AddPassenger($passangerKey);
+        Passenger::getByKey($passangerKey)->Vip();
+      
+      }
+
 		//public function UpdateSubProgramTiers(){
 
   //     foreach($subprogram as $this->sub_categorias){

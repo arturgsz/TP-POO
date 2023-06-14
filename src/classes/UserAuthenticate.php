@@ -99,20 +99,5 @@ public function __destruct(){
     if(self::$user_online == true)
         self::LogOut();
 }
-
-// static public function solveFirstUser(){
-//     if(!file_exists("/dataFiles/User.txt")){
-//         try{
-//         $user = new User("cruze", "Cruze@gmail.com", "1234");
-//         }catch(Exception $e){
-
-//         }
-//         $container = new Container("User.txt");
-//         $container->addObject($user);
-//         $container->persist();
-
-//     }
-// }
-
 }
 ?>

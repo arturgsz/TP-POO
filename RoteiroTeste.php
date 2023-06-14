@@ -33,9 +33,9 @@ $AirBus_A380_PPART = new Airplane ($Latam, 'AirBus', 'A380', 'PP-ART', 90, 1390)
 $Birth_Artur = new DateTime('16-06-03');
 $Passenger_Artur = new Passenger('Artur', 'Souza', '02339430640','Brasileiro', $Birth_Artur,'MG20928340', true, 'Turito', 'arturgs@email.com','galo');
 $Passenger_ArturKey = $Passenger_Artur->getKey();
-$Ponto_Artur = new Points (0, new DateTime("now"));
+$Ponto_Artur = new Points (/*0, new DateTime("now")*/);
 $Ponto_ArturKey = $Ponto_Artur->getKey();
-$Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
+//$Passenger_Artur->vip(1234, $AzulKey, $Ponto_ArturKey);
 $Passenger_Artur->addCredit(2000);
 $Company_Artur =  $Passenger_Artur->getVipFlightCompany();
 

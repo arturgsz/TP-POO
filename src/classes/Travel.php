@@ -106,9 +106,9 @@ public function payFine($flightKey): bool{
     $passenger = Passenger::getByKey($this->passangerKey); 
 
     if($passenger->isVip()){
-        $companyPass = (($passenger->getMiliage_subprogram())->getMiliageProgram())->getCompanyKey();
+        $companyPass = $passenger->getVipFlightCompany();
         $companyFlight = (Flight::getByKey($flightKey))->getFlightLine()->getCompanyKey();
-        if($companyFlight == $companyPass)
+        if($companyFlight == $companyPass->getKey())
             $payFine = false;
     }
     return $payFine;

@@ -36,7 +36,6 @@ class Passenger extends User
                                 string $nacionality,
                                 DateTime $birth,
                                 string $document,
-                                bool $vip,
                                 string $login, 
                                 string $email,
                                 string $password)
@@ -45,7 +44,6 @@ class Passenger extends User
         $this->surname = $surname;    
         $this->nacionality = $nacionality;
         $this->document = $document;
-        $this->vip = $vip;
         
         if($this->CpfValidation($cpf))
             $this->cpf = $cpf;
@@ -76,15 +74,25 @@ class Passenger extends User
     }
 
     //Vip "Construct"
-    public function Vip(int $register_number, int $flight_companyKey, /*int $milliage_subprogramKey ,*/int $pointsKey) : void
-    {
-        if($this->vip == true){
-            $this->register_number = $register_number;
-            $this->flight_companyKey = $flight_companyKey;
-            //$this->$milliage_subprogramKey = $milliage_subprogramKey;
-            $this->pointsKey = $pointsKey;
-            $this->save();
-        }
+    public function Vip(): void
+    {   
+        if($this->vip)
+            return;
+        
+        $this->vip = true;
+        $this->register_number = rand(100,500)+ $this->getKey();
+        $points = new Points();
+        $this->pointsKey = $points->getKey();
+        $this->flight_companyKey = ((MiliageSubprogram::getByKey($this->milliage_subprogramKey))->getMiliageProgram())->getCompanyKey();
+
+        $this->save();
+        // if($this->vip == true){
+        //     $this->register_number = $register_number;
+        //     $this->flight_companyKey = $flight_companyKey;
+        //     //$this->$milliage_subprogramKey = $milliage_subprogramKey;
+        //     $this->pointsKey = $pointsKey;
+        //     $this->save();
+        // }
     }
 
     //Validations
@@ -155,10 +163,11 @@ class Passenger extends User
     }
 
 
-    public function Add_flight (FlightLine $flight) : void
+    public function Add_travel (int $travelKey) : void
     {
       //$flight_new = $flight->getKey();
-      array_push($this->TravelsKey, FlightLine::getByKey($flight));
+      array_push($this->TravelsKey, $travelKey);
+      $this->save();
     }
 
     // Getters and Setters
@@ -206,20 +215,26 @@ class Passenger extends User
     public function getVipFlightCompany() : FlightCompany
     {         
         if($this->vip == true){return(FlightCompany::getByKey($this->flight_companyKey));}
-        else{throw(new Exception("O passageiro não é vip"));}
+        else{throw(new Exception("O passageiro não é vip\n"));}
+    }
+    public function getVipFlightCompanKey(){
+        if(!empty($this->flight_companyKey))
+            return $this->flight_companyKey;
+        else 
+        throw(new Exception("O passageiro não é vip\n"));
     }
 
     public function getSubProgram() : MiliageSubprogram
     {         
         if($this->vip == true){return(MiliageSubprogram::getByKey($this->milliage_subprogramKey));}
-        else{throw(new Exception("O passageiro não é vip"));}
+        else{throw(new Exception("O passageiro não é vip\n"));}
     }
 
     // Getters and Setters
     public function getRegister_number() : int
     {
         if($this->vip == true){return $this->register_number;}
-        else {throw(new Exception("O passageiro não é vip"));}
+        else {throw(new Exception("O passageiro não é vip\n"));}
     }
 
     public function getMiliage_subprogram()
@@ -229,6 +244,11 @@ class Passenger extends User
     
     public function setTravel($TravelKey){
         array_push($this->TravelsKey, $TravelKey);
+        $this->save();
+    }
+
+    public function setMiliageSubprogram(int $subProgramKey){
+        $this->milliage_subprogramKey = $subProgramKey;
         $this->save();
     }
 

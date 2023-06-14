@@ -131,6 +131,9 @@
                 return false;
             }
         }
+        public function update(){
+            return self::getByKey($this->getKey());
+        }
 
         public function getVars(): array{
             return get_class_vars(get_class($this));

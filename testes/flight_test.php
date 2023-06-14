@@ -1,5 +1,5 @@
 <?php
-require_once "../src/System.php";
+require_once "./src/System.php";
 
 $us = new UserAuthenticate();
 $us->LogIn("Cruze","1234");
@@ -30,26 +30,31 @@ $dateChegada1->setTime("23","30");
 
 $freq = [false, true, true, false, false, false, true];
 
-$line1 = new FlightLine($airport1, $airport2, $dateSaida, $dateChegada,
+$line1 = new FlightLine("AE2456",$airport1, $airport2, $dateSaida, $dateChegada,
                         $airplane, $company,true, $freq,100, 80, 15);
 
-$line2 = new FlightLine($airport1, $airport3, $dateSaida, $dateChegada,
+$line2 = new FlightLine("AE1234",$airport1, $airport3, $dateSaida, $dateChegada,
                         $airplane, $company, true, $freq, 300, 80,15);
 
-$line3 = new FlightLine($airport2, $airport3, $dateSaida1, $dateChegada1,
+$line3 = new FlightLine("AE2568",$airport2, $airport3, $dateSaida1, $dateChegada1,
                         $airplane, $company, true, $freq, 100, 80, 15);
 
 
 $birth = new DateTime;
 $birth->setDate(2003,12,3);                     
-$passanger = new Passenger("cruze", "sousa", "70123394627", "BRASILEIRO", $birth, "16746", false,"curcru","cruzee@gmail.com","1234");
+$passanger = new Passenger("cruze", "sousa", "70123394627", "BRASILEIRO", $birth, "16746","curcru","cruzee@gmail.com","1234");
 $passanger->addCredit(2000);
+
+$Milhas = new MiliageProgram ('Milhas-AZUL', $company->getKey());
+$Milhas->AddCategoria('Azul Inicial', 0);
+$Milhas = $Milhas->update();
+$Milhas->addPassanger($passanger);
+
 
 $paths = Travel::showPossibleTravels($airport1, $airport3,new DateTime('2023-06-14 8:00'),2);
 
 $travel = new Travel($paths[1], $passanger->getKey());
 $travel->showSeats();
-
 $travel->buyTravel(4, 2, 2);
 
 print_r(FlightTicket::getRecords());

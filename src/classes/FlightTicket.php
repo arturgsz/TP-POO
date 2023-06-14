@@ -80,7 +80,7 @@ class FlightTicket extends Persist
         return $flightLine->getPrice() + $luggadge*($flightLine->getLugadgeprice());
       }else{
         if($luggadge >0 ){
-          return  $flightLine->getPrice() + $luggadge*($flightLine->getLugadgeprice())/2;
+          return  $flightLine->getPrice() + ($luggadge-1)*($flightLine->getLugadgeprice())/2;
         }else
           return $flightLine->getPrice();
       }  
@@ -115,50 +115,3 @@ class FlightTicket extends Persist
 
   }
 
-
-    // private function Check_in() : bool
-    // {
-    //   //implementar
-    // }
-
-    // private function On_board() : bool
-    // {
-    //   //implementar
-    // }
-    
-       
-    // public function getOrigin() : string
-    // {
-    //   return $this->origin;
-    // }
-    // public function getDestiny() : string
-    // {
-    //   return $this->destiny;
-    // }
-    // public function getLuggadge() : int
-    // {
-    //     return $this->luggadge;
-    // }
-    // public function getPrice() : float
-    // {
-    //     return $this->price_flight;
-    // }
-    // public function getSeat() : int
-    // {
-    //     return $this->seat;
-    // }
-    // public function setLuggadge(int $luggadge)
-    // {
-    //     $this->luggadge = $luggadge;
-    //     $this->price_flight = FlightTicket::calc_price($this->luggadge);
-    // }
-    // public function setSeat(int $seat)
-    // {
-    //     $this->seat = $seat;
-    // }
-    
-    // Destructor
-    // public function __destruct()
-    // {
-    //  //   echo "Flight Ticket with code {$this->code} was destroyed.";
-    // }

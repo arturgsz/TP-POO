@@ -11,17 +11,19 @@ class MiliageSubprogram extends Persist
     protected string $nome_categoria;  
     protected float $pontosmin;
     protected int $miliage_programKey;
-    protected $passengers = [];
+    protected $passengersKey = [];
     protected static $local_filename = "MiliageSubprogram.txt";
 
     // Constructor
     public function __construct(string $nome_categoria, 
-                                float $pontosmin)
+                                float $pontosmin,
+                                int $miliage_programKey)
     {
 
         $this->nome_categoria = $nome_categoria;
         $this->pontosmin = $pontosmin;      
-    
+        $this->miliage_programKey = $miliage_programKey;
+        
         try{
             $this->save(); 
          }catch(Exception $e){
@@ -32,11 +34,14 @@ class MiliageSubprogram extends Persist
 
     public function AddPassenger(int $passengerKey) : bool
     {
-      $passenger_ = Passenger::getByKey($passengerKey);
-      if(array_push($this->passengers, $passenger_)){
+      //$passenger_ = Passenger::getByKey($passengerKey);
+      if(array_push($this->passengersKey, $passengerKey)){
+        Passenger::getByKey($passengerKey)->setMiliageSubprogram($this->getKey());
+        $this->save();      
         return true;
       }
       else {return false;}
+
     }
 
     public function RemovePassenger($passenger) : bool
@@ -44,11 +49,13 @@ class MiliageSubprogram extends Persist
       $passengerKey = $passenger->getKey();
       $passenger_ = Airport::getByKey($passengerKey);
       //UNSET remove elemento
-      unset($this->passengers[array_search($passenger_, $this->passengers)]);
+      unset($this->passengersKey[array_search($passenger_, $this->passengersKey)]);
 
       //Checa se ainda há aquele passageiro no array
-      if(array_search($passenger_, $this->passengers) == NULL ) { 
-      	return true;
+      if(array_search($passenger_, $this->passengersKey) == NULL ) { 
+      	$this->save();  
+        return true;
+      
       }
       else {
       	return false;
@@ -72,7 +79,7 @@ class MiliageSubprogram extends Persist
     }
     public function getPassengers() : array
     {
-        return $this->passengers;
+        return $this->passengersKey;
     }
   
     // Destructor

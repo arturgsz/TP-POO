@@ -104,19 +104,18 @@ class Flight extends Persist
         
         $this->departureTime = $departure;
         $this->state = FlightState::Em_vool;
-
+        $this->save();
+        
         //Verificar passagens, aquelas que nao estiverem com checkIN, devem ser alteradas para NO_Show
         foreach($this->ticketsKey as $ticket){
             $travel = FlightTicket::getByKey($ticket)->getTravel();
             
-            if($travel-> getTravelState() == TravelStatus::CheckIn){
-                $travel->TookOff();
+            if($travel-> getTravelState() == TravelStatus::Embarque){
+                $travel->tookOff();
             }else{
-                $travel->setTravelState(TravelStatus::NO_SHOW);
+                $travel->noShow();
             }
         }
-
-        $this->save();
     }
     public function planeLanded(dateTime $arrivel){
         if($this->state != FlightState::Em_vool)
@@ -124,19 +123,17 @@ class Flight extends Persist
         
         $this->arrivelTime = $arrivel;
         $this->state = FlightState::Voo_realziado;
-        
+        $this->save();        
         //Atribuir pontos de milhagem aos passageiros vip, alterar status das travels para realizado
         foreach($this->ticketsKey as $ticket){
             $travel = FlightTicket::getByKey($ticket)->getTravel();
             
-            if($travel-> getTravelState() == TravelStatus::EmVool){
-                $travel->setTravelState(TravelStatus::Viagem_realizada);
+            if($travel->getTravelState() == TravelStatus::EmVool){
+               // $travel->setTravelState(TravelStatus::Viagem_realizada);
                 $travel->Landed();
-            }else{
-                $travel->setTravelState(TravelStatus::NO_SHOW);
             }
         }
-        $this->save();
+
     }
 
     public function cancelFlight(){
@@ -152,6 +149,7 @@ class Flight extends Persist
         }else{
             throw(new Exception("Não é possivel cancelar o voo"));
         }
+
     }
 
     public function availableSeats(){
@@ -221,6 +219,9 @@ class Flight extends Persist
 
     public function getFlightLine(): FlightLine {
         return FlightLine::getByKey($this->flightLineKey);
+    }
+    public function getState(): FlightState{
+        return $this->state;
     }
 
     public function getFlightCode(){

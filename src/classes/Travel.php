@@ -10,6 +10,7 @@ enum TravelStatus{
     case Trajeto_definido;
     case Passagem_adquirida;
     case CheckIn;
+    case Embarque;
     case EmVool;
     case Viagem_realizada;
     case Viagem_cancelada;    
@@ -47,6 +48,10 @@ $this->passangerKey = $passangerKey;
     (Passenger::getByKey($this->passangerKey))->setTravel($this->getKey());
 }
 public function showSeats(){
+    if($this->status != TravelStatus::Trajeto_definido &&
+      $this->status != TravelStatus::Passagem_adquirida)
+        throw(new Exception("Não é mais possivel visualizar os assentos do voo.\n"));
+
     $flight1 = Flight::getByKey(($this->flightsKey)[0]);
     echo "Os lugares livres para o voo ".$flight1->getFlightCode()." são:\n";
     print_r($flight1->availableSeats());
@@ -58,7 +63,9 @@ public function showSeats(){
     }
 }   
 public function buyTravel(int $seat1, ?int $seat2, int $luggadge){
-
+    if($this->status != TravelStatus::Trajeto_definido)
+        throw(new Exception("Não é mais possivel comprar o voo.\n"));
+    
     if(!($this->validateSeat($seat1, $seat2)))
         throw(new Exception("O lugar requerido não está mais disponivel"));
 
@@ -91,25 +98,67 @@ public function buyTravel(int $seat1, ?int $seat2, int $luggadge){
     $this->save();
 }
 public function checkIn(){
+    if($this->status != TravelStatus::Passagem_adquirida)
+        throw(new Exception("Não é mais possivel realizar check In\n"));
+    
+    $timeflight =  Flight::getByKey($this->flightsKey[0])->getDeparture();
+    $timeMax = clone $timeflight;
+    $timeMax->modify("-30 minutes");
+    
+    $timeMin = clone $timeflight;
+    $timeMin->modify("-2 days");
 
-}
+    if(new DateTime() < $timeMin || new DateTime() > $timeMax)
+        throw(new Exception("Não é posível fazer check in\n"));
 
-public function setTravelState(TravelStatus $state){
-    $this->status = $state;
+    $this->status = TravelStatus::CheckIn;
     $this->save();
 }
+public function onBoard(){
+    if($this->status != TravelStatus::CheckIn)
+      throw(new Exception("Não é mais possivel realizar embarque.\n"));
+    
+     $this->status = TravelStatus::Embarque;
+    $this->save();
+}
+
+public function Landed(){
+    if($this->status != TravelStatus::EmVool)
+        throw(new Exception("Não é mais possivel confirmar desembarque.\n"));
+    
+    if(empty($this->flightsKey[1])){
+        $this->status = TravelStatus::Viagem_realizada;
+        $this->atributeMiliage();
+    }else{
+        if(Flight::getByKey($this->flightsKey[1])->getState() == FlightState::Voo_realziado){
+            $this->status = TravelStatus::Viagem_realizada;
+            $this->atributeMiliage();
+        }else{
+            $this->status = TravelStatus::Embarque;
+        }
+    }
+}
+
+public function tookOff(){
+    if($this->status != TravelStatus::Embarque)
+        throw(new Exception("Não é mais possivel confirmar decolagem\n"));
+    
+    $this->status = TravelStatus::EmVool;
+    $this->save();
+}
+public function noShow(){
+    if($this->status != TravelStatus::Passagem_adquirida)
+        throw(new Exception("Não é foi possível confirmar NO_SHOW.\n"));
+
+    $this->status = TravelStatus::NO_SHOW;
+    $this->save();
+}
+
 public function getTravelState(): TravelStatus{
     return $this->status;
 }
 
-public function TookOff(){
-
-}
-public function Landed(){
-
-}
-
-public function calcMiliage(): float{
+private function calcMiliage(): float{
     $miliage = 0;
         if(!($this->payFine(($this->flightsKey)[0]))){
          
@@ -126,7 +175,8 @@ public function calcMiliage(): float{
         return $miliage;
 }
 //Uma vez a flight é terminada
-public function atributeMiliage(){
+private function atributeMiliage(){
+    
     $departure = Flight::getByKey($this->flightsKey[0])->getDeparture();
     Passenger::getByKey($this->passangerKey)->getPointsObj()->AddPontos($this->miliage, $departure);
 
@@ -160,7 +210,9 @@ private function getFine(): float{
 }
 
 public function editTravel(int $seat1, ?int $seat2, int $luggadge){
-
+    if($this->status != TravelStatus::Trajeto_definido)
+        throw(new Exception("Não é mais possivel realizar alterações.\n"));
+    
     $flight1time = Flight::getByKey($this->flightsKey[0])->getDeparture();
     $flight1time->modify("-4 hours");
     $time = new DateTime('now');
@@ -203,8 +255,19 @@ private function validateSeat(int $st1, int $st2): bool{
 }
 
 public function cancelTravel(){
-$add = $this->price - $this->getFine();
+    if($this->status != TravelStatus::Passagem_adquirida &&
+    $this->status != TravelStatus::Trajeto_definido)
+        throw(new Exception("Não é mais possivel realizar check In.\n"));
 
+$flight1time = Flight::getByKey($this->flightsKey[0])->getDeparture();
+$flight1time->modify("-4 hours");
+$time = new DateTime('now');
+
+if($time > $flight1time)
+    throw(new Exception("O prazo para cancelamento da passagem foi esgotado\n"));
+
+
+$add = $this->price - $this->getFine();
 Passenger::getByKey($this->passangerKey)->addCredit($add);
 
 $ticket1 = FlightTicket::getByKey($this->flightTicketsKey[0]);

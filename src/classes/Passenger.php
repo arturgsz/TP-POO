@@ -86,13 +86,6 @@ class Passenger extends User
         $this->flight_companyKey = ((MiliageSubprogram::getByKey($this->milliage_subprogramKey))->getMiliageProgram())->getCompanyKey();
 
         $this->save();
-        // if($this->vip == true){
-        //     $this->register_number = $register_number;
-        //     $this->flight_companyKey = $flight_companyKey;
-        //     //$this->$milliage_subprogramKey = $milliage_subprogramKey;
-        //     $this->pointsKey = $pointsKey;
-        //     $this->save();
-        // }
     }
 
     //Validations
@@ -140,9 +133,20 @@ class Passenger extends User
 
     public function showTravels(){
         $tickets = FlightTicket::getRecordsByField("PassengerKey", $this->getKey());
-        echo "As viagens realizadas por voce foram: \n\n";
-        print_r($tickets);
-    }
+        echo "As viagens realizadas por voce foram: \n\n\n";
+        
+            foreach($tickets as $ticket){
+               
+                $flight = $ticket->getFlight();
+                echo "Viagem em ".$flight->getDeparture().":\n\n";
+                
+                echo "Origem: ".$flight->getFlightLine()->getOrigin()->getName()."\n";
+                echo "Destino: ".$flight->getFlightLine()->getDestiny()->getName()."\n";
+                echo "Código: ".$ticket->getCode()."\n";
+                echo "Assento: ".$ticket->getSeat()."\n\n";
+           
+            }
+    }   
     //adicionar aqui toda vez que o passageiro executar um voo
     
 

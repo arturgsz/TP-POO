@@ -57,16 +57,6 @@ class FlightTicket extends Persist
       //TO DO
     }
 
-    // public function miliagePoints() {
-    //   $passenger = (Passenger::getByKey($this->passengerKey));
-    //   if($passenger->getVip() == true){
-    //     $flight = Flight::getByKey($this->FlightKey);
-    //     $flightLine = $flight->getFlightLine();
-    //     $this->miliage = $flightLine->calcMiliage();
-    //   }
-    //   return $this->miliage;
-    // }
-
     public function getTravel(): Travel{
       return Travel::getByKey($this->travelKey);
     }
@@ -104,7 +94,9 @@ class FlightTicket extends Persist
     {
      return Passenger::getByKey($this->passengerKey);
     }  
-    
+    public function getSeat(){
+      return $this->seat;
+    }
     static public function getFilename()
     {
         return get_called_class()::$local_filename;

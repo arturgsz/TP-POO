@@ -3,9 +3,9 @@
  * This is the class for the Vehicle object.
  */
 
-require_once 'Persist.php';
+require_once 'PersistLogAuthenticate.php';
 
-class Vehicle extends Persist
+class Vehicle extends PersistLogAuthenticate
 {
     // Attributes
     protected string $model;

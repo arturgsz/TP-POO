@@ -4,7 +4,7 @@
 * This is the class for the Flight Company object.
 */
 
-require_once 'Persist.php';
+require_once 'PersistLogAuthenticate.php';
 
 class FlightCompany extends User
 {
@@ -69,13 +69,6 @@ class FlightCompany extends User
       return false;
     }
   }
-
-
-  // public function AddCategoria (string $nome, string $nome_categorias) 
-  // {
-  //   $this->miliage_program->AddCategoria($nome, $nome_categorias);
-  // }
-
   public function NewCrew_member () 
   {
     //implementar

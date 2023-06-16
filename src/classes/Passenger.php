@@ -2,7 +2,7 @@
 /* Passenger.php
  * This is the class for the Passenger object.
  */
-require_once "Persist.php";
+//require_once "PersistLogAuthenticate.php";
 require_once "User.php";
 require_once "Travel.php";
 class Passenger extends User

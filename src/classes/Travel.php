@@ -129,14 +129,17 @@ public function Landed(){
     if(empty($this->flightsKey[1])){
         $this->status = TravelStatus::Viagem_realizada;
         $this->atributeMiliage();
+       
     }else{
         if(Flight::getByKey($this->flightsKey[1])->getState() == FlightState::Voo_realziado){
             $this->status = TravelStatus::Viagem_realizada;
             $this->atributeMiliage();
+        
         }else{
             $this->status = TravelStatus::Embarque;
         }
     }
+ $this->save();
 }
 
 public function tookOff(){
@@ -283,7 +286,9 @@ echo "Confirmado multa de cancelamento de R$".$this->getFine()."\n";
 $this->status = TravelStatus::Viagem_cancelada;
 $this->save();
 }
-
+public function getFlightsKey(int $id){
+    return Flight::getByKey($this->flightsKey[$id]);
+}
 public function refund(){
     Passenger::getByKey($this->passangerKey)->addCredit($this->price);
 

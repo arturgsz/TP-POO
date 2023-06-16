@@ -6,10 +6,10 @@
 require_once 'Airport.php';
 require_once 'Airplane.php';
 require_once 'Flight.php';
-require_once 'Persist.php';
+//require_once 'PersistLogAuthenticate.php';
 date_default_timezone_set("America/Sao_Paulo");
 
-class FlightLine extends Persist
+class FlightLine extends PersistLogAuthenticate
 {
   protected int $airportOriginKey; 
   protected int $airportDestinyKey;
@@ -53,9 +53,9 @@ class FlightLine extends Persist
     $this->airplaneKey = $airplane->getKey();
     
     $code = ($airplane->getFlightCompany())->getCode().rand(1000,9999);
-    while (FlightLine::getRecordsByField("code",$code) != null){
-      $code = ($airplane->getFlightCompany())->getCode().rand(1000,9999);
-    }
+    // while (FlightLine::getRecordsByField("code",$code) != null){
+    //   $code = ($airplane->getFlightCompany())->getCode().rand(1000,9999);
+    // }
     
     $this->code = $code;
 
@@ -125,6 +125,7 @@ class FlightLine extends Persist
         continue;
 
       $flight = new Flight($this->getKey(), $flightDeparture, $flightArrivel);
+      
       ($this->flightsKey)[] = $flight->getKey();
     }
   }

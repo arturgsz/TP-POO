@@ -16,7 +16,7 @@ class WriteLog extends Log{
 
         $this->data_before = $obj_before;
         $this->data_after = $obj_after;
-
+        
         if(!empty($obj_before))
             $this->class_name = get_class($obj_before); 
         else 
@@ -26,6 +26,7 @@ class WriteLog extends Log{
         $this->date = date("d-m-y h:i:s A"); 
 
         $this->save();
+        echo "Log number ".$this->getKey()."\n";
     }
      static public function getFileName()
     {

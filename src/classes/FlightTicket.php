@@ -3,12 +3,12 @@
  * This is the class for the FlightTicket object.
  */
 
-require_once 'Flight.php' ;
+//require_once 'Flight.php' ;
 require_once "Travel.php";
 require_once 'Passenger.php';
-require_once 'Persist.php';
+//require_once 'PersistLogAuthenticate.php';
 
-class FlightTicket extends Persist
+class FlightTicket extends PersistLogAuthenticate
 { 
     protected int $FlightKey;
     protected string $code;

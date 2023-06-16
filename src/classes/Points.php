@@ -2,9 +2,9 @@
 /* Point.php
  * This is the class for the Vehicle object.
  */
-require_once "Persist.php";
+require_once "PersistLogAuthenticate.php";
 
-class Points extends Persist
+class Points extends PersistLogAuthenticate
 {
     // Attributes
 
@@ -16,10 +16,8 @@ class Points extends Persist
     //QUANDO FOR PERCORRER O ARRAY DE PONTOS E DATETIMES, SEMPRE USAR O FOREACH
   
     // Constructor
-    public function __construct(/*float $pontos, DateTime $dataponto*/) 
+    public function __construct() 
     {
-      // array_push($this->pontos, $pontos);
-      // array_push($this->dataspontos, $dataponto);
     
       try{
         $this->save(); 

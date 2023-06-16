@@ -3,9 +3,9 @@
  * This is the class for the MiliageProgram object.
  */
 
- require_once "Persist.php";
+ require_once "PersistLogAuthenticate.php";
 
-class MiliageSubprogram extends Persist
+class MiliageSubprogram extends PersistLogAuthenticate
 {
     // Attributes
     protected string $nome_categoria;  
@@ -39,12 +39,6 @@ class MiliageSubprogram extends Persist
         Passenger::getByKey($passengerKey)->setMiliageSubprogram($this->getKey());
         $this->save();      
       }
-      // $passenger_ = Passenger::getByKey($passengerKey);
-      // if(array_push($this->passengers, $passenger_) and array_push($this->passengersKey, $passengerKey)){
-      //   $this->save();
-      //   return true;
-      // }
-      // else {return false;}
 
     }
 

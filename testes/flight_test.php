@@ -32,8 +32,8 @@ $dateChegada1 = new DateTime('now');
 $dateSaida1->setTime("21", "10");
 $dateChegada1->setTime("23","30");
 
-$freq = [false, true, true, false, false, false, true];
-
+$freq = [true, true, true, true, true, true, true];
+echo"0===================================\n";
 $line1 = new FlightLine("AE2456",$airport1, $airport2, $dateSaida, $dateChegada,
                         $airplane, $company,true, $freq,100, 80, 15);
 
@@ -43,6 +43,7 @@ $line2 = new FlightLine("AE1234",$airport1, $airport3, $dateSaida, $dateChegada,
 $line3 = new FlightLine("GO2568",$airport2, $airport3, $dateSaida1, $dateChegada1,
                         $airplane2, $company2, true, $freq, 100, 80, 15);
 
+echo"1===================================\n";
 
 $birth = new DateTime;
 $birth->setDate(2003,12,3);                     
@@ -52,19 +53,35 @@ $passanger->addCredit(2000);
 $Milhas = new MiliageProgram ('Milhas-AZUL', $company->getKey());
 $Milhas->AddCategoria('Azul Inicial', 0);
 $Milhas->addPassanger($passanger);
-
-
+echo"2===================================\n";
 $paths = Travel::showPossibleTravels($airport1, $airport3,new DateTime('2023-06-14 8:00'),2);
-
+echo"3===================================\n";
 $travel = new Travel($paths[1], $passanger->getKey());
 $travel->showSeats();
 $travel->buyTravel(4, 2, 2);
+echo"4===================================\n";
+$travel->checkIn();
+$travel->onBoard();
 
-$travel->atributeMiliage();
+$flight1 = $travel->getFlightsKey(0);
+$flight2 = $travel->getFlightsKey(1);
 
+
+$flight1->setFlightState(FlightState::Crew_Preparada);
+$flight2->setFlightState(FlightState::Crew_Preparada);
+
+$flight1->planeTookOff(new DateTime());
+$flight1->planeLanded(new DateTime());
+
+
+$flight2->planeTookOff(new DateTime());
+$flight2->planeLanded(new DateTime());
+echo"5===================================\n";
 print_r(FlightTicket::getRecords());
 print_r(Travel::getRecords());
 print_r(Points::getRecords());
 print_r(Passenger::getByKey($passanger->getKey()));
+WriteLog::showLogs();
+ReadLog::showLogs();
 
 

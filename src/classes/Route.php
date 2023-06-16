@@ -3,12 +3,12 @@
  * This is the class for the Route object.
  */
 
-require_once 'Airport.php';
+//require_once 'Airport.php';
 require_once 'Vehicle.php';
 require_once 'Crew.php';
-require_once 'Persist.php';
+//require_once 'PersistLogAuthenticate.php';
 
-class Route extends Persist
+class Route extends PersistLogAuthenticate
 {
   protected $crew_members = []; 
   protected int $vehicleKey;

@@ -3,9 +3,9 @@
  * This is the class for the Airplane object.
  */
 require_once 'FlightCompany.php';
-require_once 'Persist.php';
+//require_once 'PersistLogAuthenticate.php';
 
-class Airplane extends Persist
+class Airplane extends PersistLogAuthenticate
 {
   protected int $flightCompanyKey; //pertencimento
   protected string $manufacturer;
@@ -94,11 +94,6 @@ class Airplane extends Persist
     return $this->capacity_cargo;
   }
 
-  // public function getLuggadge() : float
-  // {
-  //   return $this->luggadge;
-  // }
-  
   public function setManufacturer(string $manufacturer) : void
   {
 

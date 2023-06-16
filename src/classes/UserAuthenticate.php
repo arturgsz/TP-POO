@@ -1,9 +1,9 @@
 <?php
 
 require_once "User.php";
-require_once "Container.php";
+require_once "Persist.php";
 
- class UserAuthenticate{
+ class UserAuthenticate extends Persist{
 
     static private bool $user_online =  false;
     static private int $open_sessions = 0;
@@ -98,6 +98,11 @@ public function __destruct(){
     --self::$open_sessions; 
     if(self::$user_online == true)
         self::LogOut();
+}
+
+static public function getFilename()
+{
+    return get_called_class()::$local_filename;
 }
 }
 ?>

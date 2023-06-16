@@ -5,9 +5,9 @@
 require_once "FlightCompany.php";
 require_once 'MiliageSubprogram.php';
 require_once "Passenger.php";
-require_once "Persist.php";
+//require_once "PersistLogAuthenticate.php";
 
-class MiliageProgram extends Persist
+class MiliageProgram extends PersistLogAuthenticate
 {
     // Attributes
     protected $nome;
@@ -32,12 +32,6 @@ class MiliageProgram extends Persist
 
     }
 
-    // public function AddCategoria (MiliageSubprogram $subprogram) : void
-    // {
-    //   array_push($this->sub_categorias, $subprogram);
-      
-    // }
-  
 
     public function AddCategoria (string $nome_categoria, int $pontosmin) 
     {
@@ -106,37 +100,6 @@ class MiliageProgram extends Persist
       }
       $this->save();
     }
-  
-  // public function UpdateSubProgramTiers() {
-  //   for ($i = 0; $i < sizeof($this->sub_categorias); $i++) {
-        
-  //     $passengers = $this->sub_categorias[$i]->getPassengers();
-
-  //       for ($j = 0; $j < sizeof($passengers); $j++) {
-  //           $passenger_miliage = $passengers[$j]->getMiliageProgram();
-          
-  //             for($k = 0; $k < sizeof($this->sub_categorias); $k++){
-  //                 $pontosmin_sub = $this->sub_categorias[$k]->getPontos_minimos();
-
-  //               if ($passenger_miliage >= $this->sub_categorias[$k]->getPontos_minimos() && 
-  //                   $passenger_miliage < $this->sub_categorias[$k + 1]->getPontos_minimos()) {
-  //                   // fica na atual
-  //                 }
-  //               if($passenger_miliage < $this->sub_categorias[$k]->getPontos_minimos()){
-  //                   // volta para a anterior
-  //                   $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
-  //                   $this->sub_categorias[$k-1]->AddPassenger($passengers[$j]);
-  //                 }
-  //               if($passenger_miliage >= $this->sub_categorias[$k+1]->getPontosMin()){
-  //                   // vai para a próxima
-  //                   $this->sub_categorias[$k]->RemovePassenger($passengers[$j]);
-  //                   $this->sub_categorias[$k+1]->AddPassenger($passengers[$j]);
-  //                 }
-  //           }
-  //       }
-  //   }
-  // }
-
 
   public function showSubCategorias() {
     $this->UpdateSubProgramTiers();

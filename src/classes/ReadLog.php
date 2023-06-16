@@ -20,6 +20,8 @@ class ReadLog extends Log{
         $this->date = date("d-m-y h:i:s A "); 
 
         $this->save();
+        echo "Log number ".$this->getKey()."\n";
+
     }
     
      static public function getFileName()

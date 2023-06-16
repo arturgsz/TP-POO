@@ -1,8 +1,8 @@
 <?php
 
-require_once 'Persist.php';
+require_once 'PersistLogAuthenticate.php';
 
-class User extends Persist{
+class User extends PersistLogAuthenticate{
 
     public string $login;
     protected string $email;

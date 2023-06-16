@@ -1,7 +1,7 @@
 <?php
 
 //require_once "FlightTicket";
-require_once "Persist.php";
+//require_once "PersistLogAuthenticate.php";
 //require_once "Passenger.php";
 require_once "FlightLine.php";
 //require_once "Airport.php";
@@ -20,7 +20,7 @@ enum FlightState{
     case Voo_cancelado;
 }
 
-class Flight extends Persist
+class Flight extends PersistLogAuthenticate
 {      
     // Attributes
     protected DateTime $expectedDepartureTime;
@@ -108,14 +108,18 @@ class Flight extends Persist
         
         //Verificar passagens, aquelas que nao estiverem com checkIN, devem ser alteradas para NO_Show
         foreach($this->ticketsKey as $ticket){
-            $travel = FlightTicket::getByKey($ticket)->getTravel();
-            
-            if($travel-> getTravelState() == TravelStatus::Embarque){
+            $travel =FlightTicket::getByKey($ticket)->getTravel();
+            print_r($travel->getTravelState());
+            if($travel->getTravelState() == TravelStatus::Embarque){
                 $travel->tookOff();
             }else{
                 $travel->noShow();
             }
         }
+    }
+    public function setFlightState(FlightState $state){
+        $this->state = $state;
+        $this->save();
     }
     public function planeLanded(dateTime $arrivel){
         if($this->state != FlightState::Em_vool)

@@ -2,9 +2,9 @@
 /* Adress.php
  * This is the class for the Adress object.
  */
-require_once 'Persist.php';
+require_once 'PersistLogAuthenticate.php';
 
-class Adress extends Persist
+class Adress extends PersistLogAuthenticate
 {
     // Attributes
     protected string $rua;

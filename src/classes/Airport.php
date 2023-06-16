@@ -4,7 +4,7 @@
  */
 
 require_once 'Adress.php';
-require_once 'Persist.php';
+//require_once 'PersistLogAuthenticate.php';
 require_once "User.php";
 
 class Airport extends User

@@ -1,7 +1,7 @@
 <?php
-require_once "Persist.php";
+require_once "PersistLogAuthenticate.php";
 
-class FlightPath extends Persist{
+class FlightPath extends PersistLogAuthenticate{
     protected string $origin_airport;
     protected string $connection_aiport;    
     protected string $destiny_airport;

@@ -3,7 +3,7 @@
  * This is the class for the Client object.
  */
 require_once 'User.php';
-require_once "Persist.php";
+//require_once "PersistLogAuthenticate.php";
 
 class Client extends User{
     

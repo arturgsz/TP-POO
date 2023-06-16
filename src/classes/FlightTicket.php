@@ -16,7 +16,7 @@ class FlightTicket extends PersistLogAuthenticate
     protected int $travelKey;
     protected int $seat;
     protected float $price;
-    protected float $miliage;
+
     protected static $local_filename = "FlightTicket.txt";
        
     
@@ -32,29 +32,51 @@ class FlightTicket extends PersistLogAuthenticate
       $this->passengerKey = $passenger;
       $this->travelKey = $travelKey;
       $this->price = $this->calc_price($luggadge);
-   //   $this->miliage = $this->miliagePoints();
     
+      try{
+        (Flight::getByKey($this->FlightKey))->secureSeat($seat, $this->getKey(true));
+      }catch(Exception $e){
+        
+        throw($e);
+      }
+      $this->seat = $seat;    
+      $this->code = ((Flight::getByKey($this->FlightKey))->getFlightCode())."-".$this->getKey(true);
+      
       try{
         $this->save(); 
       }catch(Exception $e){
          echo $e->getMessage();
          throw($e);
       }
-    
-      try{
-        (Flight::getByKey($this->FlightKey))->secureSeat($seat, $this->getKey());
-      }catch(Exception $e){
-        
-        throw($e);
-      }
-      $this->seat = $seat;    
-      $this->code = ((Flight::getByKey($this->FlightKey))->getFlightCode())."-".$this->getKey();
-
-      $this->save();
     }
 
     public function showFlightTicket(){
-      //TO DO
+      $passenger = Passenger::getByKey($this->passengerKey);
+      $flight = Flight::getByKey($this->FlightKey);
+      $flightLine = $flight->getFlightLine();
+      $origin = $flightLine->getOrigin();
+      $destiny = $flightLine->getDestiny();
+      $embarque = $flight->getDeparture();
+      $embarque->modify("-40 minutes");
+
+
+      $reset = "\033[0m";
+      $bold = "\033[1m";
+      $underline = "\033[4m";
+      $color = "\033[36m"; // Cor ciano
+
+      echo "{$color}{$bold}{$underline}============================================={$reset}\n";
+      echo "{$color}{$bold}{$underline}          BILHETE DE VOO{$reset}\n";
+      echo "{$color}{$bold}{$underline}============================================={$reset}\n";
+      echo "{$color}Nome do passageiro:{$reset} {$passenger->getName()} {$passenger->getSurname()}\n";
+      echo "{$color}Destino:{$reset} {$destiny->getName()}\n";
+      echo "{$color}Origem:{$reset} {$origin->getName()}\n";
+      echo "{$color}Horário de embarque:{$reset} {$embarque->format('d-m-Y H:i:s')}\n";
+      echo "{$color}Horário do voo:{$reset} {$embarque->modify("+40 minutes")->format('d-m-Y H:i:s')}\n";
+      echo "{$color}Código do voo:{$reset} {$flight->getFlightCode()}\n";
+      echo "{$color}Assento:{$reset} {$this->seat}\n";
+      echo "{$color}{$bold}{$underline}============================================={$reset}\n";
+    
     }
 
     public function getTravel(): Travel{

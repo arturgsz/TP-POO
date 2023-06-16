@@ -38,6 +38,8 @@ $this->passangerKey = $passangerKey;
     $this->miliage = $this->calcMiliage();
     $this->status = TravelStatus::Trajeto_definido;
 
+    (Passenger::getByKey($this->passangerKey))->setTravel($this->getKey(true));
+    
     try{
         $this->save(); 
       }catch(Exception $e){
@@ -45,7 +47,7 @@ $this->passangerKey = $passangerKey;
          throw($e);
       }
 
-    (Passenger::getByKey($this->passangerKey))->setTravel($this->getKey());
+    ;
 }
 public function showSeats(){
     if($this->status != TravelStatus::Trajeto_definido &&
@@ -174,7 +176,7 @@ private function calcMiliage(): float{
 
             }
         }
-        echo $miliage;
+     
         return $miliage;
 }
 //Uma vez a flight é terminada
@@ -302,12 +304,12 @@ public function refund(){
 }
 
 public function showTicketscards(){
-    echo "Cartão de embarque para o voo:\n"
-    ($this->flightTicketsKey)[0]->showFlightTicket();
+    echo "Cartão de embarque para o voo:\n";
+    (FlightTicket::getByKey(($this->flightTicketsKey)[0]))->showFlightTicket();
     if(!empty(($this->flightTicketsKey)[1])){
-        echo "Cartão de embarque para o voo de conexão:\n"
-        ($this->flightTicketsKey)[1]->showFlightTicket();
-    }     
+        echo "\n\nCartão de embarque para o voo de conexão:\n";
+        (FlightTicket::getByKey(($this->flightTicketsKey)[1]))->showFlightTicket();
+    }echo"\n\n";
 }
 
 static function showPossibleTravels(Airport $origin, Airport $destiny, DateTime $date, int $passangers): array{

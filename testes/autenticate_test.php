@@ -56,6 +56,6 @@ $sed->LogIn("santosPort","1234");
 
 print_r(Airport::getRecords());
 
-WriteLog::showLogs();
-ReadLog::showLogs();
+// WriteLog::showLogs();
+// ReadLog::showLogs();
 

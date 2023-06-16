@@ -44,7 +44,7 @@
 
         public function addObject( $p_obj ) {
             
-         $key = intval(array_key_last($this->objects)) + 1;
+            $key = intval(array_key_last($this->objects)) + 1;
               
             $this->objects[$key] = $p_obj; 
             $this->objects[$key]->setIndex($key);
@@ -100,15 +100,15 @@
             $this->objects = $objs;
         }
 
-        /* get's e set's aqui */
-        public function __sleep(){
-            return array(
-                "filename", "objects"
-            );
-        }
-        public function __wakeup(){
+        // /* get's e set's aqui */
+        // public function __sleep(){
+        //     return array(
+        //         "filename", "objects"
+        //     );
+        // }
+        // public function __wakeup(){
             
-        }
+        // }
 
        
     }

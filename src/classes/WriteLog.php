@@ -26,7 +26,7 @@ class WriteLog extends Log{
         $this->date = date("d-m-y h:i:s A"); 
 
         $this->save();
-        echo "Log number ".$this->getKey()."\n";
+       // print_r($this);
     }
      static public function getFileName()
     {

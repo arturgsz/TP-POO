@@ -1,5 +1,5 @@
 <?php
-require_once "./src/System.php";
+require_once "../src/System.php";
 
 $us = new UserAuthenticate();
 $us->LogIn("Cruze","1234");
@@ -32,8 +32,8 @@ $dateChegada1 = new DateTime('now');
 $dateSaida1->setTime("21", "10");
 $dateChegada1->setTime("23","30");
 
-$freq = [true, true, true, true, true, true, true];
-echo"0===================================\n";
+$freq = [true, false, false, true, false, true, false];
+
 $line1 = new FlightLine("AE2456",$airport1, $airport2, $dateSaida, $dateChegada,
                         $airplane, $company,true, $freq,100, 80, 15);
 
@@ -43,7 +43,6 @@ $line2 = new FlightLine("AE1234",$airport1, $airport3, $dateSaida, $dateChegada,
 $line3 = new FlightLine("GO2568",$airport2, $airport3, $dateSaida1, $dateChegada1,
                         $airplane2, $company2, true, $freq, 100, 80, 15);
 
-echo"1===================================\n";
 
 $birth = new DateTime;
 $birth->setDate(2003,12,3);                     
@@ -53,13 +52,14 @@ $passanger->addCredit(2000);
 $Milhas = new MiliageProgram ('Milhas-AZUL', $company->getKey());
 $Milhas->AddCategoria('Azul Inicial', 0);
 $Milhas->addPassanger($passanger);
-echo"2===================================\n";
+
 $paths = Travel::showPossibleTravels($airport1, $airport3,new DateTime('2023-06-14 8:00'),2);
-echo"3===================================\n";
+
 $travel = new Travel($paths[1], $passanger->getKey());
 $travel->showSeats();
 $travel->buyTravel(4, 2, 2);
-echo"4===================================\n";
+
+$travel->showTicketscards();
 $travel->checkIn();
 $travel->onBoard();
 
@@ -76,12 +76,12 @@ $flight1->planeLanded(new DateTime());
 
 $flight2->planeTookOff(new DateTime());
 $flight2->planeLanded(new DateTime());
-echo"5===================================\n";
+
 print_r(FlightTicket::getRecords());
 print_r(Travel::getRecords());
 print_r(Points::getRecords());
 print_r(Passenger::getByKey($passanger->getKey()));
-WriteLog::showLogs();
-ReadLog::showLogs();
+//  WriteLog::showLogs();
+//  ReadLog::showLogs();
 
 

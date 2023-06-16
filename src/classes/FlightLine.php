@@ -18,7 +18,7 @@ class FlightLine extends PersistLogAuthenticate
   protected DateInterval $duracao_estimada;
   protected int $airplaneKey; 
   protected int $flightCompanyKey;
-  protected string $code; //código da linha de voo
+  //protected string $code; //código da linha de voo
   protected bool $operational;
   protected $frequency = [];  //frequencia do voo
   protected float $line_price;
@@ -43,6 +43,9 @@ class FlightLine extends PersistLogAuthenticate
                               float $lugadge_price,
                               float $cancelationFine)
   {
+    if(FlightLine::getRecordsByField("codigo_voo",$codigo_voo) != null)
+      throw(new Exception("Já existe uma linha aérea com o código cadastrado\n"));
+
     $this->codigo_voo = $codigo_voo;
     $this->airportOriginKey = $origin->getKey();
     $this->airportDestinyKey = $destiny->getKey();
@@ -51,37 +54,29 @@ class FlightLine extends PersistLogAuthenticate
     $this->cancelationFine = $cancelationFine;
     $this->flightCompanyKey = $company->getKey();
     $this->airplaneKey = $airplane->getKey();
-    
-    $code = ($airplane->getFlightCompany())->getCode().rand(1000,9999);
-    // while (FlightLine::getRecordsByField("code",$code) != null){
-    //   $code = ($airplane->getFlightCompany())->getCode().rand(1000,9999);
-    // }
-    
-    $this->code = $code;
-
-    $this->duracao_estimada = FlightLine::duracaoVoo($expected_departure_time,$expected_arrival_time);
+    $this->duracao_estimada = self::duracaoVoo($expected_departure_time,$expected_arrival_time);
     $this->operational = $operational;
     $this->frequency = $frequency;
     $this->line_price = $line_price;
     $this->lugadge_price = $lugadge_price;
     $this->flightMiliage = $this->calcMiliage();
-   
+
     try{
       $this->checkCodigo_voo(); 
     }catch(Exception $e){
       echo $e->getMessage() . "\n";
     }
 
-   try{
+    if($this->operational){
+      $this->buildNextFlights();
+   
+    try{
     $this->save(); 
    }catch(Exception $e){
      echo $e->getMessage();
      throw($e);
    }
 
-   if($this->operational){
-    $this->buildNextFlights();
-    $this->save();
   }
 }
   public function checkCodigo_voo (){
@@ -95,7 +90,7 @@ class FlightLine extends PersistLogAuthenticate
  public function buildNextFlights(){
 
   $shift = intval(($this->expected_departure_time)->format('w'));
-
+  //echo "entrou build\n";
   for($i=0; $i <30; $i++){
     
     if($i == 0 ){
@@ -112,24 +107,17 @@ class FlightLine extends PersistLogAuthenticate
       $flightArrivel = clone $this->expected_arrival_time;
       $flightArrivel->modify('+'.$i.' day');
     
-
-      $isUnique = true;
-        if(!empty($this->flightsKey)){
-        foreach($this->flightsKey as $flight){
-            if((Flight::getByKey($flight))->getDeparture() == $flightDeparture){
-              $isUnique = false;
-              break;
-            }
-        }}
-      if(!$isUnique)
+      if(!empty(($this->flightsKey)[date_format($flightDeparture,"Y/m/d H:i:s")]))
         continue;
-
-      $flight = new Flight($this->getKey(), $flightDeparture, $flightArrivel);
+ 
+      $flight = new Flight($this, $flightDeparture, $flightArrivel);
       
-      ($this->flightsKey)[] = $flight->getKey();
+      ($this->flightsKey)[date_format($flightDeparture,"Y/m/d H:i:s")] = $flight->getKey();
+
     }
   }
- }
+  //echo "saiu build\n";
+}
 
   private function calcMiliage(): float{
       $origem = Airport::getByKey($this->airportOriginKey);
@@ -205,7 +193,7 @@ class FlightLine extends PersistLogAuthenticate
   //FlightLines
   public function getCode() : string
   {
-    return $this->code;
+    return $this->codigo_voo;
   }
   public function getExpectedDepartureTime() : DateTime
   {

@@ -35,6 +35,18 @@ abstract class PersistLogAuthenticate extends Persist{
         return $objs;
     }
    
+    static public function getRecordsByDoubleField( $p_field1, $p_value1, $p_field2, $p_value2 ) {
+        if(!self::Authentication())
+        throw(new Exception("Erro. Não há usuário logado no sistema\n"));
+            
+        $objs = parent::getRecordsByDoubleField($p_field1, $p_value1,$p_field2, $p_value2);
+        if(!empty($objs)){
+            foreach($objs as $obj){
+            new ReadLog($obj);
+            }        
+        }
+        return $objs;
+    }
     static public function getByKey( $index ) {            
         if(!self::Authentication())
         throw(new Exception("Erro. Não há usuário logado no sistema\n"));
@@ -56,10 +68,17 @@ abstract class PersistLogAuthenticate extends Persist{
     }
 
     public function getKey(){
-        if(!self::Authentication())
-        throw(new Exception("Erro. Não há usuário logado no sistema\n"));
-        
-        return parent::getKey();
+        if(func_num_args() == 0){
+            if(!self::Authentication())
+            throw(new Exception("Erro. Não há usuário logado no sistema\n"));
+            
+            return parent::getKey();            
+        }else{
+            if(!self::Authentication())
+            throw(new Exception("Erro. Não há usuário logado no sistema\n"));
+            
+            return parent::getKey(func_get_arg(0)); 
+        }
     }
 
     public function update(){

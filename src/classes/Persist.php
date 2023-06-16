@@ -4,7 +4,7 @@
     abstract class Persist {
       //  private ?string $filename;
         private ?int $index = null;            
-
+        private static array $nextKey;
         public function save() {
             
             if ( $this->index != null ){             
@@ -30,6 +30,7 @@
         public function delete(){
             $container = new container(get_called_class()::getFilename());                  
             $container->deleteObject($this->index);
+            
             $container->Persist();
         }
 
@@ -50,9 +51,27 @@
              else
                 return null;
         }
+        static public function getRecordsByDoubleField( $p_field1, $p_value1, $p_field2, $p_value2 ) {            
+            
+            $container = new container(get_called_class()::getFilename());
+            $objs = $container->getObjects();  
+            $matchObjects = array();         
+            
+            foreach( $objs as $ob) {
+                if ( $ob->$p_field1 == $p_value1 &&
+                     $ob->$p_field2 == $p_value2){
+                    array_push( $matchObjects, $ob );  
+                }                  
+                                   
+            }
+            if ( count($matchObjects) > 0 )
+                return $matchObjects;
+             else
+                return null;
+        }
        
         static public function getByKey( $index ) {            
-            
+ 
             if(empty($index))
                 return null;
 
@@ -77,10 +96,23 @@
 
         public function setIndex( int $index ) {
             $this->index = $index;
+            (self::$nextKey)[get_called_class()::getFilename()] = ++$index;
         }
-
+        
         public function getKey(){
-            return $this->index;
+            if(func_num_args() == 0){
+                return $this->index;
+            }else 
+            if(func_get_arg(0) == true){
+                if(!empty($this->index))
+                    return $this->index;
+                else{
+                    if(empty((self::$nextKey)[get_called_class()::getFilename()]))
+                        return 1;
+                    else
+                        return (self::$nextKey)[get_called_class()::getFilename()];
+                }                
+            }
         }
 
         public function update(){

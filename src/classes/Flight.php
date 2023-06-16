@@ -39,22 +39,26 @@ class Flight extends PersistLogAuthenticate
 
     protected static $local_filename = "Flight.txt";
        
-    public function __construct(int $flightLineKey,
+    public function __construct(FlightLine $flightLine,
                                 DateTime $departureTime,
                                 DateTime $arrivelTime){
-
-        $this->flightLineKey = $flightLineKey;
+        
+        $plane =  $flightLine->getAirplane();                          
+        
+        $this->flightLineKey = $flightLine->getKey(true);
         $this->expectedDepartureTime = $departureTime;
         $this->expectedArrivelTime = $arrivelTime;
-        $this->airplaneKey = ((FlightLine::getByKey($this->flightLineKey))->getAirplane())->getKey();
+        $this->airplaneKey = $plane->getKey();
         $this->state = FlightState::Passagens_a_venda;
 
         //Trabalhar com os assentos;
-        $maxPassenger = ((FlightLine::getByKey($this->flightLineKey))->getAirplane())->getPassengerCapacity();
+        $maxPassenger = $plane->getPassengerCapacity();
         for($i= 1; $i<=$maxPassenger; $i++){
             ($this->freeSeats)[$i] = "Free";
         }
 
+        $this->flightCode = $flightLine->getCode().":".$this->getKey(true);
+        
         try{
             $this->save(); 
          }catch(Exception $e){
@@ -62,8 +66,6 @@ class Flight extends PersistLogAuthenticate
              throw($e);
          }
     
-        $this->flightCode = (FlightLine::getByKey($this->flightLineKey)->getCode()).$this->getKey();    
-        $this->save();
     }
 
     //Methods

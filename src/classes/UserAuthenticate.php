@@ -92,7 +92,9 @@ static public function LogOut(){
 
     }catch( Exception $e){
         echo $e->getMessage();
-    }   
+    }
+    //System::cleanDB();
+
 }
 public function __destruct(){
     --self::$open_sessions; 

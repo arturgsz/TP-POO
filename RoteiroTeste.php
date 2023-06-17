@@ -1,17 +1,23 @@
 <?php
-require_once "./src/System.php";
+require_once "src/System.php";
 
 
-//Testando funcionalidades sem fazer nenhum login:
+// Testando funcionalidades sem fazer nenhum login:
 
-//Tentando criar objeto Adress sem login:
+// Tentando criar objeto Adress sem login:
 try{
     $ad = new Adress("Rua Desembargador Paulo Mota","Ouro Preto","Belo Horizonte","MG",561,31201201,-19.456099, -43.024858);
 }catch( Exception $e){
     echo $e->getMessage()."\n";
 }
-User::getRecords();
-Adress::getRecords();
+try{
+    User::getRecords();
+    Adress::getRecords();
+
+}catch(Exception $e){
+    echo $e->getMessage();
+}
+
 
 //LOGIN
 $aut = new UserAuthenticate();
@@ -39,8 +45,8 @@ $Client_Santos = new Client ('Gabriel', 'Santos', '037.405.230-18', 'Santos', 's
 $Birth_Artur = new DateTime('16-06-03');
 $Passenger_Artur = new Passenger('Artur', 'Souza', '02339430640','Brasileiro', $Birth_Artur,'MG20928340', 'souza', 'arturgs@email.com', 'divi');
 $Passenger_ArturKey = $Passenger_Artur->getKey();
-$Ponto_Artur = new Points ();
-$Ponto_ArturKey = $Ponto_Artur->getKey();
+//$Ponto_Artur = new Points ();
+//$Ponto_ArturKey = $Ponto_Artur->getKey();
 $Passenger_Artur->addCredit(2000);
 $Company_Artur =  $Passenger_Artur->getVipFlightCompany();
 $Passenger_Artur->addCredit(2000);

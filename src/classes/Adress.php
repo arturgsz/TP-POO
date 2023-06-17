@@ -129,5 +129,6 @@ class Adress extends PersistLogAuthenticate
     {
         return get_called_class()::$local_filename;
     }
+
 }
 

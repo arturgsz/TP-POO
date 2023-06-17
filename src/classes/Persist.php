@@ -96,7 +96,7 @@
 
         public function setIndex( int $index ) {
             $this->index = $index;
-            (self::$nextKey)[get_called_class()::getFilename()] = ++$index;
+            (self::$nextKey)[get_class($this)] = ++$index;
         }
         
         public function getKey(){
@@ -107,10 +107,10 @@
                 if(!empty($this->index))
                     return $this->index;
                 else{
-                    if(empty((self::$nextKey)[get_called_class()::getFilename()]))
+                    if(empty((self::$nextKey)[get_class($this)]))
                         return 1;
                     else
-                        return (self::$nextKey)[get_called_class()::getFilename()];
+                        return (self::$nextKey)[get_class($this)];
                 }                
             }
         }
@@ -124,4 +124,5 @@
         }
 
         abstract static public function getFilename();
+
     }

@@ -1,5 +1,18 @@
 <?php
-require_once "../src/System.php";
+include "./src/System.php";
+
+try{
+    $ad = new Adress("Rua Desembargador Paulo Mota","Ouro Preto","Belo Horizonte","MG",561,31201201,-19.456099, -43.024858);
+}catch( Exception $e){
+    echo $e->getMessage()."\n";
+}
+try{
+    User::getRecords();
+    Adress::getRecords();
+
+}catch(Exception $e){
+    echo $e->getMessage();
+}
 
 $us = new UserAuthenticate();
 $us->LogIn("Cruze","1234");
@@ -84,4 +97,4 @@ print_r(Passenger::getByKey($passanger->getKey()));
 //  WriteLog::showLogs();
 //  ReadLog::showLogs();
 
-
+System::cleanDB();

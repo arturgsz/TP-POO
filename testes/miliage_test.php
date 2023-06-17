@@ -12,7 +12,7 @@ $Passenger_Artur = new Passenger('Artur', 'Souza', '02339430640','Brasileiro', $
 $Passenger_ArturKey = $Passenger_Artur->getKey();
 
 //Pontos Artur
-$Ponto_Artur = new Points (0, new DateTime("now"));
+$Ponto_Artur = new Points ();
 $Ponto_ArturKey = $Ponto_Artur->getKey();
 $Ponto_Artur->AddPontos(149.0, new DateTime("now"));
 $DataPonto1 = new DateTime("now"); $DataPonto1->setDate(2023, 05, 23);

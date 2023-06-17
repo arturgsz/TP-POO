@@ -34,7 +34,9 @@ protected function setForConnection(string $connection_aiport,
     $this->connectionDepartureTime = $connectionDepartureTime;
 
 }
-
+public function getDepartureTime(){
+    return $this->DepartureTime;
+}
 static public function getFilename()
     {
         return get_called_class()::$local_filename;

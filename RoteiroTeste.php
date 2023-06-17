@@ -43,19 +43,19 @@ $Ponto_Artur = new Points ();
 $Ponto_ArturKey = $Ponto_Artur->getKey();
 $Passenger_Artur->addCredit(2000);
 $Company_Artur =  $Passenger_Artur->getVipFlightCompany();
+$Passenger_Artur->addCredit(2000);
 
 //-------------------------------------------------------------------------------------------------
 
 //Criando Programa Milhagem
 $Milhas = new MiliageProgram ('Milhas-AZUL', $AzulKey);
 $Milhas->AddCategoria('Azul Inicial', 0);
-$Milhas->AddCategoria('Azul Safira', 100);
+$Milhas->AddCategoria('Azul Safira', 1000);
+$Milhas->AddCategoria('Azul Diamante', 5000);
 echo "\nMOSTRANDO SUBCATEGORIAS DO PROGRAMA DE MILHAGEM: \n";
 $Milhas->showSubCategorias();
-$SubCategorias = $Milhas->getArraySubCategorias();
-$AzulSafira = $Milhas->getSubCategoria(1);
-$AzulSafira->AddPassenger($Passenger_ArturKey);
-$AzulSafiraKey = $AzulSafira->getKey();
+$Milhas->AddPassanger($Passenger_ArturKey); //Adicionando o passageiro no programa de Milhagem - se torna Automaticamente VIP
+
 
 //-------------------------------------------------------------------------------------------------
 
@@ -68,6 +68,9 @@ $Embraer_175_AD = new Airplane ($Azul, 'Embraer', '175', 'PP-RUZ', 180, 600); //
 $Embraer_175_CNF_CGH = new Airplane ($Azul, 'Embraer', '175', 'PP-RUZ', 180, 600);
 $Embraer_175_GRU_GIG = new Airplane ($Azul, 'Embraer', '175', 'PP-RUZ', 180, 600);
 $Embraer_175_CGH_CWB = new Airplane ($Azul, 'Embraer', '175', 'PP-RUZ', 180, 600);
+$Embraer_175_CNF_CGH_Latam = new Airplane ($Latam, 'Embraer', '175', 'PP-RUZ', 180, 600);
+$Embraer_175_GRU_GIG_Latam = new Airplane ($Latam, 'Embraer', '175', 'PP-RUZ', 180, 600);
+$Embraer_175_CGH_CWB_Latam = new Airplane ($Latam, 'Embraer', '175', 'PP-RUZ', 180, 600);
 
 //-------------------------------------------------------------------------------------------------
 
@@ -136,8 +139,8 @@ $dateSaidaCGH_CNF->setTime("17", "45");
 $dateChegadaCGH_CNF->setTime("21","00");
 $freqCGH_CNF = [true, true, true, true, true, true, true]; //Diário
 
-$VooAD1607 = new FlightLine("AD1607", $Aeroporto_Congonhas, $Aeroporto_Confins, $dateSaidaCGH_CNF, $dateChegadaCGH_CNF,
-                        $Embraer_175_CGH_CNF, $Azul, true, $freqCGH_CNF, 110, 50,29);
+$VooLA1607 = new FlightLine("LA1607", $Aeroporto_Congonhas, $Aeroporto_Confins, $dateSaidaCGH_CNF, $dateChegadaCGH_CNF,
+                        $Embraer_175_CGH_CNF_Latam, $Latam, true, $freqCGH_CNF, 110, 50,29);
 
 
 
@@ -159,8 +162,8 @@ $dateSaidaGIG_GRU->setTime("17", "00");
 $dateChegadaGIG_GRU->setTime("19","15");
 $freqGIG_GRU = [true, true, true, true, true, true, true]; //Diário
 
-$VooAD2004 = new FlightLine("AD2004", $Aeroporto_Galeao, $Aeroporto_Guarulhos, $dateSaidaGIG_GRU, $dateChegadaGIG_GRU,
-                        $Embraer_175_GRU_GIG, $Azul, true, $freqGIG_GRU, 179, 80, 30);
+$VooLA2004 = new FlightLine("LA2004", $Aeroporto_Galeao, $Aeroporto_Guarulhos, $dateSaidaGIG_GRU, $dateChegadaGIG_GRU,
+                        $Embraer_175_GRU_GIG_Latam, $Latam, true, $freqGIG_GRU, 179, 80, 30);
 
 
 
@@ -168,8 +171,8 @@ $VooAD2004 = new FlightLine("AD2004", $Aeroporto_Galeao, $Aeroporto_Guarulhos, $
 //IDA
 $dateSaidaCGH_CWB = new DateTime('now');
 $dateChegadaCGH_CWB = new DateTime('now');
-$dateSaidaCGH_CWB->setTime("12", "00");
-$dateChegadaCGH_CWB->setTime("16","45");
+$dateSaidaCGH_CWB->setTime("11", "00");
+$dateChegadaCGH_CWB->setTime("15","45");
 $freqCGH_CWB = [true, true, true, true, true, true, true]; //Diário
 
 $VooAD4545 = new FlightLine("AD4545", $Aeroporto_Congonhas, $Aeroporto_AfonsoPena, $dateSaidaCGH_CWB, $dateChegadaCGH_CWB,
@@ -178,12 +181,12 @@ $VooAD4545 = new FlightLine("AD4545", $Aeroporto_Congonhas, $Aeroporto_AfonsoPen
 //VOLTA
 $dateSaidaCWB_CGH = new DateTime('now');
 $dateChegadaCWB_CGH = new DateTime('now');
-$dateSaidaCWB_CGH->setTime("12", "00");
-$dateChegadaCWB_CGH->setTime("16","45");
+$dateSaidaCWB_CGH->setTime("17", "00");
+$dateChegadaCWB_CGH->setTime("21","45");
 $freqCWB_CGH = [true, true, true, true, true, true, true]; //Diário
 
-$VooAD4545 = new FlightLine("AD4545", $Aeroporto_AfonsoPena, $Aeroporto_Congonhas, $dateSaidaCWB_CGH, $dateChegadaCWB_CGH,
-                        $Embraer_175_CGH_CWB, $Azul, true, $freqCWB_CGH, 200, 45, 80);
+$VooLA4546 = new FlightLine("LA4546", $Aeroporto_AfonsoPena, $Aeroporto_Congonhas, $dateSaidaCWB_CGH, $dateChegadaCWB_CGH,
+                        $Embraer_175_CGH_CWB_Latam, $Latam, true, $freqCWB_CGH, 200, 45, 80);
 
 
 //-------------------------------------------------------------------------------------------------   
@@ -191,17 +194,30 @@ $VooAD4545 = new FlightLine("AD4545", $Aeroporto_AfonsoPena, $Aeroporto_Congonha
 //Gerando Viagens disponíveis para os proximos 30 dias
 
 echo "\nVOOS DISPONÍVEIS CONFINS GUARULHOS:\n";
-$Embraer_175_AD->getRecords();
+$FlightLine::getRecords();
 
 //-------------------------------------------------------------------------------------------------   
 
 //Cliente comprando passagem para passageiro vip
-
-
 //Comprando passagem Confins / Afonso Pena
+$amanha = new DateTime("tommorrow");
+$amanha->setTime("01", "00");
+$paths = Travel::showPossibleTravels($Aeroporto_Confins, $Aeroporto_AfonsoPena, $amanha, 1);
 
+$Travel_CNF_CWB = new Travel($paths[1], $Passenger_Artur->getKey());
+echo "\nASSENTOS DISPONIVEIS:\n";
+$Travel_CNF_CWB->showSeats();
+$Travel_CNF_CWB->buyTravel(4, 2, 2);
+echo "\nTICKETS:\n";
+$Travel_CNF_CWB->showTicketscards();
+$Travel_CNF_CWB->checkIn();
+$Travel_CNF_CWB->onBoard();
+
+//-------------------------------------------------------------------------------------------------
+
+//Criando e Cadastrando Rota:
 //print
-echo "\nROTA PARA BUSCAR TRIPULAÇÃO VIAGEM: \n";
+echo "\nROTA PARA BUSCAR TRIPULAÇÃO VIAGEM: Confins -> Afonso Pena \n";
 
 //Cadastrando Veículo
 $veiculo = new Vehicle ('Monza Tubarão 98', 'BRA098', 5);
@@ -234,8 +250,35 @@ $Comissario2Key = $Comissario2->getKey();
 
 //Criando Rota
 $crewKey = [$PilotoKey, $CoPilotoKey, $Comissario1Key, $Comissario2Key];
-$data = new DateTime("now"); $data->setTime("18", "30");
-$Rota = new Route($crewKey, $Aeroporto_Confins, $veiculo, $data);
+$Rota = new Route($crewKey, $Aeroporto_Confins, $veiculo, $Travel_CNF_CWB->getDepartureTime());
 
 //Printando Rota:
 $Rota->descricaoRota();
+
+//-------------------------------------------------------------------------------------------------
+
+//Comprando passagem de volta
+
+$doisdias = $amanha;
+$doisdias->modify('+2 day');
+$pathsVolta = Travel::showPossibleTravels($Aeroporto_AfonsoPena, $Aeroporto_Confins, $doisdias, 1);
+
+$Travel_CWB_CNF = new Travel($pathsVolta[1],  $Passenger_Artur->getKey());
+echo "\nASSENTOS DISPONIVEIS:\n";
+$Travel_CWB_CNF->showSeats();
+$Travel_CWB_CNF->buyTravel(4, 2, 2);
+echo "\nTICKETS:\n";
+$Travel_CWB_CNFB->showTicketscards();
+$Travel_CWB_CNF->checkIn();
+$Travel_CWB_CNF->cancelTravel();
+
+
+
+//-------------------------------------------------------------------------------------------------
+
+//Atualização Programa de Milhagem:
+echo "\nPROGRAM DE MILHAGEM DO PASSAGEIRO:\n";
+echo "\nPONTOS " . $Passenger_Artur->getPoints() . "\n" ;
+$Milhas->showSubCategorias();
+
+

@@ -6,7 +6,7 @@ require_once "./src/System.php";
 
 //Tentando criar objeto Adress sem login:
 try{
-    $ad = new Adress("Rua Desembargador Paulo Mota","giy","vi","ogu","561","465","48","145");
+    $ad = new Adress("Rua Desembargador Paulo Mota","Ouro Preto","Belo Horizonte","MG",561,31201201,-19.456099, -43.024858);
 }catch( Exception $e){
     echo $e->getMessage()."\n";
 }
@@ -187,10 +187,11 @@ $VooAD4545 = new FlightLine("AD4545", $Aeroporto_AfonsoPena, $Aeroporto_Congonha
 
 
 //-------------------------------------------------------------------------------------------------   
-                     
+
 //Gerando Viagens disponíveis para os proximos 30 dias
 
-
+echo "\nVOOS DISPONÍVEIS CONFINS GUARULHOS:\n";
+$Embraer_175_AD->getRecords();
 
 //-------------------------------------------------------------------------------------------------   
 
@@ -210,7 +211,7 @@ $veiculo = new Vehicle ('Monza Tubarão 98', 'BRA098', 5);
 $nascimento_jose = new DateTime('14-03-1966');
 $Adress_Jose = new Adress ('Rua Mascarenhas de Morais', 'São Luis', 'Belo Horizonte', 'Minas Gerais', 200, 31270720, -19.8521326, -43.9605512);
 $Piloto = new Crew("Jose", "Almeida", "727.206.050-69", "piloto", $nascimento_jose, "email@email.com", "documento", $Adress_Jose, $Latam,
-                    $Aeroporto_Confins, 'ZePcleariloto', 'zepiloto@email.com','zezinho');
+                    $Aeroporto_Confins, 'ZePiloto', 'zepiloto@email.com','zezinho');
 $PilotoKey = $Piloto->getKey();
 //Copiloto
 $nascimento_ronaldo = new DateTime('14-11-03');
